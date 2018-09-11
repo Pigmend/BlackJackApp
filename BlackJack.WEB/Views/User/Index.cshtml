@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="jumbotron" , style="background-color: #a27a56;">
+    <h4 style="color: #fff;">GAME CONTROLLER</h4>
+</div>
+
+<body>
+    <div class="BeginGame">
+        <button class="BeginGameButton" , onclick="@("window.location.href='" + @Url.Action("SubmitNewUser", "User") + "'");">
+            <h3>Submit New User</h3>
+        </button>
+    </div>
+</body>
+

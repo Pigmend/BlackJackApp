@@ -1,0 +1,20 @@
+﻿
+
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    ViewBag.Title = "Welcome";
+}
+
+<div class="jumbotron" , style="background-color: #a27a56;">
+    <h4 style="color: #fff;">Welcome to the game!</h4>
+</div>
+
+<body>
+    <div class="BeginGame">
+        <button class="BeginGameButton" , onclick="@("window.location.href='" + @Url.Action("Index", "User") + "'");">
+            <h3>TO GAME CONTROLLER</h3>
+        </button>
+    </div>
+</body>

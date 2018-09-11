@@ -1,0 +1,25 @@
+﻿@model IEnumerable<BlackJack.ViewModels.CardViewModel>
+
+@{
+    ViewBag.Title = "CardTable";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CardTable</h2>
+<body>
+    <table>
+        <button class="NewMatch-button", onclick="@("window.location.href='" + @Url.Action("AllUsers", "User") + "'");">
+            <h3>Return</h3>
+        </button>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td> @item.ID </td>
+                <td> @item.CardName </td>
+                <td> @item.CardScore </td>
+            </tr>
+        }
+
+    </table>
+</body>

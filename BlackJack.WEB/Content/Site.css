@@ -1,0 +1,235 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.BeginGame {
+    border-radius: 10px;
+    float: right;
+    text-align: center;
+    margin-right: 5px;
+    margin-top: 5px;
+    height: 110px;
+    width: 1150px;
+    background-color: antiquewhite;
+}
+
+.Entities {
+    border-radius: 10px;
+    background-color: #553c3c;
+    height: 220px;
+    width: 900px;
+    margin-bottom: 10px;
+    position: center;
+}
+
+.Entity {
+    border-radius: 10px;
+    background-color: #eee;
+    margin-top: 10px;
+    width: 100%;
+    height: 120px;
+}
+
+.GameTable-button {
+    text-align: center;
+    height: 100px;
+    width: 100px;
+    border-radius: 10px;
+    color: rgb(37, 220, 246);
+}
+
+    .GameTable-button:hover {
+        color: rgb(37, 220, 246);
+    }
+
+
+/* All Users Page */
+
+
+.Buttons {
+    border-radius: 10px;
+    margin-left: 5px;
+    margin-top: 5px;
+    height: 110px;
+    margin-bottom: 10px;
+    position: center;
+    background-color: #553c3c;
+}
+
+.SubmitNewUser-button {
+    text-align: center;
+    height: 100px;
+    width: 100px;
+    border-radius: 10px;
+    color: aqua;
+    color: rgba(37, 220, 246, 0.80);
+}
+    .SubmitNewUser-button:hover {
+        color: aqua;
+        color: rgba(37, 220, 246, 0.40);
+    }
+
+.StartGame-button {
+    height: 100px;
+    width: 200px;
+    border-radius: 10px;
+    color: aqua;
+    color: rgb(31, 118, 124);
+}
+    .StartGame-button:hover {
+        color: aqua;
+        background-color: rgb(31, 118, 124);
+    }
+
+.Employees {
+    border-radius: 10px;
+    background-color: #553c3c;
+    height: 220px;
+    width: 900px;
+    margin-bottom: 10px;
+    position: center;
+}
+
+.Employee {
+    border-radius: 10px;
+    background-color: #eee;
+    margin-top: 10px;
+    width: 100%;
+    height: 120px;
+}
+
+.Employee-content {
+    border-radius: 10px;
+    text-align: right;
+    margin-left: 5px;
+    margin-top: 5px;
+    width: 70%;
+    height: 110px;
+    float: right;
+}
+
+.Employee-info {
+    border-radius: 10px;
+    text-align: left;
+    margin-left: 5px;
+    margin-top: 5px;
+    width: 15%;
+    height: 110px;
+    float: left;
+}
+
+.UserInteface {
+    border-radius: 10px;
+    margin-left: 5px;
+    margin-top: 5px;
+    height: 110px;
+    margin-bottom: 10px;
+    position: center;
+    background-color: #553c3c;
+}
+
+.StartNewGame {
+    border-radius: 10px;
+    text-align: left;
+    float: left;
+    margin-left: 5px;
+    margin-top: 5px;
+    width: 120px;
+    height: 110px;
+}
+
+.User-buttons {
+    border-radius: 10px;
+    float: right;
+    text-align: right;
+    margin-right: 5px;
+    margin-top: 5px;
+    height: 110px;
+    width: 40%;
+}
+
+.StartNewGame-button {
+    text-align: center;
+    height: 100px;
+    width: 100px;
+    border-radius: 10px;
+    background-color: rgba(37, 220, 246, 0.80);
+}
+
+    .StartNewGame-button:hover {
+        background-color: rgba(37, 220, 246, 0.40);
+    }
+
+.NewMatch-button {
+    text-align: center;
+    height: 100px;
+    width: 100px;
+    border-radius: 10px;
+    background-color: rgba(44, 124, 250, 0.80);
+}
+
+    .NewMatch-button:hover {
+        background-color: rgba(44, 124, 250, 0.40);
+    }
+
+.More-button {
+    text-align: center;
+    height: 100px;
+    width: 100px;
+    border-radius: 10px;
+    background-color: rgba(83, 233, 13, 0.80);
+}
+
+    .More-button:hover {
+        background-color: rgba(83, 233, 13, 0.40)
+    }
+
+.Enougth-button {
+    text-align: center;
+    height: 100px;
+    width: 100px;
+    border-radius: 10px;
+    background-color: rgba(217, 42, 42, 0.80);
+}
+
+    .Enougth-button:hover {
+        background-color: rgba(217, 42, 42, 0.40);
+    }
+
+.UserStory {
+    margin-left: 5px;
+    margin-top: 5px;
+    text-align: center;
+    height: 100px;
+    width: 200px;
+    border-radius: 10px;
+    background-color: #ddd;
+    float: left;
+}
+
+.conteiner-borderStyle {
+    border-radius: 10px;
+    background-color: #eee;
+    margin-top: 10px;
+}
