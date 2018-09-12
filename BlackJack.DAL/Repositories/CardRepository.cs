@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using BlackJack.DAL.EF;
+using BlackJack.DataAccessLayer.EF;
 using BlackJack.Entities;
-using BlackJack.DAL.Interfaces;
+using BlackJack.DataAccessLayer.Interfaces;
 using System.Data.Entity;
 
-namespace BlackJack.DAL.Repositories
+namespace BlackJack.DataAccessLayer.Repositories
 {
     public class CardRepository : ICardRepository
     {
@@ -18,12 +18,12 @@ namespace BlackJack.DAL.Repositories
 
         public void Create(Card card)
         {
-            db.cards.Add(card);
+            db.Cards.Add(card);
         }
 
         public Card Get(int id)
         {
-            return db.cards.Find(id);
+            return db.Cards.Find(id);
         }
 
         public void Update(Card card)
@@ -33,16 +33,16 @@ namespace BlackJack.DAL.Repositories
 
         public void Delete(int id)
         {
-            Card card = db.cards.Find(id);
+            Card card = db.Cards.Find(id);
             if (card != null)
             {
-                db.cards.Remove(card);
+                db.Cards.Remove(card);
             }
         }
 
         public IEnumerable<Card> GetAll()
         {
-            return db.cards;
+            return db.Cards;
         }
 
     }

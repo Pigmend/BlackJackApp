@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.WEB", "BlackJack.WEB\BlackJack.WEB.csproj", "{9A546944-15AD-43FC-917B-F72B30F651C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.DAL", "BlackJack.DAL\BlackJack.DAL.csproj", "{405F2C8C-F5CB-4B26-B7A1-68D7DEC18F9B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.DataAccessLayer", "BlackJack.DAL\BlackJack.DataAccessLayer.csproj", "{405F2C8C-F5CB-4B26-B7A1-68D7DEC18F9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.BLL", "BlackJack.BLL\BlackJack.BLL.csproj", "{318AF091-C8CE-437E-88FD-1BBF9B530366}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.BusinessLogicLayer", "BlackJack.BLL\BlackJack.BusinessLogicLayer.csproj", "{318AF091-C8CE-437E-88FD-1BBF9B530366}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.Entities", "BlackJack.Entities\BlackJack.Entities.csproj", "{E272635A-E4DD-4D20-A325-B9D6D41AECDD}"
 EndProject

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using BlackJack.DAL.EF;
+using BlackJack.DataAccessLayer.EF;
 using BlackJack.Entities;
-using BlackJack.DAL.Interfaces;
+using BlackJack.DataAccessLayer.Interfaces;
 using System.Data.Entity;
 
 
-namespace BlackJack.DAL.Repositories
+namespace BlackJack.DataAccessLayer.Repositories
 {
     public class GameRepository :IGameRepository
     {
@@ -19,12 +19,12 @@ namespace BlackJack.DAL.Repositories
 
         public void Create(Game game)
         {
-            db.games.Add(game);
+            db.Games.Add(game);
         }
 
         public Game Get(int id)
         {
-            return db.games.Find(id);
+            return db.Games.Find(id);
         }
 
         public void Update(Game game)
@@ -34,23 +34,23 @@ namespace BlackJack.DAL.Repositories
 
         public void Delete(int id)
         {
-            Game game = db.games.Find(id);
+            Game game = db.Games.Find(id);
             if (game != null)
             {
-                db.games.Remove(game);
+                db.Games.Remove(game);
             }
         }
 
         public IEnumerable<Game> GetAll()
         {
-            return db.games;
+            return db.Games;
         }
 
         public IEnumerable<Game> SelectGamesByUserId(int userId)
         {
 
             List<Game> games = new List<Game>();
-            foreach(Game tmpGame in db.games)
+            foreach(Game tmpGame in db.Games)
             {
                 if(tmpGame.UserID == userId)
                 {

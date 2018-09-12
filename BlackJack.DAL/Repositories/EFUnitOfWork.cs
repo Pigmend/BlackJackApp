@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BlackJack.DAL.EF;
-using BlackJack.DAL.Interfaces;
+using BlackJack.DataAccessLayer.EF;
+using BlackJack.DataAccessLayer.Interfaces;
 using BlackJack.Entities;
 
-namespace BlackJack.DAL.Repositories
+namespace BlackJack.DataAccessLayer.Repositories
 {
     public class EFUnitOfWork: IUnitOfWork
     {

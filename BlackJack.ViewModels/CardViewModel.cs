@@ -11,6 +11,8 @@ namespace BlackJack.ViewModels
     {
         public int ID { get; set; }
 
+        public CardSuit CardSuit { get; set; }
+        public CardNumber CardNumber { get; set; }
         public int CardScore { get; set; }
         public string CardName { get; set; }
     }

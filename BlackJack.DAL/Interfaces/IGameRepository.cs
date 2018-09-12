@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BlackJack.Entities;
 
-namespace BlackJack.DAL.Interfaces
+namespace BlackJack.DataAccessLayer.Interfaces
 {
     public interface IGameRepository: IRepository<Game>
     {

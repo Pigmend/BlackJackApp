@@ -9,21 +9,30 @@ using BlackJack.BusinessLogicLayer.Interfaces;
 using BlackJack.DataAccessLayer.Interfaces;
 using BlackJack.ViewModels;
 
-namespace BlackJack.BusinessLogicLayer.Services
+namespace BlackJack.BLL.Services
 {
-    public class CardService: ICardService
+    class GameService : IGameService
     {
         IUnitOfWork Database { get; set; }
 
-        public CardService(IUnitOfWork unitOfWork)
+        public GameService(IUnitOfWork unitOfWork)
         {
             this.Database = unitOfWork;
         }
 
-        public IEnumerable<CardViewModel> GetAllCards()
+        public GameDataViewModel GetDataForGame()
         {
+            User lastSignedUser = Database.Users.ReturnLastUser();
+            UserViewModel insertUser = new UserViewModel() { ID = lastSignedUser.ID, Name = lastSignedUser.Name };
+
+            List<UserViewModel> users = new List<UserViewModel>();
+            foreach(User user in Database.Users.GetAll())
+            {
+                users.Add(new UserViewModel() { ID = user.ID, Name = user.Name });
+            }
+
             List<CardViewModel> cards = new List<CardViewModel>();
-            foreach( Card card in Database.Cards.GetAll())
+            foreach(Card card in Database.Cards.GetAll())
             {
                 cards.Add(new CardViewModel() {
                     ID = card.ID,
@@ -34,19 +43,8 @@ namespace BlackJack.BusinessLogicLayer.Services
                 });
             }
 
-            return cards;
+            return new GameDataViewModel(insertUser, users, cards);
         }
 
-        public CardViewModel GetCard(int id)
-        {
-            Card card = Database.Cards.Get(id);
-
-            return new CardViewModel() { ID = card.ID, CardName = card.CardName, CardNumber = card.CardNumber, CardSuit = card.CardSuit, CardScore = card.CardScore };
-        }
-
-        public void Dispose()
-        {
-            Database.Dispose();
-        }
     }
 }

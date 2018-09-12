@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ninject.Modules;
-using BlackJack.DAL.Interfaces;
-using BlackJack.DAL.Repositories;
+using BlackJack.DataAccessLayer.Interfaces;
+using BlackJack.DataAccessLayer.Repositories;
 
-namespace BlackJack.BLL.Infrastructure
+namespace BlackJack.BusinessLogicLayer.Infrastructure
 {
     public class ServiceModule : NinjectModule
     {

@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BlackJack.Entities;
-using BlackJack.BLL.Infrastructure;
-using BlackJack.BLL.Interfaces;
-using BlackJack.DAL.Interfaces;
-using BlackJack.BLL.DTO;
-using AutoMapper;
+using BlackJack.BusinessLogicLayer.Infrastructure;
+using BlackJack.BusinessLogicLayer.Interfaces;
+using BlackJack.DataAccessLayer.Interfaces;
+using BlackJack.ViewModels;
 
-namespace BlackJack.BLL.Services
+namespace BlackJack.BusinessLogicLayer.Services
 {
     public class UserService: IUserService
     {
@@ -21,24 +20,28 @@ namespace BlackJack.BLL.Services
             Database = unitOfWork;
         }
 
-        public void CreateUser(UserDTO user)
+        public void CreateUser(UserViewModel user)
         {
             Database.Users.Create(new User() {Name = user.Name});
             Database.Save();
         }
 
-        public UserDTO GetUser(int id)
+        public UserViewModel GetUser(int id)
         {
             User user = Database.Users.Get(id);
 
-            return new UserDTO() { ID= user.ID, Name = user.Name};
+            return new UserViewModel() { ID= user.ID, Name = user.Name};
         }
 
-        public IEnumerable<UserDTO> GetUsers()
+        public IEnumerable<UserViewModel> GetUsers()
         {
+            List<UserViewModel> users = new List<UserViewModel>();
 
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<User>, List<UserDTO>>(Database.Users.GetAll());
+            foreach(User user in Database.Users.GetAll())
+            {
+                users.Add(new UserViewModel() { ID = user.ID, Name = user.Name });
+            }
+            return users;
         }
 
         public void Dispose()
@@ -52,11 +55,13 @@ namespace BlackJack.BLL.Services
             Database.Save();
         }
 
-        public UserDTO GetLastUser()
+        public UserViewModel GetLastUser()
         {
-            User lastUser = Database.Users.ReturnLastUser();
+            User user = Database.Users.ReturnLastUser();
 
-            return new UserDTO() { ID = lastUser.ID, Name = lastUser.Name };
+            UserViewModel lastUser = new UserViewModel() { ID = user.ID, Name = user.Name };
+
+            return lastUser;
         }
 
 

@@ -8,10 +8,6 @@
 <h2>CardTable</h2>
 <body>
     <table>
-        <button class="NewMatch-button", onclick="@("window.location.href='" + @Url.Action("AllUsers", "User") + "'");">
-            <h3>Return</h3>
-        </button>
-
         @foreach (var item in Model)
         {
             <tr>
@@ -20,6 +16,5 @@
                 <td> @item.CardScore </td>
             </tr>
         }
-
     </table>
 </body>

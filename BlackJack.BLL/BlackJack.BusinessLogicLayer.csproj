@@ -50,24 +50,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTO\CardDTO.cs" />
-    <Compile Include="DTO\GameDTO.cs" />
-    <Compile Include="DTO\PlayerHandDTO.cs" />
-    <Compile Include="DTO\PlayerInfoDTO.cs" />
-    <Compile Include="DTO\StepDTO.cs" />
-    <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="Infrastructure\ServiceModule.cs" />
     <Compile Include="Infrastructure\ValidationException.cs" />
     <Compile Include="Interfaces\ICardService.cs" />
+    <Compile Include="Interfaces\IGameService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CardService.cs" />
+    <Compile Include="Services\GameService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BlackJack.DAL\BlackJack.DAL.csproj">
+    <ProjectReference Include="..\BlackJack.DAL\BlackJack.DataAccessLayer.csproj">
       <Project>{405f2c8c-f5cb-4b26-b7a1-68d7dec18f9b}</Project>
-      <Name>BlackJack.DAL</Name>
+      <Name>BlackJack.DataAccessLayer</Name>
     </ProjectReference>
     <ProjectReference Include="..\BlackJack.Entities\BlackJack.Entities.csproj">
       <Project>{e272635a-e4dd-4d20-a325-b9d6d41aecdd}</Project>
@@ -81,8 +77,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="BuisnessModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

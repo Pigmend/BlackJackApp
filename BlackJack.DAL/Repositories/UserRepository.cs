@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using BlackJack.DAL.EF;
+using System.Web;
+using BlackJack.DataAccessLayer.EF;
 using BlackJack.Entities;
-using BlackJack.DAL.Interfaces;
+using BlackJack.DataAccessLayer.Interfaces;
 
-namespace BlackJack.DAL.Repositories
+namespace BlackJack.DataAccessLayer.Repositories
 {
     public class UserRepository : IUserRepository
     {
@@ -19,12 +20,12 @@ namespace BlackJack.DAL.Repositories
 
         public void Create(User user)
         {
-            db.users.Add(user);
+            db.Users.Add(user);
         }
 
         public User Get(int id)
         {
-            return db.users.Find(id);
+            return db.Users.Find(id);
         }
 
         public void Update(User user)
@@ -34,23 +35,23 @@ namespace BlackJack.DAL.Repositories
 
         public void Delete(int id)
         {
-            User user = db.users.Find(id);
+            User user = db.Users.Find(id);
             if (user != null)
             {
-                db.users.Remove(user);
+                db.Users.Remove(user);
             }
         }
 
         public IEnumerable<User> GetAll()
         {
-            return db.users;
+            return db.Users;
         }
 
 
         //Exicting user
         public bool IsExists(User user)
         {
-            foreach(User entity in db.users)
+            foreach(User entity in db.Users)
             {
                 if(entity.Name == user.Name)
                 {
@@ -62,7 +63,7 @@ namespace BlackJack.DAL.Repositories
 
         public bool IsExists(int id)
         {
-            foreach(User entity in db.users)
+            foreach(User entity in db.Users)
             {
                 if(entity.ID == id)
                 {
@@ -74,10 +75,10 @@ namespace BlackJack.DAL.Repositories
 
         public User ReturnLastUser()
         {
-            IEnumerable<User> userTable = db.users;
+            IEnumerable<User> userTable = db.Users;
             int lastUser = userTable.Count();
 
-            return db.users.Find(lastUser - 1);
+            return db.Users.ElementAt(lastUser - 1);
         }
 
     }

@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using BlackJack.BLL.Interfaces;
-using BlackJack.BLL.Infrastructure;
+using BlackJack.BusinessLogicLayer.Interfaces;
+using BlackJack.BusinessLogicLayer.Infrastructure;
 using BlackJack.ViewModels;
-using BlackJack.BLL.DTO;
-using AutoMapper;
 
 namespace BlackJack.WEB.Controllers
 {

@@ -1,0 +1,20 @@
+﻿@model BlackJack.ViewModels.GameDataViewModel
+
+@{
+    ViewBag.Title = "GameTable";
+
+    BlackJack.ViewModels.UserViewModel lastSignedUser = Model.lastSignedUser;
+    IEnumerable<BlackJack.ViewModels.UserViewModel> users = Model.users;
+    IEnumerable<BlackJack.ViewModels.CardViewModel> cards = Model.cards;
+}
+
+<h2>GameTable</h2>
+
+<div>
+    <table>
+        @foreach (BlackJack.ViewModels.CardViewModel card in cards)
+        {
+
+        }
+    </table>
+</div>

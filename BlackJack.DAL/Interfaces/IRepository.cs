@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 
-namespace BlackJack.DAL.Interfaces
+namespace BlackJack.DataAccessLayer.Interfaces
 {
     public interface IRepository<T>
         where T : class

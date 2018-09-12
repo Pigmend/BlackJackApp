@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CardViewModel.cs" />
+    <Compile Include="GameDataViewModel.cs" />
     <Compile Include="GameViewModel.cs" />
     <Compile Include="PlayerHandViewModel.cs" />
     <Compile Include="PlayerInfoViewModel.cs" />

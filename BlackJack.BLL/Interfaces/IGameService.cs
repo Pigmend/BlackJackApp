@@ -7,11 +7,8 @@ using BlackJack.ViewModels;
 
 namespace BlackJack.BusinessLogicLayer.Interfaces
 {
-    public interface ICardService
+    public interface IGameService
     {
-        IEnumerable<CardViewModel> GetAllCards();
-        CardViewModel GetCard(int id);
-
-        void Dispose();
+        GameDataViewModel GetDataForGame();
     }
 }

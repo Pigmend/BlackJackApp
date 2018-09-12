@@ -1,4 +1,5 @@
-﻿@model IEnumerable<BlackJack.ViewModels.UserViewModel>
+﻿@using Newtonsoft.Json
+@model IEnumerable<BlackJack.ViewModels.UserViewModel>
 
 @{
     ViewBag.Title = "AllUsers";
@@ -9,6 +10,7 @@
 
 <h2>AllUsers</h2>
 <body>
+
     <table>
         <tr>
             @foreach (var user in Model)
@@ -23,18 +25,25 @@
             }
         </tr>
     </table>
-    <div class=" navbar navbar-inverse conteiner-borderStyle">
-        <div class="container">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("New User", "SubmitNewUser", "User")</li>
-                    <li>@Html.ActionLink("About", "CardTable", "User")</li>
-                </ul>
+
+    <div class="Game-content">
+        <div class="UserInteface">
+            <div class="User-buttons">
+
+                <button class="Enougth-button" , onclick="@("window.location.href='" + @Url.Action("SubmitNewUser", "User") + "'");">
+                    <h3>New User</h3>
+                </button>
+
+                <button class="More-button" , onclick="@("window.location.href='" + @Url.Action("CardTable", "User") + "'");">
+                    <h3>Card Table</h3>
+                </button> 
+
+                <button class="More-button" , onclick="@("window.location.href='" + @Url.Action("GameTable", "Game") + "'");">
+                    <h3>Game</h3>
+                </button>
+
             </div>
         </div>
     </div>
-</body>
+
+ </body>

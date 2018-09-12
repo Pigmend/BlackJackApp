@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using BlackJack.DAL.EF;
+using BlackJack.DataAccessLayer.EF;
 using BlackJack.Entities;
-using BlackJack.DAL.Interfaces;
+using BlackJack.DataAccessLayer.Interfaces;
 using System.Data.Entity;
 
-namespace BlackJack.DAL.Repositories
+namespace BlackJack.DataAccessLayer.Repositories
 {
     public class StepRepository : IStepRepository
     {
@@ -18,12 +18,12 @@ namespace BlackJack.DAL.Repositories
 
         public void Create(Step step)
         {
-            db.steps.Add(step);
+            db.Steps.Add(step);
         }
 
         public Step Get(int id)
         {
-            return db.steps.Find(id);
+            return db.Steps.Find(id);
         }
 
         public void Update(Step step)
@@ -33,16 +33,16 @@ namespace BlackJack.DAL.Repositories
 
         public void Delete(int id)
         {
-            Step step = db.steps.Find(id);
+            Step step = db.Steps.Find(id);
             if (step != null)
             {
-                db.steps.Remove(step);
+                db.Steps.Remove(step);
             }
         }
 
         public IEnumerable<Step> GetAll()
         {
-            return db.steps;
+            return db.Steps;
         }
 
     }

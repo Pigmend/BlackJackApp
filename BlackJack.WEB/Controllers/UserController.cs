@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using BlackJack.BLL.Interfaces;
-using BlackJack.BLL.Infrastructure;
+using BlackJack.BusinessLogicLayer.Interfaces;
+using BlackJack.BusinessLogicLayer.Infrastructure;
 using BlackJack.ViewModels;
-using BlackJack.BLL.DTO;
-using AutoMapper;
 
 
 
@@ -42,7 +40,7 @@ namespace BlackJack.WEB.Controllers
         {
             try
             {
-                UserDTO tmpUser = new UserDTO() { Name = user.Name };
+                UserViewModel tmpUser = new UserViewModel() { Name = user.Name };
                 userService.CreateUser(tmpUser);
 
                 return RedirectToAction("AllUsers");
@@ -55,30 +53,18 @@ namespace BlackJack.WEB.Controllers
 
         public ActionResult AllUsers()
         {
-            IEnumerable<UserDTO> userDTOs = userService.GetUsers();
-
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<UserDTO, UserViewModel>()).CreateMapper();
-            var users = mapper.Map<IEnumerable<UserDTO>, List<UserViewModel>>(userDTOs);
-
-            return View(users);
+            return View(userService.GetUsers());
         }
 
         public ActionResult DeleteUser(int id)
         {
-
             userService.DeleteUser(id);
-
             return RedirectToAction("AllUsers");
         }
 
         public ActionResult CardTable()
         {
-            IEnumerable<CardDTO> cardDTOs = cardService.GetAllCards();
-
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<CardDTO, CardViewModel>()).CreateMapper();
-            var cards = mapper.Map<IEnumerable<CardDTO>, List<CardViewModel>>(cardDTOs);
-
-            return View(cards);
+            return View(cardService.GetAllCards());
         }
     }
 }

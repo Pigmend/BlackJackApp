@@ -13,8 +13,9 @@ namespace BlackJack.Entities
 
         public string Name { get; set; }
 
-
         //Keys from Games
         public ICollection<Game> Games { get; set; }
+
+        //Keys from PlayerInfoes
     }
 }

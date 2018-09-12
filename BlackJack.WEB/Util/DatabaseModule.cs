@@ -4,8 +4,8 @@ using System.Linq;
 using System.Web;
 using Ninject;
 using Ninject.Modules;
-using BlackJack.BLL.Interfaces;
-using BlackJack.BLL.Services;
+using BlackJack.BusinessLogicLayer.Interfaces;
+using BlackJack.BusinessLogicLayer.Services;
 
 namespace BlackJack.WEB.Util
 {

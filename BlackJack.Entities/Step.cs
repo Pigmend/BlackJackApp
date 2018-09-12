@@ -10,6 +10,8 @@ namespace BlackJack.Entities
     {
         public int ID { get; set; }
 
+        public int WinnerID { get; set; }
+
         //Key to Game
         public int GameID { get; set; }
         public Game Game { get; set; }

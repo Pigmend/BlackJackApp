@@ -5,18 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using BlackJack.Entities;
 using BlackJack.ViewModels;
-using BlackJack.BLL.DTO;
 
-namespace BlackJack.BLL.Interfaces
+namespace BlackJack.BusinessLogicLayer.Interfaces
 {
     public interface IUserService
     {
-
-        void CreateUser(UserDTO userDto);
-        UserDTO GetUser(int id);
-        IEnumerable<UserDTO> GetUsers();
+        void CreateUser(UserViewModel userDto);
+        UserViewModel GetUser(int id);
+        IEnumerable<UserViewModel> GetUsers();
         void DeleteUser(int id);
-        UserDTO GetLastUser();
+        UserViewModel GetLastUser();
         void Dispose();
     }
 }
