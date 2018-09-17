@@ -9,7 +9,6 @@ namespace BlackJack.Entities
 {
     public class Card
     {
-
         public int ID { get; set; }
 
         public CardSuit CardSuit { get; set; }

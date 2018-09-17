@@ -9,11 +9,8 @@ namespace BlackJack.Entities
     public class Step
     {
         public int ID { get; set; }
-
         public int WinnerID { get; set; }
-
-        //Key to Game
         public int GameID { get; set; }
-        public Game Game { get; set; }
+        public virtual Game Game { get; set; }
     }
 }

@@ -44,9 +44,9 @@
     <Compile Include="Card.cs" />
     <Compile Include="Enums\CardNumber.cs" />
     <Compile Include="Enums\CardSuit.cs" />
+    <Compile Include="Enums\UserRole.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="PlayerHand.cs" />
-    <Compile Include="PlayerInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Step.cs" />
     <Compile Include="User.cs" />

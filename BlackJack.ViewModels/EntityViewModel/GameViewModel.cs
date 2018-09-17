@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
-namespace BlackJack.ViewModels
+namespace BlackJack.ViewModels.EntityViewModel
 {
-    public class UserViewModel
+    public class GameViewModel
     {
         public int ID { get; set; }
 
-        public string Name { get; set; }
+        public int SelectedBots { get; set; }
+
+        public int UserID { get; set; }
     }
 }

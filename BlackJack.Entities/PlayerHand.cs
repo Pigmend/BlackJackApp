@@ -10,12 +10,16 @@ namespace BlackJack.Entities
     {
         public int ID { get; set; }
 
-        //FK to PlayerInfo
-        public int PlayerInfoID { get; set; }
-        public PlayerInfo PlayerInfo { get; set; }
+        public int Score { get; set; }
+        public int Cash { get; set; }
+        public int CardPoints { get; set; }
 
-        
-        //Many-to-many with Cards
+        public int PlayerID { get; set; }
+        public virtual User User { get; set; }
+
+        public int StepID { get; set; }
+        public virtual Step Step { get; set; }
+
         public virtual ICollection<Card> Cards { get; set; }
     }
 }

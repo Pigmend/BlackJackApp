@@ -5,9 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using BlackJack.BusinessLogicLayer.Interfaces;
 using BlackJack.BusinessLogicLayer.Infrastructure;
-using BlackJack.ViewModels;
-
-
+using BlackJack.ViewModels.EntityViewModel;
 
 namespace BlackJack.WEB.Controllers
 {
@@ -21,9 +19,6 @@ namespace BlackJack.WEB.Controllers
             this.userService = userService;
             this.cardService = cardService;
         }
-
-
-        // GET: Game
 
         public ActionResult Index()
         {
@@ -40,7 +35,7 @@ namespace BlackJack.WEB.Controllers
         {
             try
             {
-                UserViewModel tmpUser = new UserViewModel() { Name = user.Name };
+                var tmpUser = new UserViewModel() { Name = user.Name };
                 userService.CreateUser(tmpUser);
 
                 return RedirectToAction("AllUsers");

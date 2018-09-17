@@ -9,11 +9,11 @@ using BlackJack.DataAccessLayer.Repositories;
 
 namespace BlackJack.BusinessLogicLayer.Infrastructure
 {
-    public class ServiceModule : NinjectModule
+    public class UnitOfWorkInjection : NinjectModule
     {
         private string connectionString;
 
-        public ServiceModule(string connection)
+        public UnitOfWorkInjection(string connection)
         {
             connectionString = connection;
         }

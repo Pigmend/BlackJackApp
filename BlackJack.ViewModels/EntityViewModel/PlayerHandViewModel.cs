@@ -4,15 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlackJack.ViewModels
+namespace BlackJack.ViewModels.EntityViewModel
 {
-    public class GameViewModel
+    public class PlayerHandViewModel
     {
         public int ID { get; set; }
 
-        public int SelectedBots { get; set; }
-
-        //Key to User
-        public int UserID { get; set; }
+        public int PlayerID { get; set; }
     }
 }

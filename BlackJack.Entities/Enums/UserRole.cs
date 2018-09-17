@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace BlackJack.Entities.Enums
 {
-    public enum CardSuit
+    public enum UserRole
     {
         None = 0,
-        Clubs = 1,
-        Diamonds = 2,
-        Spades = 3,
-        Hearts = 4
+        Diller = 1,
+        Bot = 2,
+        Player = 3
     }
 }

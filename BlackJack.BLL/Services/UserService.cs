@@ -7,7 +7,7 @@ using BlackJack.Entities;
 using BlackJack.BusinessLogicLayer.Infrastructure;
 using BlackJack.BusinessLogicLayer.Interfaces;
 using BlackJack.DataAccessLayer.Interfaces;
-using BlackJack.ViewModels;
+using BlackJack.ViewModels.EntityViewModel;
 
 namespace BlackJack.BusinessLogicLayer.Services
 {
@@ -22,25 +22,23 @@ namespace BlackJack.BusinessLogicLayer.Services
 
         public void CreateUser(UserViewModel user)
         {
-            Database.Users.Create(new User() {Name = user.Name});
-            Database.Save();
+            Database.Users.Create(new User() {Name = user.Name, Role = Entities.Enums.UserRole.Player});
         }
 
         public UserViewModel GetUser(int id)
         {
             User user = Database.Users.Get(id);
+            UserViewModel item = new UserViewModel() { ID = user.ID, Name = user.Name };
 
-            return new UserViewModel() { ID= user.ID, Name = user.Name};
+            return item;
         }
 
         public IEnumerable<UserViewModel> GetUsers()
         {
             List<UserViewModel> users = new List<UserViewModel>();
 
-            foreach(User user in Database.Users.GetAll())
-            {
-                users.Add(new UserViewModel() { ID = user.ID, Name = user.Name });
-            }
+            
+
             return users;
         }
 
@@ -63,7 +61,5 @@ namespace BlackJack.BusinessLogicLayer.Services
 
             return lastUser;
         }
-
-
     }
 }

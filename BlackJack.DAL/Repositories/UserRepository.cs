@@ -11,47 +11,46 @@ namespace BlackJack.DataAccessLayer.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private DatabaseContext db;
+        private DatabaseContext _db;
 
         public UserRepository(DatabaseContext context)
         {
-            this.db = context;
+            this._db = context;
         }
 
         public void Create(User user)
         {
-            db.Users.Add(user);
+            _db.Users.Add(user);
+            _db.SaveChanges();
         }
 
         public User Get(int id)
         {
-            return db.Users.Find(id);
+            return _db.Users.Find(id);
         }
 
         public void Update(User user)
         {
-            db.Entry(user).State = EntityState.Modified;
+            _db.Entry(user).State = EntityState.Modified;
         }
 
         public void Delete(int id)
         {
-            User user = db.Users.Find(id);
+            User user = _db.Users.Find(id);
             if (user != null)
             {
-                db.Users.Remove(user);
+                _db.Users.Remove(user);
             }
         }
 
         public IEnumerable<User> GetAll()
         {
-            return db.Users;
+            return _db.Users;
         }
 
-
-        //Exicting user
         public bool IsExists(User user)
         {
-            foreach(User entity in db.Users)
+            foreach(User entity in _db.Users)
             {
                 if(entity.Name == user.Name)
                 {
@@ -63,24 +62,17 @@ namespace BlackJack.DataAccessLayer.Repositories
 
         public bool IsExists(int id)
         {
-            foreach(User entity in db.Users)
-            {
-                if(entity.ID == id)
-                {
-                    return true;
-                }
-            }
-            return false;
+            
+
+            return true;
         }
 
         public User ReturnLastUser()
         {
-            IEnumerable<User> userTable = db.Users;
-            int lastUser = userTable.Count();
+            User user = _db.Users.LastOrDefault();
 
-            return db.Users.ElementAt(lastUser - 1);
+            return user;
         }
-
     }
 }
 

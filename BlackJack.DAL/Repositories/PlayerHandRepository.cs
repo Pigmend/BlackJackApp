@@ -9,40 +9,40 @@ namespace BlackJack.DataAccessLayer.Repositories
 {
     public class PlayerHandRepository : IPlayerHandRepository
     {
-        private DatabaseContext db;
+        private DatabaseContext _db;
 
         public PlayerHandRepository(DatabaseContext context)
         {
-            this.db = context;
+            this._db = context;
         }
 
         public void Create(PlayerHand playerHand)
         {
-            db.PlayerHands.Add(playerHand);
+            _db.PlayerHands.Add(playerHand);
         }
 
         public PlayerHand Get(int id)
         {
-            return db.PlayerHands.Find(id);
+            return _db.PlayerHands.Find(id);
         }
 
         public void Update(PlayerHand playerHand)
         {
-            db.Entry(playerHand).State = EntityState.Modified;
+            _db.Entry(playerHand).State = EntityState.Modified;
         }
 
         public void Delete(int id)
         {
-            PlayerHand playerHand = db.PlayerHands.Find(id);
+            PlayerHand playerHand = _db.PlayerHands.Find(id);
             if (playerHand != null)
             {
-                db.PlayerHands.Remove(playerHand);
+                _db.PlayerHands.Remove(playerHand);
             }
         }
 
         public IEnumerable<PlayerHand> GetAll()
         {
-            return db.PlayerHands;
+            return _db.PlayerHands;
         }
 
     }

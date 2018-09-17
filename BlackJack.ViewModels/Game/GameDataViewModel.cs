@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BlackJack.Entities;
+using BlackJack.ViewModels.EntityViewModel;
 
 
-namespace BlackJack.ViewModels
+namespace BlackJack.ViewModels.Game
 {
     public class GameDataViewModel
     {

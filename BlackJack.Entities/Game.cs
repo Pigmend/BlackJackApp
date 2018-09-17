@@ -13,9 +13,9 @@ namespace BlackJack.Entities
         public int SelectedBots { get; set; }
         //Key to User
         public int UserID { get; set; }
-        public User User { get; set; }
+        public virtual User User { get; set; }
 
         //Keys from Steps
-        public ICollection<Step> Steps { get; set; }
+        public virtual ICollection<Step> Steps { get; set; }
     }
 }

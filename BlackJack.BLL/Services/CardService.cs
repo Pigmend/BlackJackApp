@@ -7,41 +7,27 @@ using BlackJack.Entities;
 using BlackJack.BusinessLogicLayer.Infrastructure;
 using BlackJack.BusinessLogicLayer.Interfaces;
 using BlackJack.DataAccessLayer.Interfaces;
-using BlackJack.ViewModels;
+using BlackJack.ViewModels.EntityViewModel;
+using BlackJack.BusinessLogicLayer.Maper;
 
 namespace BlackJack.BusinessLogicLayer.Services
 {
     public class CardService: ICardService
     {
         IUnitOfWork Database { get; set; }
+        private CardMaper _cardMaper;
 
-        public CardService(IUnitOfWork unitOfWork)
+        public CardService(IUnitOfWork unitOfWork, CardMaper cardMaper)
         {
             this.Database = unitOfWork;
+            this._cardMaper = cardMaper;
         }
 
         public IEnumerable<CardViewModel> GetAllCards()
         {
-            List<CardViewModel> cards = new List<CardViewModel>();
-            foreach( Card card in Database.Cards.GetAll())
-            {
-                cards.Add(new CardViewModel() {
-                    ID = card.ID,
-                    CardName = card.CardName,
-                    CardScore = card.CardScore,
-                    CardNumber = card.CardNumber,
-                    CardSuit = card.CardSuit
-                });
-            }
-
+            List<CardViewModel> cards = _cardMaper.MapCardListToCardViewModelList(Database.Cards.GetAll());
+           
             return cards;
-        }
-
-        public CardViewModel GetCard(int id)
-        {
-            Card card = Database.Cards.Get(id);
-
-            return new CardViewModel() { ID = card.ID, CardName = card.CardName, CardNumber = card.CardNumber, CardSuit = card.CardSuit, CardScore = card.CardScore };
         }
 
         public void Dispose()

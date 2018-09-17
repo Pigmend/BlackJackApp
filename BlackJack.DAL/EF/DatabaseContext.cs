@@ -17,19 +17,12 @@ namespace BlackJack.DataAccessLayer.EF
         public DbSet<Game> Games { get; set; }
 
         public DbSet<Step> Steps { get; set; }
-        public DbSet<PlayerInfo> PlayerInfos { get; set; }
         public DbSet<PlayerHand> PlayerHands { get; set; }
-
-
-        static DatabaseContext()
-        {
-            Database.SetInitializer<DatabaseContext>(new DatabaseInitializer());
-        }
 
         public DatabaseContext(string connectionString) 
             : base(connectionString)
         {
-            
+            Database.SetInitializer<DatabaseContext>(new DatabaseInitializer());
         }
     }
 
@@ -39,9 +32,9 @@ namespace BlackJack.DataAccessLayer.EF
         {
             int cardName = (int)CardNumber.Two;
             int cardSuit = (int)CardSuit.Clubs;
+
             while (cardSuit <= (int)CardSuit.Hearts)
             {
-
                 if (cardName < (int)CardNumber.Jack)
                 {
                     context.Cards.Add(new Card()
@@ -51,6 +44,7 @@ namespace BlackJack.DataAccessLayer.EF
                         CardName = $"{(CardNumber)cardName} {(CardSuit)cardSuit}"
                     });
                 }
+
                 if(cardName > (int)CardNumber.Ten && cardName < (int)CardNumber.Ace)
                 {
                     context.Cards.Add(new Card()
@@ -84,13 +78,11 @@ namespace BlackJack.DataAccessLayer.EF
 
             for (int i = 1; i <= 5; i++)
             {
-                context.Users.Add(new User() { Name = $"BOT #{i}" });
+                context.Users.Add(new User() { Name = $"BOT #{i}", Role = UserRole.Bot });
             }
-            context.Users.Add(new User() { Name = "Diller" });
-            context.Users.Add(new User() { Name = "James Hetfield" });
+            context.Users.Add(new User() { Name = "Diller", Role = UserRole.Diller });
+            context.Users.Add(new User() { Name = "James Hetfield", Role = UserRole.Player });
             base.Seed(context);
         }
     }
-
-
 }

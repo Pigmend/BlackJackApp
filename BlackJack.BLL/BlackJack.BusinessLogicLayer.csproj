@@ -7,8 +7,8 @@
     <ProjectGuid>{318AF091-C8CE-437E-88FD-1BBF9B530366}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BlackJack.BLL</RootNamespace>
-    <AssemblyName>BlackJack.BLL</AssemblyName>
+    <RootNamespace>BlackJack.BusinessLogicLayer</RootNamespace>
+    <AssemblyName>BlackJack.BusinessLogicLayer</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -50,11 +50,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infrastructure\ServiceModule.cs" />
+    <Compile Include="Infrastructure\UnitOfWorkInjection.cs" />
     <Compile Include="Infrastructure\ValidationException.cs" />
     <Compile Include="Interfaces\ICardService.cs" />
     <Compile Include="Interfaces\IGameService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
+    <Compile Include="Maper\CardMaper.cs" />
+    <Compile Include="Maper\UserMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CardService.cs" />
     <Compile Include="Services\GameService.cs" />

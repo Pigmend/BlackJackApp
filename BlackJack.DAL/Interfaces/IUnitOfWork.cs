@@ -13,7 +13,6 @@ namespace BlackJack.DataAccessLayer.Interfaces
         ICardRepository Cards { get; }
         IGameRepository Games { get; }
         IPlayerHandRepository PlayerHands { get; }
-        IPlayerInfoRepository PlayerInfos { get; }
         IStepRepository Steps { get; }
         IUserRepository Users { get; }
 

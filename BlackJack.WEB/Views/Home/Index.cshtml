@@ -1,6 +1,4 @@
-﻿
-
-@{
+﻿@{
 
     Layout = "~/Views/Shared/_Layout.cshtml";
 
@@ -13,8 +11,8 @@
 
 <body>
     <div class="BeginGame">
-        <button class="BeginGameButton" , onclick="@("window.location.href='" + @Url.Action("Index", "User") + "'");">
-            <h3>TO GAME CONTROLLER</h3>
-        </button>
+        <a class="BeginGameButton" href="@Url.Action("Index", "User")">
+            <h3>Game</h3>
+        </a>
     </div>
 </body>

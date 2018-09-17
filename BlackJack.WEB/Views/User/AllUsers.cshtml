@@ -1,16 +1,12 @@
-﻿@using Newtonsoft.Json
-@model IEnumerable<BlackJack.ViewModels.UserViewModel>
+﻿@model IEnumerable<BlackJack.ViewModels.EntityViewModel.UserViewModel>
 
 @{
     ViewBag.Title = "AllUsers";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
 <h2>AllUsers</h2>
 <body>
-
     <table>
         <tr>
             @foreach (var user in Model)
@@ -39,7 +35,7 @@
                 </button> 
 
                 <button class="More-button" , onclick="@("window.location.href='" + @Url.Action("GameTable", "Game") + "'");">
-                    <h3>Game</h3>
+                    <h3>Start Game</h3>
                 </button>
 
             </div>

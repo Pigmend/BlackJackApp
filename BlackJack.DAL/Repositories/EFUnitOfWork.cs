@@ -14,7 +14,6 @@ namespace BlackJack.DataAccessLayer.Repositories
         private CardRepository cardRepository;
         private GameRepository gameRepository;
         private PlayerHandRepository playerHandRepository;
-        private PlayerInfoRepository playerInfoRepository;
         private StepRepository stepRepository;
         private UserRepository userRepository;
 
@@ -56,18 +55,6 @@ namespace BlackJack.DataAccessLayer.Repositories
                     playerHandRepository = new PlayerHandRepository(db);
                 }
                 return playerHandRepository;
-            }
-        }
-
-        public IPlayerInfoRepository PlayerInfos
-        {
-            get
-            {
-                if (playerInfoRepository == null)
-                {
-                    playerInfoRepository = new PlayerInfoRepository(db);
-                }
-                return playerInfoRepository;
             }
         }
 

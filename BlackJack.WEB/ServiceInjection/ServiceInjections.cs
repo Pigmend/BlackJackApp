@@ -7,14 +7,15 @@ using Ninject.Modules;
 using BlackJack.BusinessLogicLayer.Interfaces;
 using BlackJack.BusinessLogicLayer.Services;
 
-namespace BlackJack.WEB.Util
+namespace BlackJack.WEB.ServiceInjection
 {
-    public class DatabaseModule: NinjectModule
+    public class ServiceInjections: NinjectModule
     {
         public override void Load()
         {
             Bind<ICardService>().To<CardService>();
             Bind<IUserService>().To<UserService>();
+            Bind<IGameService>().To<GameService>();
         }
     }
 }

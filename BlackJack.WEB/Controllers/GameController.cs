@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using BlackJack.BusinessLogicLayer.Interfaces;
 using BlackJack.BusinessLogicLayer.Infrastructure;
-using BlackJack.ViewModels;
+using BlackJack.ViewModels.Game;
 
 namespace BlackJack.WEB.Controllers
 {
@@ -17,10 +17,12 @@ namespace BlackJack.WEB.Controllers
         {
             this.gameService = gameService;
         }
-        // GET: Game
+
         public ActionResult GameTable()
         {
-            return View(gameService.GetDataForGame());
+            GameDataViewModel model = gameService.GetDataForGame();
+
+            return View(model);
         }
     }
 }

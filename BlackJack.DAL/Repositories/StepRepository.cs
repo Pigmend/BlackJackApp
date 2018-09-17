@@ -9,40 +9,40 @@ namespace BlackJack.DataAccessLayer.Repositories
 {
     public class StepRepository : IStepRepository
     {
-        private DatabaseContext db;
+        private DatabaseContext _db;
 
         public StepRepository(DatabaseContext context)
         {
-            this.db = context;
+            this._db = context;
         }
 
         public void Create(Step step)
         {
-            db.Steps.Add(step);
+            _db.Steps.Add(step);
         }
 
         public Step Get(int id)
         {
-            return db.Steps.Find(id);
+            return _db.Steps.Find(id);
         }
 
         public void Update(Step step)
         {
-            db.Entry(step).State = EntityState.Modified;
+            _db.Entry(step).State = EntityState.Modified;
         }
 
         public void Delete(int id)
         {
-            Step step = db.Steps.Find(id);
+            Step step = _db.Steps.Find(id);
             if (step != null)
             {
-                db.Steps.Remove(step);
+                _db.Steps.Remove(step);
             }
         }
 
         public IEnumerable<Step> GetAll()
         {
-            return db.Steps;
+            return _db.Steps;
         }
 
     }

@@ -7,11 +7,12 @@ using BlackJack.Entities;
 using BlackJack.BusinessLogicLayer.Infrastructure;
 using BlackJack.BusinessLogicLayer.Interfaces;
 using BlackJack.DataAccessLayer.Interfaces;
-using BlackJack.ViewModels;
+using BlackJack.ViewModels.EntityViewModel;
+using BlackJack.ViewModels.Game;
 
-namespace BlackJack.BLL.Services
+namespace BlackJack.BusinessLogicLayer.Services
 {
-    class GameService : IGameService
+    public class GameService : IGameService
     {
         IUnitOfWork Database { get; set; }
 
@@ -32,6 +33,7 @@ namespace BlackJack.BLL.Services
             }
 
             List<CardViewModel> cards = new List<CardViewModel>();
+
             foreach(Card card in Database.Cards.GetAll())
             {
                 cards.Add(new CardViewModel() {

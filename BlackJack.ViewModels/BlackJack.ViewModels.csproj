@@ -41,14 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CardViewModel.cs" />
-    <Compile Include="GameDataViewModel.cs" />
-    <Compile Include="GameViewModel.cs" />
-    <Compile Include="PlayerHandViewModel.cs" />
-    <Compile Include="PlayerInfoViewModel.cs" />
+    <Compile Include="EntityViewModel\CardViewModel.cs" />
+    <Compile Include="Game\GameDataViewModel.cs" />
+    <Compile Include="EntityViewModel\GameViewModel.cs" />
+    <Compile Include="EntityViewModel\PlayerHandViewModel.cs" />
+    <Compile Include="EntityViewModel\PlayerInfoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StepViewModel.cs" />
-    <Compile Include="UserViewModel.cs" />
+    <Compile Include="EntityViewModel\StepViewModel.cs" />
+    <Compile Include="EntityViewModel\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BlackJack.Entities\BlackJack.Entities.csproj">

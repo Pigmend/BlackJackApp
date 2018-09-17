@@ -61,7 +61,6 @@
     <Compile Include="Repositories\EFUnitOfWork.cs" />
     <Compile Include="Repositories\GameRepository.cs" />
     <Compile Include="Repositories\PlayerHandRepository.cs" />
-    <Compile Include="Repositories\PlayerInfoRepository.cs" />
     <Compile Include="Repositories\StepRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
   </ItemGroup>

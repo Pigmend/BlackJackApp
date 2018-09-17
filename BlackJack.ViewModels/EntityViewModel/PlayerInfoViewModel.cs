@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlackJack.ViewModels
+namespace BlackJack.ViewModels.EntityViewModel
 {
     public class PlayerInfoViewModel
     {
@@ -15,7 +15,6 @@ namespace BlackJack.ViewModels
         public int Cash { get; set; }
         public int CardPoints { get; set; }
 
-        //Foreign Key to Step
         public int StepID { get; set; }
     }
 }

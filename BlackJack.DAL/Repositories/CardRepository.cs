@@ -9,40 +9,40 @@ namespace BlackJack.DataAccessLayer.Repositories
 {
     public class CardRepository : ICardRepository
     {
-        private DatabaseContext db;
+        private DatabaseContext _db;
 
         public CardRepository(DatabaseContext context)
         {
-            this.db = context;
+            this._db = context;
         }
 
         public void Create(Card card)
         {
-            db.Cards.Add(card);
+            _db.Cards.Add(card);
         }
 
         public Card Get(int id)
         {
-            return db.Cards.Find(id);
+            return _db.Cards.Find(id);
         }
 
         public void Update(Card card)
         {
-            db.Entry(card).State = EntityState.Modified;
+            _db.Entry(card).State = EntityState.Modified;
         }
 
         public void Delete(int id)
         {
-            Card card = db.Cards.Find(id);
+            Card card = _db.Cards.Find(id);
             if (card != null)
             {
-                db.Cards.Remove(card);
+                _db.Cards.Remove(card);
             }
         }
 
         public IEnumerable<Card> GetAll()
         {
-            return db.Cards;
+            return _db.Cards;
         }
 
     }
