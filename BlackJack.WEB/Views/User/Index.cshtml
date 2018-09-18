@@ -9,9 +9,9 @@
 
 <body>
     <div class="BeginGame">
-        <button class="BeginGameButton" , onclick="@("window.location.href='" + @Url.Action("SubmitNewUser", "User") + "'");">
+        <a href="@Url.Action("SubmitNewUser", "User")">
             <h3>Submit New User</h3>
-        </button>
+        </a>
     </div>
 </body>
 

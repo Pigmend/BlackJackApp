@@ -9,7 +9,7 @@ using Ninject;
 using Ninject.Modules;
 using Ninject.Web.Mvc;
 using BlackJack.BusinessLogicLayer.Infrastructure;
-using BlackJack.WEB.ServiceInjection;
+using BlackJack.Ijections.Setup;
 
 namespace BlackJack.WEB
 {
@@ -23,11 +23,18 @@ namespace BlackJack.WEB
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            NinjectModule databaseModel = new ServiceInjections();
-            NinjectModule ServiceModule = new UnitOfWorkInjection("BlackJackConnection");
+            //NinjectModule databaseModel = new ServiceInjections();
+            //NinjectModule ServiceModule = new UnitOfWorkInjection("BlackJackConnection");
 
-            var karnel = new StandardKernel(databaseModel, ServiceModule);
+            //var karnel = new StandardKernel(databaseModel, ServiceModule);
+            //DependencyResolver.SetResolver(new NinjectDependencyResolver(karnel));
+
+
+            NinjectModule injectionModule = new ObjectInjections("BlackJackConnection");
+            var karnel = new StandardKernel(injectionModule);
+            karnel.Unbind<StandardKernel>();
             DependencyResolver.SetResolver(new NinjectDependencyResolver(karnel));
+            
 
         }
     }
