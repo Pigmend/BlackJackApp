@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.BusinessLogicLaye
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.DataAccessLayer", "BlackJack.DataAccessLayer\BlackJack.DataAccessLayer.csproj", "{405F2C8C-F5CB-4B26-B7A1-68D7DEC18F9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.Ijections", "BlackJack.Ijections\BlackJack.Ijections.csproj", "{66E6F45E-D7C0-485A-85BB-FD93FBECBA40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJack.Injections", "BlackJack.Injections\BlackJack.Injections.csproj", "{66E6F45E-D7C0-485A-85BB-FD93FBECBA40}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

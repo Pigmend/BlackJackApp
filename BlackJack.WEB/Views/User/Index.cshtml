@@ -7,11 +7,26 @@
     <h4>GAME CONTROLLER</h4>
 </div>
 
-<body>
-    <div class="BeginGame">
-        <a href="@Url.Action("SubmitNewUser", "User")">
-            <h3>Submit New User</h3>
-        </a>
+<div class="UserInteface">
+    <div class="Entity">
+        <div class="Employee-info">
+            <h3>CREATE NEW USER</h3>
+        </div>
+        <div class="Employee-content">
+            <a href="@Url.Action("SubmitNewUser", "User")" class="action-button-Submit">
+                <h3>CREATE NEW USERNAME</h3>
+            </a>
+        </div>
     </div>
-</body>
+    <div class="Entity">
+        <div class="Employee-info">
+            <h3>TAKE FROM USERLIST</h3>
+        </div>
+        <div class="Employee-content">
+            <a href="@Url.Action("AllUsers", "User")" class="action-button-Submit">
+                <h3>SELECT FROM CREATED</h3>
+            </a>
+        </div>
+    </div>
+</div>
 

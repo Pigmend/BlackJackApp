@@ -9,6 +9,7 @@ using BlackJack.BusinessLogicLayer.Interfaces;
 using BlackJack.DataAccessLayer.Interfaces;
 using BlackJack.ViewModels.EntityViewModel;
 using BlackJack.BusinessLogicLayer.Maper;
+using BlackJack.ViewModels.Response;
 
 namespace BlackJack.BusinessLogicLayer.Services
 {
@@ -23,11 +24,17 @@ namespace BlackJack.BusinessLogicLayer.Services
             this.Mapper = mapper;
         }
 
-        public void CreateUser(UserViewModel user)
+        public int CreateUser(GameSubmitNewUser User)
         {
-            UserRepository.Create(new User() { Name = user.Name, Role = Entities.Enums.UserRole.Player });
+            User user = new User();
+            user.Name = User.Name;
+            user.SelectedBots = User.SelectedBots;
+            user.Role = Entities.Enums.UserRole.Player;
+
+            UserRepository.Create(user);
             UserRepository.SaveChanges();
 
+            return user.ID;
         }
 
         public UserViewModel GetUser(int id)

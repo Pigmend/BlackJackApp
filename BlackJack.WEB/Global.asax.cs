@@ -29,10 +29,9 @@ namespace BlackJack.WEB
             //var karnel = new StandardKernel(databaseModel, ServiceModule);
             //DependencyResolver.SetResolver(new NinjectDependencyResolver(karnel));
 
-
             NinjectModule injectionModule = new ObjectInjections("BlackJackConnection");
             var karnel = new StandardKernel(injectionModule);
-            karnel.Unbind<StandardKernel>();
+            karnel.Unbind<ModelValidatorProvider>();
             DependencyResolver.SetResolver(new NinjectDependencyResolver(karnel));
             
 

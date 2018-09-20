@@ -58,8 +58,8 @@
     <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
     </Reference>
-    <Reference Include="Ninject.Web.Common, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.Web.Common.3.3.0\lib\net45\Ninject.Web.Common.dll</HintPath>
+    <Reference Include="Ninject.Web.Common, Version=3.3.1.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.Common.3.3.1\lib\net45\Ninject.Web.Common.dll</HintPath>
     </Reference>
     <Reference Include="Ninject.Web.Common.WebHost, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.Web.Common.WebHost.3.3.0\lib\net45\Ninject.Web.Common.WebHost.dll</HintPath>
@@ -221,9 +221,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\AllUsers.cshtml" />
-    <Content Include="Views\User\SubmitNewUser.cshtml" />
     <Content Include="Views\User\CardTable.cshtml" />
     <Content Include="Views\Game\GameTable.cshtml" />
+    <Content Include="Views\User\SubmitNewUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -251,9 +251,9 @@
       <Project>{e272635a-e4dd-4d20-a325-b9d6d41aecdd}</Project>
       <Name>BlackJack.Entities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BlackJack.Ijections\BlackJack.Ijections.csproj">
+    <ProjectReference Include="..\BlackJack.Injections\BlackJack.Injections.csproj">
       <Project>{66e6f45e-d7c0-485a-85bb-fd93fbecba40}</Project>
-      <Name>BlackJack.Ijections</Name>
+      <Name>BlackJack.Injections</Name>
     </ProjectReference>
     <ProjectReference Include="..\BlackJack.ViewModels\BlackJack.ViewModels.csproj">
       <Project>{f2f17a5f-7232-444e-a7ec-69ec781c9a65}</Project>

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using BlackJack.BusinessLogicLayer.Interfaces;
 using BlackJack.BusinessLogicLayer.Infrastructure;
 using BlackJack.ViewModels.EntityViewModel;
+using BlackJack.ViewModels.Response;
 
 namespace BlackJack.WEB.Controllers
 {
@@ -31,14 +32,12 @@ namespace BlackJack.WEB.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveUser(UserViewModel user)
+        public ActionResult SaveUser(GameSubmitNewUser user)
         {
             try
             {
-                var tmpUser = new UserViewModel() { Name = user.Name };
-                userService.CreateUser(tmpUser);
-
-                return RedirectToAction("AllUsers");
+                int currentUserID = userService.CreateUser(user);
+                return RedirectToAction("GameTable", "Game", new { ID = currentUserID });
             }
             catch(Exception ex)
             {
@@ -49,6 +48,11 @@ namespace BlackJack.WEB.Controllers
         public ActionResult AllUsers()
         {
             return View(userService.GetUsers());
+        }
+
+        public ActionResult SelectUser(int id)
+        {
+            return RedirectToAction("GameTable", "Game", new { ID = id });
         }
 
         public ActionResult DeleteUser(int id)

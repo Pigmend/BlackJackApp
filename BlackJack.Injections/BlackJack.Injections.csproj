@@ -7,8 +7,8 @@
     <ProjectGuid>{66E6F45E-D7C0-485A-85BB-FD93FBECBA40}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BlackJack.Ijections</RootNamespace>
-    <AssemblyName>BlackJack.Ijections</AssemblyName>
+    <RootNamespace>BlackJack.Injections</RootNamespace>
+    <AssemblyName>BlackJack.Injections</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -33,6 +33,9 @@
     <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject.Web.Common, Version=3.3.1.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.Common.3.3.1\lib\net45\Ninject.Web.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,6 +50,7 @@
     <Compile Include="Setup\ObjectInjections.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -11,6 +11,7 @@ using BlackJack.DataAccessLayer.Interfaces;
 using BlackJack.DataAccessLayer.Repositories;
 using BlackJack.BusinessLogicLayer.Interfaces;
 using BlackJack.BusinessLogicLayer.Services;
+using Ninject.Web.Common;
 
 namespace BlackJack.Ijections.Setup
 {
@@ -26,9 +27,9 @@ namespace BlackJack.Ijections.Setup
         public override void Load()
         {
             //Bind Context with SingletonScope
-            Bind<DatabaseContext>().ToSelf().InSingletonScope().WithConstructorArgument(_connectionString);
+            Bind<DatabaseContext>().ToSelf().InRequestScope().WithConstructorArgument(_connectionString);
 
-            //Bind Repositories
+            //Bind Repositories 
             Bind<ICardRepository>().To<CardRepository>();
             Bind<IGameRepository>().To<GameRepository>();
             Bind<IPlayerHandRepository>().To<PlayerHandRepository>();

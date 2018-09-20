@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BlackJack.Entities;
+using BlackJack.Entities.Enums;
 using BlackJack.BusinessLogicLayer.Infrastructure;
 using BlackJack.BusinessLogicLayer.Interfaces;
 using BlackJack.DataAccessLayer.Interfaces;
 using BlackJack.ViewModels.EntityViewModel;
 using BlackJack.ViewModels.Game;
+using BlackJack.ViewModels.Response;
 
 namespace BlackJack.BusinessLogicLayer.Services
 {
@@ -16,17 +18,24 @@ namespace BlackJack.BusinessLogicLayer.Services
     {
         IUserRepository UserRepository { get; set; }
         ICardRepository CardRepository { get; set; }
+        IGameRepository GameRepository { get; set; }
+        IStepRepository stepRepository { get; set; }
+        IPlayerHandRepository PlayerHandRepository { get; set; }
 
-        public GameService(IUserRepository userRepository, ICardRepository cardRepository)
+        public GameService(IUserRepository userRepository, ICardRepository cardRepository, IGameRepository gameRepository, IStepRepository stepRepository, IPlayerHandRepository playerHandRepository)
         {
+            this.GameRepository = gameRepository;
             this.UserRepository = userRepository;
             this.CardRepository = cardRepository;
         }
 
-        public GameDataViewModel GetDataForGame()
+        public GameDataViewModel GetDataForGame(int currentUserID)
         {
-            User lastSignedUser = UserRepository.ReturnLastUser();
-            UserViewModel insertUser = new UserViewModel() { ID = lastSignedUser.ID, Name = lastSignedUser.Name };
+            Game newGame = new Game();
+            newGame.UserID = currentUserID;
+
+            GameRepository.Create(newGame);
+            GameRepository.SaveChanges();
 
             List<UserViewModel> users = new List<UserViewModel>();
             foreach(User user in UserRepository.GetAll())
@@ -35,7 +44,6 @@ namespace BlackJack.BusinessLogicLayer.Services
             }
 
             List<CardViewModel> cards = new List<CardViewModel>();
-
             foreach(Card card in CardRepository.GetAll())
             {
                 cards.Add(new CardViewModel() {
@@ -47,7 +55,15 @@ namespace BlackJack.BusinessLogicLayer.Services
                 });
             }
 
-            return new GameDataViewModel(insertUser, users, cards);
+            User CurrentUserInDb = UserRepository.Get(currentUserID);
+            UserViewModel currentUser = new UserViewModel();
+            currentUser.ID = CurrentUserInDb.ID;
+            currentUser.Name = CurrentUserInDb.Name;
+            currentUser.Role = CurrentUserInDb.Role;
+            currentUser.SelectedBots = (NumberOfBots)CurrentUserInDb.SelectedBots;
+
+            GameDataViewModel gameData = new GameDataViewModel(currentUser ,users, cards);
+            return gameData;
         }
 
     }

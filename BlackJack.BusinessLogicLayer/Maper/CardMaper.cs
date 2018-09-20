@@ -34,6 +34,7 @@ namespace BlackJack.BusinessLogicLayer.Maper
                 ViewModel.CardScore = card.CardScore;
                 result.Add(ViewModel);
             }
+
             return result;
         }
     }

@@ -49,12 +49,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EntityViewModel\StepViewModel.cs" />
     <Compile Include="EntityViewModel\UserViewModel.cs" />
+    <Compile Include="Response\GameContinueGameViewModel.cs" />
+    <Compile Include="Response\GameSelectBotsViewModel.cs" />
+    <Compile Include="Response\GameSubmitNewUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BlackJack.Entities\BlackJack.Entities.csproj">
       <Project>{e272635a-e4dd-4d20-a325-b9d6d41aecdd}</Project>
       <Name>BlackJack.Entities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Request\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

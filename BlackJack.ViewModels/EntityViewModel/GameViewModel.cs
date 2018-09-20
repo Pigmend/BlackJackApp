@@ -10,8 +10,6 @@ namespace BlackJack.ViewModels.EntityViewModel
     {
         public int ID { get; set; }
 
-        public int SelectedBots { get; set; }
-
         public int UserID { get; set; }
     }
 }

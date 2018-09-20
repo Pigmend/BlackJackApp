@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using BlackJack.BusinessLogicLayer.Interfaces;
 using BlackJack.BusinessLogicLayer.Infrastructure;
 using BlackJack.ViewModels.Game;
+using BlackJack.ViewModels.Response;
 
 namespace BlackJack.WEB.Controllers
 {
@@ -18,11 +19,23 @@ namespace BlackJack.WEB.Controllers
             this.gameService = gameService;
         }
 
-        public ActionResult GameTable()
+        public ActionResult GameTable(int currentUserID)
         {
-            GameDataViewModel model = gameService.GetDataForGame();
-
+            GameDataViewModel model = gameService.GetDataForGame(currentUserID);
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult SaveChanges(int gameID)
+        {
+
+            return RedirectToAction("ContinueGame", new { ID = gameID });
+        }
+
+        public ActionResult ContinueGame(int gameID)
+        {
+
+            return View();
         }
     }
 }

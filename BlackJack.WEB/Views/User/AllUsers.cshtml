@@ -16,6 +16,7 @@
                         <tr><td>@Html.DisplayFor(modelItem => user.ID)</td></tr>
                         <tr><td>@Html.DisplayFor(modelItem => user.Name)</td></tr>
                         <tr><td>@Html.ActionLink("Delete", "DeleteUser", new { id = user.ID })</td></tr>
+                        <tr><td>@Html.ActionLink("Select", "SelectUser", new { id = user.ID })</td></tr>
                     </table>
                 </td>
             }

@@ -11,15 +11,21 @@ namespace BlackJack.ViewModels.Game
 {
     public class GameDataViewModel
     {
-        public UserViewModel lastSignedUser { get; set; }
-        public IEnumerable<UserViewModel> users { get; set; }
-        public IEnumerable<CardViewModel> cards { get; set; }
+        public GameViewModel Game { get; set; }
+        public UserViewModel CurrentUser { get; set; }
+        public IEnumerable<UserViewModel> Users { get; set; }
+        public IEnumerable<CardViewModel> Cards { get; set; }
 
-        public GameDataViewModel(UserViewModel lastSignedUser, IEnumerable<UserViewModel> users, IEnumerable<CardViewModel> cards)
+        public GameDataViewModel()
         {
-            this.lastSignedUser = lastSignedUser;
-            this.users = users;
-            this.cards = cards;
+
+        }
+
+        public GameDataViewModel(UserViewModel currentUser, IEnumerable<UserViewModel> users, IEnumerable<CardViewModel> cards)
+        {
+            this.CurrentUser = currentUser;
+            this.Users = users;
+            this.Cards = cards;
         }
     }
 }
