@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Ninject;
 using Ninject.Modules;
-using BlackJack.DataAccessLayer;
-using BlackJack.DataAccessLayer.EF;
-using BlackJack.DataAccessLayer.Interfaces;
-using BlackJack.DataAccessLayer.Repositories;
-using BlackJack.BusinessLogicLayer.Interfaces;
-using BlackJack.BusinessLogicLayer.Services;
+using BlackJack.DataAccess;
+using BlackJack.DataAccess.EF;
+using BlackJack.DataAccess.Interfaces;
+using BlackJack.DataAccess.Repositories;
+using BlackJack.BusinessLogic.Interfaces;
+using BlackJack.BusinessLogic.Services;
 using Ninject.Web.Common;
 
 namespace BlackJack.Ijections.Setup
@@ -21,7 +21,7 @@ namespace BlackJack.Ijections.Setup
 
         public ObjectInjections(string conectionString)
         {
-            this._connectionString = conectionString;
+            _connectionString = conectionString;
         }
 
         public override void Load()

@@ -1,22 +1,30 @@
-﻿@model IEnumerable<BlackJack.ViewModels.EntityViewModel.UserViewModel>
+﻿@model BlackJack.ViewModels.Response.UserAllUsersViewModel
 
 @{
     ViewBag.Title = "AllUsers";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<BlackJack.ViewModels.Response.UserAllUsersUserViewItem> users = new List<BlackJack.ViewModels.Response.UserAllUsersUserViewItem>();
+
+    foreach(var user in Model.Users)
+    {
+        users.Add(user);
+    }
 }
 
 <h2>AllUsers</h2>
 <body>
     <table>
         <tr>
-            @foreach (var user in Model)
+            @for (int i=6; i< users.Count(); i++)
             {
                 <td>
                     <table style="margin-left: 10px;">
-                        <tr><td>@Html.DisplayFor(modelItem => user.ID)</td></tr>
-                        <tr><td>@Html.DisplayFor(modelItem => user.Name)</td></tr>
-                        <tr><td>@Html.ActionLink("Delete", "DeleteUser", new { id = user.ID })</td></tr>
-                        <tr><td>@Html.ActionLink("Select", "SelectUser", new { id = user.ID })</td></tr>
+                        <tr><td>@Html.DisplayFor(modelItem => users[i].ID)</td></tr>
+                        <tr><td>@Html.DisplayFor(modelItem => users[i].Name)</td></tr>
+                        <tr><td>@Html.DisplayFor(modelItem => users[i].SelectedBots)</td></tr>
+                        <tr><td>@Html.ActionLink("Delete", "DeleteUser", new { UserId = users[i].ID })</td></tr>
+                        <tr><td>@Html.ActionLink("Select", "SelectUser", new { UserId = users[i].ID })</td></tr>
                     </table>
                 </td>
             }
@@ -26,19 +34,9 @@
     <div class="Game-content">
         <div class="UserInteface">
             <div class="User-buttons">
-
                 <button class="Enougth-button" , onclick="@("window.location.href='" + @Url.Action("SubmitNewUser", "User") + "'");">
                     <h3>New User</h3>
                 </button>
-
-                <button class="More-button" , onclick="@("window.location.href='" + @Url.Action("CardTable", "User") + "'");">
-                    <h3>Card Table</h3>
-                </button> 
-
-                <button class="More-button" , onclick="@("window.location.href='" + @Url.Action("GameTable", "Game") + "'");">
-                    <h3>Start Game</h3>
-                </button>
-
             </div>
         </div>
     </div>

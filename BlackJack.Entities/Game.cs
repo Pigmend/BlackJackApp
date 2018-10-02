@@ -8,9 +8,9 @@ namespace BlackJack.Entities
 {
     public class Game
     {
-        public int ID { get; set; }
+        public long ID { get; set; }
         //Key to User
-        public int UserID { get; set; }
+        public long UserID { get; set; }
         public virtual User User { get; set; }
 
         //Keys from Steps

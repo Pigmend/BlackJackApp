@@ -3,22 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using BlackJack.BusinessLogicLayer.Interfaces;
-using BlackJack.BusinessLogicLayer.Infrastructure;
-using BlackJack.ViewModels.EntityViewModel;
+using BlackJack.BusinessLogic.Interfaces;
+using BlackJack.BusinessLogic.Infrastructure;
 using BlackJack.ViewModels.Response;
+using System.ComponentModel.DataAnnotations;
 
 namespace BlackJack.WEB.Controllers
 {
     public class UserController : Controller
     {
-        IUserService userService;
-        ICardService cardService;
+        private IUserService _userService;
 
         public UserController(IUserService userService, ICardService cardService)
         {
-            this.userService = userService;
-            this.cardService = cardService;
+            this._userService = userService;
         }
 
         public ActionResult Index()
@@ -28,16 +26,18 @@ namespace BlackJack.WEB.Controllers
 
         public ActionResult SubmitNewUser()
         {
-            return View();
+            UserCreateUserViewModel item = new UserCreateUserViewModel();
+            return View(item);
         }
 
         [HttpPost]
-        public ActionResult SaveUser(GameSubmitNewUser user)
+        public ActionResult CreateUser(UserCreateUserViewModel user)
         {
             try
             {
-                int currentUserID = userService.CreateUser(user);
-                return RedirectToAction("GameTable", "Game", new { ID = currentUserID });
+                long currentUserID = _userService.CreateUser(user);
+                // Change ...
+                return RedirectToAction("Process", "Game", new { ID = currentUserID });
             }
             catch(Exception ex)
             {
@@ -47,23 +47,19 @@ namespace BlackJack.WEB.Controllers
 
         public ActionResult AllUsers()
         {
-            return View(userService.GetUsers());
+            UserAllUsersViewModel item = _userService.GetUsers();
+            return View(item);
         }
 
-        public ActionResult SelectUser(int id)
+        public ActionResult SelectUser(long UserId)
         {
-            return RedirectToAction("GameTable", "Game", new { ID = id });
+            return RedirectToAction("Process", "Game", new { id = UserId });
         }
 
-        public ActionResult DeleteUser(int id)
+        public ActionResult DeleteUser(long UserId)
         {
-            userService.DeleteUser(id);
+            _userService.DeleteUser(UserId);
             return RedirectToAction("AllUsers");
-        }
-
-        public ActionResult CardTable()
-        {
-            return View(cardService.GetAllCards());
         }
     }
 }

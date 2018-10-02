@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using BlackJack.BusinessLogicLayer.Interfaces;
-using BlackJack.BusinessLogicLayer.Infrastructure;
+using BlackJack.BusinessLogic.Interfaces;
+using BlackJack.BusinessLogic.Infrastructure;
 using BlackJack.ViewModels.Game;
 using BlackJack.ViewModels.Response;
 
@@ -12,29 +12,29 @@ namespace BlackJack.WEB.Controllers
 {
     public class GameController : Controller
     {
-        IGameService gameService;
+        private IGameService _gameService;
 
         public GameController(IGameService gameService)
         {
-            this.gameService = gameService;
+            _gameService = gameService;
         }
 
-        public ActionResult GameTable(int currentUserID)
+        public ActionResult Process(long id)
         {
-            GameDataViewModel model = gameService.GetDataForGame(currentUserID);
-            return View(model);
+            GameProcessViewModel newGameView = _gameService.GetGameData(id);
+            return View(newGameView);
         }
 
         [HttpPost]
-        public ActionResult SaveChanges(int gameID)
+        public JsonResult SaveChanges(string order)
         {
-
-            return RedirectToAction("ContinueGame", new { ID = gameID });
+            //... TO DO
+            return Json("OK");
         }
 
         public ActionResult ContinueGame(int gameID)
         {
-
+            //... TO DO
             return View();
         }
     }
