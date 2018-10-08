@@ -5,17 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using BlackJack.Entities;
 using BlackJack.ViewModels.Response;
+using BlackJack.ViewModels.Request;
 
 namespace BlackJack.BusinessLogic.Maper
 {
     public static class EntityMapper
     {
-        public static GameProcessUserViewlItem MapUserToGameProcessUserViewItem(User user)
+        public static UserGameProcessViewlItem MapUserToGameProcessUserViewItem(User user)
         {
-            GameProcessUserViewlItem item = new GameProcessUserViewlItem();
+            UserGameProcessViewlItem item = new UserGameProcessViewlItem();
             item.ID = user.ID;
             item.Name = user.Name;
             item.SelectedBots = user.SelectedBots;
+            item.Role = user.Role;
 
             return item;
         }
@@ -36,17 +38,40 @@ namespace BlackJack.BusinessLogic.Maper
             return userList;
         }
 
-        public static IEnumerable<GameProcessCardViewItem> MapCardListToGameProcessCardViewItem(IEnumerable<Card> cards)
+        public static IEnumerable<CardGameProcessViewItem> MapCardListToGameProcessCardViewItem(IEnumerable<Card> cards)
         {
-            List<GameProcessCardViewItem> cardList = new List<GameProcessCardViewItem>();
+            List<CardGameProcessViewItem> cardList = new List<CardGameProcessViewItem>();
 
             foreach(Card item in cards)
             {
-                GameProcessCardViewItem cardViewItem = new GameProcessCardViewItem();
+                CardGameProcessViewItem cardViewItem = new CardGameProcessViewItem();
                 cardViewItem.CardID = item.ID;
                 cardViewItem.CardName = item.CardName;
+                cardViewItem.CardNumber = item.CardNumber;
+                cardViewItem.CardSuit = item.CardSuit;
+
                 cardViewItem.CardScore = item.CardScore;
+
                 cardList.Add(cardViewItem);
+            }
+
+            return cardList;
+        }
+
+        public static ICollection<Card> MapCardSaveChangesGameViewItemToCard(IEnumerable<CardSaveChangesGameViewItem> cards)
+        {
+            List<Card> cardList = new List<Card>();
+
+            foreach(CardSaveChangesGameViewItem item in cards)
+            {
+                Card card = new Card();
+                card.ID = item.CardID;
+                card.CardName = item.CardName;
+                card.CardNumber = item.CardNumber;
+                card.CardSuit = item.CardSuit;
+                card.CardScore = item.CardScore;
+
+                cardList.Add(card);
             }
 
             return cardList;

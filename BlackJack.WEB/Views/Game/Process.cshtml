@@ -3,19 +3,14 @@
 @{
     ViewBag.Title = "StartNewGame";
 
-    BlackJack.ViewModels.Response.GameProcessUserViewlItem user = Model.User;
-    IEnumerable<BlackJack.ViewModels.Response.GameProcessCardViewItem> cards = Model.Cards;
+    BlackJack.ViewModels.Response.UserGameProcessViewlItem user = Model.User;
+    IEnumerable<BlackJack.ViewModels.Response.CardGameProcessViewItem> cards = Model.Cards;
 }
 
 <h2>StartNewGame</h2>
 
 <div class="Game-content">
     <div class="UserInteface">
-        <div class="StartNewGame">
-            <button class="StartNewGame-button" , onclick="StartNewGame()">
-                <h3>New Game</h3>
-            </button>
-        </div>
         <div class="UserStory">
             <table>
                 <tr>
@@ -45,16 +40,16 @@
                 <p id="playerInfo">@user.Name</p>
             </div>
             <div class="Employee-content">
-                <p id="playerContent">HERE PLAYER INFO!</p>
+                <p id="playerContent">Here Player Info</p>
             </div>
         </div>
 
         <div class="Employee">
             <div class="Employee-info">
-                <p id="dillerInfo">P INFO</p>
+                <p id="dillerInfo">Dealer Info</p>
             </div>
             <div class="Employee-content">
-                <p id="dillerContent">CONTENT</p>
+                <p id="dillerContent">Here Dealer Content</p>
             </div>
         </div>
 
@@ -74,405 +69,415 @@
 </div>
 
 <script id="">
-        var cardArray = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(cards))');
+    var cardArray = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(cards))');
 
-        var tmp = 0;
-        var matchNumber = 0;
-        var userWins = 0;
+    var tmp = 0;
+    var matchNumber = 0;
+    var userWins = 0;
 
-        var userObj = new Entity('@user.Name');
-        var dillerObj = new Entity('diller');
+    var userObj = new Entity('@user.Name', @user.ID, 3);
+    var dillerObj = new Entity('dealer', 6,  1);
 
-        var EnougthButtonIsPressed = true;
-        var StartNewMatchButtonIsPressed = false;
+    var EnougthButtonIsPressed = true;
+    var StartNewMatchButtonIsPressed = false;
 
-        var botList = new Array();
+    var botList = new Array();
 
-        for (var i = 0; i <@user.SelectedBots; i++) {
-            var numberOfBot = i + 1;
-            botList.push(new Entity('BOT ' + numberOfBot));
+    for (var i = 0; i <@user.SelectedBots; i++) {
+        var numberOfBot = i + 1;
+        botList.push(new Entity('BOT ' + numberOfBot));
+    }
+
+    function getRandomInt() {
+        return Math.floor(Math.random() * 52);
+    }
+
+    function Entity(name, id, role) {
+
+        this.PlayerID = id;
+        this.Name = name;
+        this.Role = role;
+
+        this.Score = 500;
+        this.Cash = 0;
+        this.CardPoints = 0;
+
+        this.Cards = new Array();
+
+        this.isPlay = true;
+    }
+
+    function MoreFunction() {
+        if (StartNewMatchButtonIsPressed) {
+            Step();
         }
-
-        function getRandomInt() {
-            return Math.floor(Math.random() * 52);
+        if (!StartNewMatchButtonIsPressed) {
+            alert("Начните матч");
         }
+    }
 
-        function Entity(name) {
+    function EnougthFunction() {
+        if (StartNewMatchButtonIsPressed) {
 
-            this.name = name;
-            this.bank = 0;
-            this.score = 500;
-            this.points = 0;
-            this.cards = new Array();
-            this.isPlay = true;
-        }
+            userObj.isPlay = false;
+            //(END GAME LOGIC) ...
+            BotStep();
+            BotStep();
+            BotStep();
+            BotStep();
 
-        function MoreFunction() {
-            if (StartNewMatchButtonIsPressed) {
-                Step();
-            }
-            if (!StartNewMatchButtonIsPressed) {
-                alert("Начните матч");
-            }
-        }
+            DillerStep();
+            DillerStep();
+            DillerStep();
+            DillerStep();
 
-        function EnougthFunction() {
-            if (StartNewMatchButtonIsPressed) {
-
-                userObj.isPlay = false;
-                //(END GAME LOGIC) ...
-                BotStep();
-                BotStep();
-
-                dillerObj();
-                dillerObj();
-
-                Update();
-
-                EndGameValidation();
-                StartNewMatchButtonIsPressed = false;
-            }
-
-            EnougthButtonIsPressed = true;
             Update();
 
-            $.ajax({
-                url: 'Game/SaveChanges',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    playerData: userObj,
-                    dillerData: dillerObj,
-                    botArray: botList
-                }   
-            });
-
-
+            EndGameValidation();
+            StartNewMatchButtonIsPressed = false;
         }
 
-        function EndGameValidation() {
+        EnougthButtonIsPressed = true;
+        Update();
 
-            if (userObj.points > 21) {
-                userObj.bank = 0;
-                alert("У Вас перебор! :(");
+
+        var requestData = new Array();
+        requestData.push(userObj);
+        requestData.push(dillerObj);
+        for (var i = 0; i < botList.length; i++) {
+            requestData.push(botList[i]);
+        }
+
+        $.post('@Url.Action("SaveChanges", "Game")',
+            {
+                Users: requestData,
+                WinnerID: userObj.PlayerID,
+                GameID: @Model.GameID 
+            }); // ...TO DO!
+    }
+
+    function EndGameValidation() {
+
+        if (userObj.CardPoints > 21) {
+            userObj.Cash = 0;
+            
+        }
+        for (var i = 0; i < botList.length; i++) {
+            if (botList[i].CardPoints > 21) {
+                botList[i].Cash = 0;
             }
+        }
+        if (dillerObj.points > 21) {
+            userObj.Score += userObj.Cash * 2;
+            userObj.Cash = 0;
+            userWins++;
             for (var i = 0; i < botList.length; i++) {
-                if (botList[i].points > 21) {
-                    botList[i].bank = 0;
-                }
+                botList[i].Score += botList[i].Cash * 2;
+                botList[i].Cash = 0;
             }
-            if (dillerObj.points > 21) {
-                userObj.score += userObj.bank * 2;
-                userObj.bank = 0;
-                userWins++;
 
-                for (var i = 0; i < botList.length; i++) {
-                    botList[i].score += botList[i].bank * 2;
-                    botList[i].bank = 0;
-                }
+            alert("У Диллера перебор, вы выиграли!");
+        }
+        if (userObj.CardPoints > dillerObj.CardPoints && userObj.CardPoints < 22 && dillerObj.CardPoints < 22) {
+            userObj.Score += userObj.Cash * 2;
+            userObj.Cash = 0;
+            userWins++;
+            alert("Вы выиграли!");
+        }
+        if (userObj.CardPoints < dillerObj.CardPoints && userObj.CardPoints < 22 && dillerObj.CardPoints < 22) {
+            userObj.Cash = 0;
+            alert("Вы проиграли! :(");
+        }
+        if (userObj.CardPoints == dillerObj.CardPoints && dillerObj.CardPoints < 22 && userObj.CardPoints < 22) {
+            userObj.Score += userObj.bank;
+            userObj.Cash = 0;
+            alert("Пат! Никто не выиграл");
+        }
+        for (var i = 0; i < botList.length; i++) {
+            if (botList[i].CardPoints > dillerObj.CardPoints && botList[i].CardPoints < 22 && dillerObj.CardPoints < 22) {
+                botList[i].Score += botList[i].Cash * 2;
+                botList[i].Cash = 0;
             }
-            if (userObj.points > dillerObj.points && userObj.points < 22 && dillerObj.points < 22) {
-                userObj.score += userObj.bank * 2;
-                alert("Вы выиграли!");
-                userObj.bank = 0;
-                userWins++;
+            if (botList[i].CardPoints < dillerObj.CardPoints && botList[i].CardPoints < 22 && dillerObj.CardPoints < 22) {
+                botList[i].Cash = 0;
             }
-            if (userObj.points < dillerObj.points && userObj.points < 22 && dillerObj.points < 22) {
-                userObj.bank = 0;
-                alert("Вы проиграли! :(");
-            }
-            if (userObj.points == dillerObj.points && dillerObj.points < 22 && userObj.points < 22) {
-                userObj.score += userObj.bank;
-                userObj.bank = 0;
-                alert("Пат! Никто не выиграл");
-            }
-            for (var i = 0; i < botList.length; i++) {
-                if (botList[i].points > dillerObj.points && botList[i].points < 22 && dillerObj.points < 22) {
-                    botList[i].score += botList[i].bank * 2;
-                    botList[i].bank = 0;
-                }
-                if (botList[i].points < dillerObj.points && botList[i].points < 22 && dillerObj.points < 22) {
-                    botList[i].bank = 0;
-                }
-                if (botList[i].points == dillerObj.points && botList[i].points < 22 && dillerObj.points < 22) {
-                    botList[i].score += botList[i].bank;
-                    botList[i].bank = 0;
-                }
+            if (botList[i].CardPoints == dillerObj.CardPoints && botList[i].CardPoints < 22 && dillerObj.CardPoints < 22) {
+                botList[i].Score += botList[i].Cash;
+                botList[i].Cash = 0;
             }
         }
+    }
 
-        function Update() {
-            UpdatePlayers();
-            UpdateContent();
+    function Update() {
+        UpdatePlayers();
+        UpdateContent();
 
-            document.getElementById('GamesPlayed').innerHTML = 'Matches played: ' + matchNumber;
-            document.getElementById('GamesWon').innerHTML = 'User wins: ' + userWins;
-        }
+        document.getElementById('GamesPlayed').innerHTML = 'Matches played: ' + matchNumber;
+        document.getElementById('GamesWon').innerHTML = 'User wins: ' + userWins;
+    }
 
-        function UpdatePlayers() {
+    function UpdatePlayers() {
 
-            //Player update
-            var html = '<table><tr>';
-            html += '<td>' + 'Username: ' + userObj.name + '</td>';
-            html += '</tr>';
-            html += '<td>' + 'Score: ' + userObj.score + '</td>';
-            html += '</tr>';
-            html += '<td>' + 'Bank: ' + userObj.bank + '</td>';
-            html += '</tr>';
-            html += '<td>' + 'Points: ' + userObj.points + '</td>';
-            html += '</tr>';
-            document.getElementById('playerInfo').innerHTML = html;
+        //Player update
+        var html = '<table><tr>';
+        html += '<td>' + 'Username: ' + userObj.Name + '</td>';
+        html += '</tr>';
+        html += '<td>' + 'Score: ' + userObj.Score + '</td>';
+        html += '</tr>';
+        html += '<td>' + 'Bank: ' + userObj.Cash + '</td>';
+        html += '</tr>';
+        html += '<td>' + 'Points: ' + userObj.CardPoints + '</td>';
+        html += '</tr>';
+        document.getElementById('playerInfo').innerHTML = html;
 
-            //Diller update
+        //Diller update
+        html = '<table><tr>';
+        html += '<td>' + dillerObj.Name + '</td>';
+        html += '</tr>';
+        html += '<td>' + 'points: ' + dillerObj.CardPoints + '</td>';
+        html += '</tr>';
+        document.getElementById('dillerInfo').innerHTML = html;
+
+        //Bots update
+        for (var i = 0; i < botList.length; i++) {
             html = '<table><tr>';
-            html += '<td>' + dillerObj.name + '</td>';
+            html += '<td>' + 'Username: '+ botList[i].Name + '</td>';
             html += '</tr>';
-            html += '<td>' + 'points: '+ dillerObj.points + '</td>';
+            html += '<td>' + 'Score: '+ botList[i].Score + '</td>';
             html += '</tr>';
-            document.getElementById('dillerInfo').innerHTML = html;
+            html += '<td>' + 'Bank: '+ botList[i].Cash + '</td>';
+            html += '</tr>';
+            html += '<td>' + 'Points: ' + botList[i].CardPoints + '</td>';
+            html += '</tr>';
+            var botNumber = i + 1;
+            document.getElementById('botInfo_' + botNumber).innerHTML = html;
+        }
+    }
 
-            //Bots update
-            for (var i = 0; i < botList.length; i++) {
-                html = '<table><tr>';
-                html += '<td>' + 'Username: '+ botList[i].name + '</td>';
-                html += '</tr>';
-                html += '<td>' + 'Score: '+ botList[i].score + '</td>';
-                html += '</tr>';
-                html += '<td>' + 'Bank: '+ botList[i].bank + '</td>';
-                html += '</tr>';
-                html += '<td>' + 'Points: ' + botList[i].points + '</td>';
-                html += '</tr>';
-                var botNumber = i + 1;
-                document.getElementById('botInfo_' + botNumber).innerHTML = html;
-            }
+    function UpdateContent() {
+
+        var html = '<table><tr>';
+        for (var i = 0; i < userObj.Cards.length; i++) {
+            html += '<td>' + userObj.Cards[i]['CardName'] + '</td>';
+            html += '</tr>';
         }
 
-        function UpdateContent() {
-
-            var html = '<table><tr>';
-            for (var i = 0; i < userObj.cards.length; i++) {
-                html += '<td>' + userObj.cards[i]['CardName'] + '</td>';
-                html += '</tr>';
-            }
-
-            document.getElementById('playerContent').innerHTML = html;
+        document.getElementById('playerContent').innerHTML = html;
 
 
+        html = '<table><tr>';
+
+        for (var i = 0; i < dillerObj.Cards.length; i++) {
+            html += '<td>' + dillerObj.Cards[i]['CardName'] + '</td>';
+            html += '</tr>';
+        }
+
+        document.getElementById('dillerContent').innerHTML = html;
+
+        for (var i = 0; i < botList.length; i++) {
             html = '<table><tr>';
-
-            for (var i = 0; i < dillerObj.cards.length; i++) {
-                html += '<td>' + dillerObj.cards[i]['CardName'] + '</td>';
+            for (var j = 0; j < botList[i].Cards.length; j++) {
+                html += '<td>' + botList[i].Cards[j]['CardName'] + '</td>';
                 html += '</tr>';
             }
+            var tmp_botNumber = i + 1;
+            document.getElementById('botContent_' + tmp_botNumber).innerHTML = html;
+        }
+    }
 
-            document.getElementById('dillerContent').innerHTML = html;
+    function Step() {
+        if (!EnougthButtonIsPressed) {
+            PlayerStep();
+            BotStep();
+        }
+        if (EnougthButtonIsPressed) {
+            alert("Матч закончен, нажмите START");
+        }
+    }
 
-            for (var i = 0; i < botList.length; i++) {
-                html = '<table><tr>';
-                for (var j = 0; j < botList[i].cards.length; j++) {
-                    html += '<td>' + botList[i].cards[j]['CardName'] + '</td>';
-                    html += '</tr>';
+    function PlayerStep() {
+        if (userObj.CardPoints < 21 && userObj.isPlay) {
+
+            var tmp = getRandomInt();
+            var tmpCard = cardArray[tmp];
+            userObj.Cards.push(tmpCard);
+
+            if (tmpCard['CardNumber'] < 10) {
+                userObj.CardPoints += tmpCard['CardNumber'] + 1;
+            }
+            if (tmpCard['CardNumber'] > 9 && tmpCard['CardNumber'] < 13) {
+                userObj.CardPoints += 10;
+            }
+            if (tmpCard['CardNumber'] == 13) {
+                userObj.CardPoints += 11;
+            }
+
+            var numberOfAces=0;
+            for (var j = 0; j < userObj.Cards.length; j++) {
+                if (userObj.Cards[j]['CardNumber'] == 13) {
+                    numberOfAces++;
                 }
-                var tmp_botNumber = i + 1;
-                document.getElementById('botContent_' + tmp_botNumber).innerHTML = html;
             }
+            if (numberOfAces > 1) {
+                userObj.CardPoints -= 10;
+            }
+
+            if (tmpCard['CardNumber'] == 13 && userObj.CardPoints > 21) {
+                userObj.CardPoints -= 10;
+            }
+
+            Update();
+
         }
-
-        function Step() {
-            if (!EnougthButtonIsPressed) {
-                PlayerStep();
-                BotStep();
-            }
-            if (EnougthButtonIsPressed) {
-                alert("Матч закончен, нажмите START");
-            }
+        if (userObj.points > 21) {
+            alert("У вас перебор! Нажмите Enouth");
         }
+        if (userObj.points == 21) {
+            alert("У Вас 21, нажмите кнопку ENOUTH");
+        }
+        Update();
+    }
 
-        function PlayerStep() {
-            if (userObj.points < 21 && userObj.isPlay) {
-
+    function BotStep() {
+        for (var i = 0; i < botList.length; i++) {
+            if (botList[i].Score < 100) {
+                botList[i].isPlay = false
+            }
+            if (botList[i].CardPoints >= 16) {
+                botList[i].isPlay = false;
+            }
+            if (botList[i].isPlay) {
                 var tmp = getRandomInt();
                 var tmpCard = cardArray[tmp];
-                userObj.cards.push(tmpCard);
+                botList[i].Cards.push(tmpCard);
 
                 if (tmpCard['CardNumber'] < 10) {
-                    userObj.points += tmpCard['CardNumber'] + 1;
+                    botList[i].CardPoints += tmpCard['CardNumber'] + 1;
                 }
                 if (tmpCard['CardNumber'] > 9 && tmpCard['CardNumber'] < 13) {
-                    userObj.points += 10;
+                    botList[i].CardPoints += 10;
                 }
                 if (tmpCard['CardNumber'] == 13) {
-                    userObj.points += 11;
+                    botList[i].CardPoints += 11;
                 }
-
                 var numberOfAces=0;
-                for (var j = 0; j < userObj.cards.length; j++) {
-                    if (userObj.cards[j]['CardNumber'] == 13) {
+                for (var j = 0; j < botList[i].Cards.length; j++) {
+                    if (botList[i].Cards[j]['CardNumber'] == 13) {
                         numberOfAces++;
                     }
                 }
                 if (numberOfAces > 1) {
-                    userObj.points -= 10;
+                    botList[i].CardPoints -= 10;
                 }
 
-                if (tmpCard['CardNumber'] == 13 && userObj.points > 21) {
-                    userObj.points -= 10;
-                }
-
-                Update();
-
-            }
-            if (userObj.points > 21) {
-                alert("У вас перебор! Нажмите Enouth");
-            }
-            if (userObj.points == 21) {
-                alert("У Вас 21, нажмите кнопку ENOUTH");
-            }
-            Update();
-        }
-
-        function BotStep() {
-            for (var i = 0; i < botList.length; i++) {
-                if (botList[i].score < 100) {
-                    botList[i].isPlay = false
-                }
-                if (botList[i].isPlay) {
-                    if (botList[i].points < 18) {
-
-                        var tmp = getRandomInt();
-                        var tmpCard = cardArray[tmp];
-                        botList[i].cards.push(tmpCard);
-
-                        if (tmpCard['CardNumber'] < 10) {
-                            botList[i].points += tmpCard['CardNumber'] + 1;
-                        }
-                        if (tmpCard['CardNumber'] > 9 && tmpCard['CardNumber'] < 13) {
-                            botList[i].points += 10;
-                        }
-                        if (tmpCard['CardNumber'] == 13) {
-                            botList[i].points += 11;
-                        }
-
-                        var numberOfAces=0;
-                        for (var j = 0; j < botList[i].cards.length; j++) {
-                            if (botList[i].cards[j]['CardNumber'] == 13) {
-                                numberOfAces++;
-                            }
-                        }
-                        if (numberOfAces > 1) {
-                            botList[i].points -= 10;
-                        }
-
-                        if (tmpCard['CardNumber'] == 13 && botList[i].points > 21) {
-                            botList[i].points -= 10;
-                        }
-
-                    }
+                if (tmpCard['CardNumber'] == 13 && botList[i].CardPoints > 21) {
+                    botList[i].CardPoints -= 10;
                 }
             }
-
-            Update();
-        }
-
-        function DillerStep() {
-            if (dillerObj.isPlay) {
-                if (dillerObj.points < 17) {
-
-                    var tmp = getRandomInt();
-                    var tmpCard = cardArray[tmp];
-                    dillerObj.cards.push(tmpCard);
-
-                    if (tmpCard['CardNumber'] < 10) {
-                        dillerObj.points += tmpCard['CardNumber'] + 1;
-                    }
-                    if (tmpCard['CardNumber'] >= 10 && tmpCard['CardNumber'] < 13) {
-                        dillerObj.points += 10;
-                    }
-                    if (tmpCard['CardNumber'] == 13) {
-                        dillerObj.points += 11;
-                    }
-
-                    var numberOfAces = 0;
-                    for (var j = 0; j < dillerObj.cards.length; j++) {
-                        if (dillerObj.cards[j]['CardNumber'] == 13) {
-                            numberOfAces++;
-                        }
-                    }
-                    if (numberOfAces > 1) {
-                        dillerObj.points -= 10;
-                    }
-
-                    if (tmpCard['CardNumber'] == 13 && dillerObj.points > 21) {
-                        dillerObj.points -= 10;
-                    }
-                }
-                if (dillerObj.points >= 17) {
-                    dillerObj.isPlay = false;
-                }
-                Update();
-            }
-        }
-
-        function StartNewGame() {
-
-            document.location.reload();
-            Update();
-
-            StartNewMatchButtonIsPressed = false;
-            EnougthButtonIsPressed = false;
-
-        }
-
-        function StartNewMatch() {
-            if (!EnougthButtonIsPressed) {
-                alert("Дайте доиграть другим! Нажмите кнопку Enouth :(");
-            }
-            if (EnougthButtonIsPressed) {
-                if (userObj.score > 100) {
-
-                    userObj.score -= 100;
-                    userObj.bank = 100;
-                    userObj.points = 0;
-                    userObj.cards = new Array();
-                    userObj.isPlay = true;
-
-                    dillerObj.points = 0;
-                    dillerObj.isPlay = true;
-                    dillerObj.cards = new Array();
-
-                    document.getElementById('playerContent').innerHTML = null;
-                    document.getElementById('dillerContent').innerHTML = null;
-
-                    for (var i = 0; i < botList.length; i++) {
-                        var numberOfBot = i + 1;
-                        document.getElementById('botContent_' + numberOfBot).innerHTML = null;
-                        botList[i].score -= 100;
-                        botList[i].bank = 100;
-                        botList[i].points = 0;
-                        botList[i].isPlay = true;
-                        botList[i].cards = new Array();
-                    }
-                    if (userObj.isPlay) {
-                        PlayerStep();
-                        PlayerStep();
-                    }
-                    BotStep();
-                    BotStep();
-
-                    DillerStep();
-
-                    StartNewMatchButtonIsPressed = true;
-                    EnougthButtonIsPressed = false;
-
-                    Update();
-                }
-                else if (userObj.score < 100) {
-                    alert("Вы проиграли, нажмите NEW GAME");
-                }
-            }
-            matchNumber++;
         }
 
         Update();
+    }
+
+    function DillerStep() {
+        if (dillerObj.isPlay) {
+            if (dillerObj.CardPoints < 17) {
+
+                var tmp = getRandomInt();
+                var tmpCard = cardArray[tmp];
+                dillerObj.Cards.push(tmpCard);
+
+                if (tmpCard['CardNumber'] < 10) {
+                    dillerObj.CardPoints += tmpCard['CardNumber'] + 1;
+                }
+                if (tmpCard['CardNumber'] >= 10 && tmpCard['CardNumber'] < 13) {
+                    dillerObj.CardPoints += 10;
+                }
+                if (tmpCard['CardNumber'] == 13) {
+                    dillerObj.CardPoints += 11;
+                }
+
+                var numberOfAces = 0;
+                for (var j = 0; j < dillerObj.Cards.length; j++) {
+                    if (dillerObj.Cards[j]['CardNumber'] == 13) {
+                        numberOfAces++;
+                    }
+                }
+                if (numberOfAces > 1) {
+                    dillerObj.CardPoints -= 10;
+                }
+
+                if (tmpCard['CardNumber'] == 13 && dillerObj.CardPoints > 21) {
+                    dillerObj.CardPoints -= 10;
+                }
+            }
+            if (dillerObj.CardPoints >= 17) {
+                dillerObj.isPlay = false;
+            }
+            Update();
+        }
+    }
+
+    //function StartNewGame() {
+
+    //    document.location.reload();
+    //    Update();
+
+    //    StartNewMatchButtonIsPressed = false;
+    //    EnougthButtonIsPressed = false;
+
+    //}
+
+    function StartNewMatch() {
+        if (!EnougthButtonIsPressed) {
+            alert("Дайте доиграть другим! Нажмите кнопку Enouth");
+        }
+        if (EnougthButtonIsPressed) {
+            if (userObj.Score > 100) {
+
+                userObj.Score -= 100;
+                userObj.Cash = 100;
+                userObj.CardPoints = 0;
+                userObj.Cards = new Array();
+                userObj.isPlay = true;
+
+                dillerObj.CardPoints = 0;
+                dillerObj.Cards = new Array();
+                dillerObj.isPlay = true;
+
+                document.getElementById('playerContent').innerHTML = null;
+                document.getElementById('dillerContent').innerHTML = null;
+
+                for (var i = 0; i < botList.length; i++) {
+                    var numberOfBot = i + 1;
+                    document.getElementById('botContent_' + numberOfBot).innerHTML = null;
+                    botList[i].Score -= 100;
+                    botList[i].Cash = 100;
+                    botList[i].CardPoints = 0;
+                    botList[i].Cards = new Array();
+                    botList[i].isPlay = true;
+                }
+
+                PlayerStep();
+                PlayerStep();
+
+                BotStep();
+                BotStep();
+
+                DillerStep();
+
+                StartNewMatchButtonIsPressed = true;
+                EnougthButtonIsPressed = false;
+
+                Update();
+            }
+            else if (userObj.score < 100) {
+                alert("Вы проиграли все деньги");
+            }
+        }
+        matchNumber++;
+    }
+
+    Update();
 
 </script>

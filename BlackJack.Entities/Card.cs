@@ -13,7 +13,7 @@ namespace BlackJack.Entities
 
         public CardSuit CardSuit { get; set; }
         public CardNumber CardNumber { get; set; }
-        public long CardScore { get; set; }
+        public int CardScore { get; set; }
         public string CardName { get; set; }
 
         //Many-to-Many with PlayerHand

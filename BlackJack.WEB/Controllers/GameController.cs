@@ -5,8 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Infrastructure;
-using BlackJack.ViewModels.Game;
 using BlackJack.ViewModels.Response;
+using BlackJack.ViewModels.Request;
 
 namespace BlackJack.WEB.Controllers
 {
@@ -26,15 +26,27 @@ namespace BlackJack.WEB.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveChanges(string order)
+        public ActionResult SaveChanges(SaveChangesGameViewModel requestData)
         {
-            //... TO DO
-            return Json("OK");
+            bool isSaved = _gameService.SaveChanges(requestData);
+            if (isSaved)
+            {
+                string messageSuccess = "SUCCESS";
+                return Json(new { Message = messageSuccess, JsonRequestBehavior.AllowGet });
+            }
+            if (!isSaved)
+            {
+                string messageError = "ERROR";
+                return Json(new { Message = messageError, JsonRequestBehavior.AllowGet });
+            }
+
+            string messageDefault = "IGNORED";
+            return Json(new { Message = messageDefault, JsonRequestBehavior.AllowGet });
         }
 
         public ActionResult ContinueGame(int gameID)
         {
-            //... TO DO
+            // ... TO DO!!!
             return View();
         }
     }

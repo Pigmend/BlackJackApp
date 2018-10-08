@@ -12,7 +12,9 @@ namespace BlackJack.DataAccess.Repositories
     {
         public CardRepository(DatabaseContext context)
             : base(context)
-        { }
+        {
+
+        }
 
     }
 }

@@ -14,6 +14,7 @@ namespace BlackJack.DataAccess.Repositories
         public StepRepository(DatabaseContext context)
             :base(context)
         {
+
         }
 
         public IEnumerable<Step> GetStepByGameID(int id)

@@ -9,5 +9,6 @@ namespace BlackJack.DataAccess.Interfaces
 {
     public interface IPlayerHandRepository: IRepository<PlayerHand>
     {
+        void AddRange(IEnumerable<PlayerHand> items);
     }
 }

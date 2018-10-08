@@ -15,6 +15,11 @@ namespace BlackJack.DataAccess.Repositories
         {
 
         }
+
+        public void AddRange(IEnumerable<PlayerHand> items)
+        {
+            _dbSet.AddRange(items);
+        }
     }
 }
 

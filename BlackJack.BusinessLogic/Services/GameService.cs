@@ -8,27 +8,27 @@ using BlackJack.Entities.Enums;
 using BlackJack.BusinessLogic.Infrastructure;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.DataAccess.Interfaces;
-using BlackJack.ViewModels.Game;
 using BlackJack.ViewModels.Response;
+using BlackJack.ViewModels.Request;
 using BlackJack.BusinessLogic.Maper;
 
 namespace BlackJack.BusinessLogic.Services
 {
     public class GameService : IGameService
     {
-        IUserRepository UserRepository { get; set; }
-        ICardRepository CardRepository { get; set; }
-        IGameRepository GameRepository { get; set; }
-        IStepRepository StepRepository { get; set; }
-        IPlayerHandRepository PlayerHandRepository { get; set; }
+        private IUserRepository _userRepository { get; set; }
+        private ICardRepository _cardRepository { get; set; }
+        private IGameRepository _gameRepository { get; set; }
+        private IStepRepository _stepRepository { get; set; }
+        private IPlayerHandRepository _playerHandRepository { get; set; }
 
         public GameService(IUserRepository userRepository, ICardRepository cardRepository, IGameRepository gameRepository, IStepRepository stepRepository, IPlayerHandRepository playerHandRepository)
         {
-            GameRepository = gameRepository;
-            UserRepository = userRepository;
-            CardRepository = cardRepository;
-            StepRepository = stepRepository;
-            PlayerHandRepository = playerHandRepository;
+            _gameRepository = gameRepository;
+            _userRepository = userRepository;
+            _cardRepository = cardRepository;
+            _stepRepository = stepRepository;
+            _playerHandRepository = playerHandRepository;
         }
 
         public GameProcessViewModel GetGameData(long userID)
@@ -36,11 +36,11 @@ namespace BlackJack.BusinessLogic.Services
             Game game = new Game();
             game.UserID = userID;
 
-            GameRepository.Create(game);
-            GameRepository.SaveChanges();
+            _gameRepository.Create(game);
+            _gameRepository.SaveChanges();
 
-            User user = UserRepository.Get(userID);
-            IEnumerable<Card> cards = CardRepository.GetAll();
+            User user = _userRepository.Get(userID);
+            IEnumerable<Card> cards = _cardRepository.GetAll();
 
             GameProcessViewModel view = new GameProcessViewModel();
             view.GameID = game.ID;
@@ -48,6 +48,36 @@ namespace BlackJack.BusinessLogic.Services
             view.Cards = EntityMapper.MapCardListToGameProcessCardViewItem(cards);
 
             return view;
+        }
+
+        public bool SaveChanges(SaveChangesGameViewModel model)
+        {
+            Step step = new Step();
+            step.WinnerID = model.WinnerID;
+            step.GameID = model.GameID;
+
+            _stepRepository.Create(step);
+            _stepRepository.SaveChanges();
+
+            List<PlayerHand> playerHands = new List<PlayerHand>();
+
+            foreach(PlayerSaveChangesGameViewItem item in model.Users)
+            {
+                PlayerHand playerHand = new PlayerHand();
+                playerHand.PlayerID = item.PlayerID;
+                playerHand.Score = item.Score;
+                playerHand.Cash = item.Cash;
+                playerHand.CardPoints = item.CardPoints;
+                playerHand.StepID = step.ID;
+
+                playerHand.Cards = EntityMapper.MapCardSaveChangesGameViewItemToCard(item.Cards);
+
+                playerHands.Add(playerHand);
+            }
+
+            _playerHandRepository.AddRange(playerHands);
+
+            return true;
         }
     }
 }
