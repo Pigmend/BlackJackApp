@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using BlackJack.DataAccess.EF;
 using BlackJack.Entities;
@@ -19,6 +20,13 @@ namespace BlackJack.DataAccess.Repositories
         public void AddRange(IEnumerable<PlayerHand> items)
         {
             _dbSet.AddRange(items);
+        }
+
+        public IEnumerable<PlayerHand> GetHandsByStepID(long StepID)
+        {
+            List<PlayerHand> playerHands = _dbSet.Where(e => e.StepID == StepID).ToList();
+
+            return playerHands;
         }
     }
 }

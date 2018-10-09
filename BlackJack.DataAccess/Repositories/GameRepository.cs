@@ -18,7 +18,7 @@ namespace BlackJack.DataAccess.Repositories
 
         }
 
-        public IEnumerable<Game> SelectGamesByUserId(int userId)
+        public IEnumerable<Game> SelectGamesByUserId(long userId)
         {
             List<Game> games = _dbSet.Where(e => e.UserID == userId).ToList();
 

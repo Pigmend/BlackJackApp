@@ -30,14 +30,14 @@ namespace BlackJack.Ijections.Setup
             Bind<DatabaseContext>().ToSelf().InRequestScope().WithConstructorArgument(_connectionString);
 
             //Bind Repositories 
-            Bind<ICardRepository>().To<CardRepository>();
+            Bind<IDeckRepository>().To<DeckRepository>();
             Bind<IGameRepository>().To<GameRepository>();
             Bind<IPlayerHandRepository>().To<PlayerHandRepository>();
             Bind<IStepRepository>().To<StepRepository>();
             Bind<IUserRepository>().To<UserRepository>();
 
             //Bind Services
-            Bind<ICardService>().To<CardService>();
+            Bind<IDeckService>().To<DeckService>();
             Bind<IGameService>().To<GameService>();
             Bind<IUserService>().To<UserService>();
         }

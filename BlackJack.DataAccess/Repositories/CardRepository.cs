@@ -8,9 +8,9 @@ using BlackJack.DataAccess.Repositories.BaseRepository;
 
 namespace BlackJack.DataAccess.Repositories
 {
-    public class CardRepository : BaseRepository<Card>, ICardRepository
+    public class DeckRepository : BaseRepository<DeckCard>, IDeckRepository
     {
-        public CardRepository(DatabaseContext context)
+        public DeckRepository(DatabaseContext context)
             : base(context)
         {
 

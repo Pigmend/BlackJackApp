@@ -38,11 +38,11 @@ namespace BlackJack.BusinessLogic.Maper
             return userList;
         }
 
-        public static IEnumerable<CardGameProcessViewItem> MapCardListToGameProcessCardViewItem(IEnumerable<Card> cards)
+        public static IEnumerable<CardGameProcessViewItem> MapCardListToGameProcessCardViewItem(IEnumerable<DeckCard> cards)
         {
             List<CardGameProcessViewItem> cardList = new List<CardGameProcessViewItem>();
 
-            foreach(Card item in cards)
+            foreach(DeckCard item in cards)
             {
                 CardGameProcessViewItem cardViewItem = new CardGameProcessViewItem();
                 cardViewItem.CardID = item.ID;
@@ -65,7 +65,7 @@ namespace BlackJack.BusinessLogic.Maper
             foreach(CardSaveChangesGameViewItem item in cards)
             {
                 Card card = new Card();
-                card.ID = item.CardID;
+                card.CardID = item.CardID;
                 card.CardName = item.CardName;
                 card.CardNumber = item.CardNumber;
                 card.CardSuit = item.CardSuit;
@@ -75,6 +75,22 @@ namespace BlackJack.BusinessLogic.Maper
             }
 
             return cardList;
+        }
+
+        public static IEnumerable<GameShowHistoryUserViewItem> MapGameToGameShowHistoryUserViewItem(IEnumerable<Game> games)
+        {
+            List<GameShowHistoryUserViewItem> gamesList = new List<GameShowHistoryUserViewItem>();
+
+            foreach(Game item in games)
+            {
+                GameShowHistoryUserViewItem gameViewItem = new GameShowHistoryUserViewItem();
+                gameViewItem.GameID = item.ID;
+                gameViewItem.StepsPlayed = item.Steps.Count;
+
+                gamesList.Add(gameViewItem);
+            }
+
+            return gamesList;
         }
     }
 }

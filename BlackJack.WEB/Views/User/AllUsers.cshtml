@@ -12,7 +12,7 @@
     }
 }
 
-<h2>AllUsers</h2>
+<h2>Users</h2>
 <body>
     <table>
         <tr>
@@ -25,6 +25,7 @@
                         <tr><td>@Html.DisplayFor(modelItem => users[i].SelectedBots)</td></tr>
                         <tr><td>@Html.ActionLink("Delete", "DeleteUser", new { UserId = users[i].ID })</td></tr>
                         <tr><td>@Html.ActionLink("Select", "SelectUser", new { UserId = users[i].ID })</td></tr>
+                        <tr><td>@Html.ActionLink("History", "ShowHistory", new { UserId = users[i].ID })</td></tr>
                     </table>
                 </td>
             }

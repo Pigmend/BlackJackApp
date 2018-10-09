@@ -11,6 +11,8 @@ namespace BlackJack.DataAccess.EF
 {
     public class DatabaseContext: DbContext
     {
+        public DbSet<DeckCard> Deck { get; set; }
+
         public DbSet<User> Users { get; set; }
         public DbSet<Card> Cards { get; set; }
         public DbSet<Game> Games { get; set; }
@@ -36,38 +38,35 @@ namespace BlackJack.DataAccess.EF
             {
                 if (cardName < (int)CardNumber.Jack)
                 {
-                    context.Cards.Add(new Card()
-                    {   CardSuit = (CardSuit)cardSuit,
-                        CardNumber = (CardNumber)cardName,
-                        CardScore = cardName + 1,
-                        CardName = $"{(CardNumber)cardName} {(CardSuit)cardSuit}"
-                    });
+                    DeckCard deckCard = new DeckCard();
+                    deckCard.CardSuit = (CardSuit)cardSuit;
+                    deckCard.CardNumber = (CardNumber)cardName;
+                    deckCard.CardScore = cardName + 1;
+                    deckCard.CardName = $"{(CardNumber)cardName} {(CardSuit)cardSuit}";
+                    context.Deck.Add(deckCard);
                 }
 
                 if(cardName > (int)CardNumber.Ten && cardName < (int)CardNumber.Ace)
                 {
-                    context.Cards.Add(new Card()
-                    {
-                        CardSuit = (CardSuit)cardSuit,
-                        CardNumber = (CardNumber)cardName,
-                        CardScore = 10,
-                        CardName = $"{(CardNumber)cardName} {(CardSuit)cardSuit}"
-                    });
+                    DeckCard deckCard = new DeckCard();
+                    deckCard.CardSuit = (CardSuit)cardSuit;
+                    deckCard.CardNumber = (CardNumber)cardName;
+                    deckCard.CardScore = 10;
+                    deckCard.CardName = $"{(CardNumber)cardName} {(CardSuit)cardSuit}";
+                    context.Deck.Add(deckCard);
                 }
 
                 if(cardName == (int)CardNumber.Ace)
                 {
-                    context.Cards.Add(new Card()
-                    {
-                        CardSuit = (CardSuit)cardSuit,
-                        CardNumber = (CardNumber)cardName,
-                        CardScore = 11,
-                        CardName = $"{(CardNumber)cardName} {(CardSuit)cardSuit}"
-                    });
+                    DeckCard deckCard = new DeckCard();
+                    deckCard.CardSuit = (CardSuit)cardSuit;
+                    deckCard.CardNumber = (CardNumber)cardName;
+                    deckCard.CardScore = 11;
+                    deckCard.CardName = $"{(CardNumber)cardName} {(CardSuit)cardSuit}";
+                    context.Deck.Add(deckCard);
                 }
 
                 cardName++;
-
                 if (cardName > (int)CardNumber.Ace)
                 {
                     cardName = (int)CardNumber.Two;
@@ -79,7 +78,7 @@ namespace BlackJack.DataAccess.EF
             {
                 context.Users.Add(new User() { Name = $"BOT #{i}", Role = UserRole.Bot });
             }
-            context.Users.Add(new User() { Name = "Diller", Role = UserRole.Diller });
+            context.Users.Add(new User() { Name = "Dealer", Role = UserRole.Diller });
             context.Users.Add(new User() { Name = "James Hetfield", Role = UserRole.Player });
             base.Seed(context);
         }

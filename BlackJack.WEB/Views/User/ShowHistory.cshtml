@@ -1,0 +1,30 @@
+﻿@model BlackJack.ViewModels.Request.ShowHistoryUserViewModel 
+
+@{
+    ViewBag.Title = "ShowHistory";
+}
+
+<h2>Show History</h2>
+
+<div class="Game-content">
+    <div class="UserInteface">
+        <div class="User-buttons">
+            <button class="NewMatch-button" , onclick="@("window.location.href='" + @Url.Action("AllUsers", "User") + "'");">
+                <h3>Return To Users</h3>
+            </button>
+        </div>
+    </div>
+    <div class="myClassPlayersInfos">
+        @foreach (var item in Model.Games)
+        {
+            <div class="Employee">
+                <div class="Employee-info">
+                    <h3>Game ID: @item.GameID</h3>
+                </div>
+                <div class="Employee-content">
+                    <h3>Steps Played: @item.StepsPlayed</h3>
+                </div>
+            </div>
+        }
+    </div>
+</div>

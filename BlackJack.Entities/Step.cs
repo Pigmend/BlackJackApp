@@ -12,5 +12,6 @@ namespace BlackJack.Entities
         public long WinnerID { get; set; }
         public long GameID { get; set; }
         public virtual Game Game { get; set; }
+        public virtual ICollection<PlayerHand> PlayerHands { get; set; }
     }
 }

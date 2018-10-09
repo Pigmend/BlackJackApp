@@ -85,7 +85,7 @@
 
     for (var i = 0; i <@user.SelectedBots; i++) {
         var numberOfBot = i + 1;
-        botList.push(new Entity('BOT ' + numberOfBot));
+        botList.push(new Entity('BOT ' + numberOfBot, i+1, 2));
     }
 
     function getRandomInt() {
@@ -153,7 +153,8 @@
                 Users: requestData,
                 WinnerID: userObj.PlayerID,
                 GameID: @Model.GameID 
-            }); // ...TO DO!
+            }
+        );
     }
 
     function EndGameValidation() {
@@ -189,7 +190,7 @@
             alert("Вы проиграли! :(");
         }
         if (userObj.CardPoints == dillerObj.CardPoints && dillerObj.CardPoints < 22 && userObj.CardPoints < 22) {
-            userObj.Score += userObj.bank;
+            userObj.Score += userObj.Cash;
             userObj.Cash = 0;
             alert("Пат! Никто не выиграл");
         }

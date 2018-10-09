@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Infrastructure;
 using BlackJack.ViewModels.Response;
+using BlackJack.ViewModels.Request;
 using System.ComponentModel.DataAnnotations;
 
 namespace BlackJack.WEB.Controllers
@@ -14,7 +15,7 @@ namespace BlackJack.WEB.Controllers
     {
         private IUserService _userService;
 
-        public UserController(IUserService userService, ICardService cardService)
+        public UserController(IUserService userService, IDeckService cardService)
         {
             this._userService = userService;
         }
@@ -60,6 +61,12 @@ namespace BlackJack.WEB.Controllers
         {
             _userService.DeleteUser(UserId);
             return RedirectToAction("AllUsers");
+        }
+
+        public ActionResult ShowHistory(long UserID)
+        {
+            ShowHistoryUserViewModel item = _userService.ShowHistory(UserID);
+            return View(item);
         }
     }
 }

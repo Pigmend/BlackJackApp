@@ -11,11 +11,11 @@ using BlackJack.BusinessLogic.Maper;
 
 namespace BlackJack.BusinessLogic.Services
 {
-    public class CardService: ICardService
+    public class DeckService : IDeckService
     {
-        ICardRepository _cardService { get; set; }
+        IDeckRepository _cardService { get; set; }
 
-        public CardService(ICardRepository cardService)
+        public DeckService(IDeckRepository cardService)
         {
             _cardService = cardService;
         }

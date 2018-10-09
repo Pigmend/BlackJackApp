@@ -7,8 +7,8 @@ using BlackJack.Entities;
 
 namespace BlackJack.DataAccess.Interfaces
 {
-    public interface IGameRepository: IRepository<Game>
+    public interface IDeckRepository: IRepository<DeckCard>
     {
-        IEnumerable<Game> SelectGamesByUserId(long userId);
+
     }
 }

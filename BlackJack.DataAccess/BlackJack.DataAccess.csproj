@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="EF\DatabaseContext.cs" />
     <Compile Include="Interfaces\ICardRepository.cs" />
+    <Compile Include="Interfaces\IDeckRepository.cs" />
     <Compile Include="Interfaces\IGameRepository.cs" />
     <Compile Include="Interfaces\IPlayerHandRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />

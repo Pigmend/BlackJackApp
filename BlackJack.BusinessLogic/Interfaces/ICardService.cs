@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace BlackJack.BusinessLogic.Interfaces
 {
-    public interface ICardService
+    public interface IDeckService
     {
+
     }
 }

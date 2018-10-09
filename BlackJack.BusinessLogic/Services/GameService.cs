@@ -17,16 +17,16 @@ namespace BlackJack.BusinessLogic.Services
     public class GameService : IGameService
     {
         private IUserRepository _userRepository { get; set; }
-        private ICardRepository _cardRepository { get; set; }
+        private IDeckRepository _deckRepository { get; set; }
         private IGameRepository _gameRepository { get; set; }
         private IStepRepository _stepRepository { get; set; }
         private IPlayerHandRepository _playerHandRepository { get; set; }
 
-        public GameService(IUserRepository userRepository, ICardRepository cardRepository, IGameRepository gameRepository, IStepRepository stepRepository, IPlayerHandRepository playerHandRepository)
+        public GameService(IUserRepository userRepository, IDeckRepository deckRepository, IGameRepository gameRepository, IStepRepository stepRepository, IPlayerHandRepository playerHandRepository)
         {
             _gameRepository = gameRepository;
             _userRepository = userRepository;
-            _cardRepository = cardRepository;
+            _deckRepository = deckRepository;
             _stepRepository = stepRepository;
             _playerHandRepository = playerHandRepository;
         }
@@ -40,7 +40,7 @@ namespace BlackJack.BusinessLogic.Services
             _gameRepository.SaveChanges();
 
             User user = _userRepository.Get(userID);
-            IEnumerable<Card> cards = _cardRepository.GetAll();
+            IEnumerable<DeckCard> cards = _deckRepository.GetAll();
 
             GameProcessViewModel view = new GameProcessViewModel();
             view.GameID = game.ID;
@@ -67,6 +67,7 @@ namespace BlackJack.BusinessLogic.Services
                 playerHand.PlayerID = item.PlayerID;
                 playerHand.Score = item.Score;
                 playerHand.Cash = item.Cash;
+                playerHand.User = _userRepository.Get(item.PlayerID);
                 playerHand.CardPoints = item.CardPoints;
                 playerHand.StepID = step.ID;
 
@@ -76,6 +77,7 @@ namespace BlackJack.BusinessLogic.Services
             }
 
             _playerHandRepository.AddRange(playerHands);
+            _playerHandRepository.SaveChanges();
 
             return true;
         }

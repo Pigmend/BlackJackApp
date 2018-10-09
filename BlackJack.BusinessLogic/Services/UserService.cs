@@ -9,16 +9,19 @@ using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.DataAccess.Interfaces;
 using BlackJack.BusinessLogic.Maper;
 using BlackJack.ViewModels.Response;
+using BlackJack.ViewModels.Request;
 
 namespace BlackJack.BusinessLogic.Services
 {
-    public class UserService: IUserService
+    public class UserService : IUserService
     {
-        IUserRepository UserRepository { get; set; }
+        private IUserRepository _userRepository { get; set; }
+        private IGameRepository _gameRepository { get; set; } 
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IGameRepository gameRepository)
         {
-            UserRepository = userRepository;
+            _userRepository = userRepository;
+            _gameRepository = gameRepository;
         }
 
         public long CreateUser(UserCreateUserViewModel user)
@@ -28,15 +31,15 @@ namespace BlackJack.BusinessLogic.Services
             newUser.SelectedBots = user.SelectedBots;
             newUser.Role = Entities.Enums.UserRole.Player;
 
-            UserRepository.Create(newUser);
-            UserRepository.SaveChanges();
+            _userRepository.Create(newUser);
+            _userRepository.SaveChanges();
 
             return newUser.ID;
         }
 
         public UserAllUsersViewModel GetUsers()
         {
-            IEnumerable<User> users = UserRepository.GetAll();
+            IEnumerable<User> users = _userRepository.GetAll();
             IEnumerable<UserAllUsersUserViewItem> userList = EntityMapper.MapUserListToUserAllUsersUserViewItemList(users);
 
             UserAllUsersViewModel viewModel = new UserAllUsersViewModel();
@@ -47,8 +50,16 @@ namespace BlackJack.BusinessLogic.Services
 
         public void DeleteUser(long id)
         {
-            UserRepository.Delete(id);
-            UserRepository.SaveChanges();
+            _userRepository.Delete(id);
+            _userRepository.SaveChanges();
+        }
+
+        public ShowHistoryUserViewModel ShowHistory(long PlayerID)
+        {
+            ShowHistoryUserViewModel viewModel = new ShowHistoryUserViewModel();
+            viewModel.Games = EntityMapper.MapGameToGameShowHistoryUserViewItem(_gameRepository.SelectGamesByUserId(PlayerID));
+
+            return viewModel;
         }
     }
 }
