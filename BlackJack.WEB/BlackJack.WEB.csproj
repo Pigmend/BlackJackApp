@@ -173,6 +173,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\GameController.cs" />
+    <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -219,11 +220,12 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\AllUsers.cshtml" />
     <Content Include="Views\User\SubmitNewUser.cshtml" />
     <Content Include="Views\Game\Process.cshtml" />
-    <Content Include="Views\User\ShowHistory.cshtml" />
+    <Content Include="Views\History\ShowHistory.cshtml" />
+    <Content Include="Views\History\ShowGameHistory.cshtml" />
+    <Content Include="Views\History\ShowStep.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

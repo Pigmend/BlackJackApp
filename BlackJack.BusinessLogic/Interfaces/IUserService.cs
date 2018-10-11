@@ -15,6 +15,5 @@ namespace BlackJack.BusinessLogic.Interfaces
         long CreateUser(UserCreateUserViewModel user);
         UserAllUsersViewModel GetUsers();
         void DeleteUser(long id);
-        ShowHistoryUserViewModel ShowHistory(long PlayerID);
     }
 }

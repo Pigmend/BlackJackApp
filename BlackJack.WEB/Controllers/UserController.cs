@@ -62,11 +62,5 @@ namespace BlackJack.WEB.Controllers
             _userService.DeleteUser(UserId);
             return RedirectToAction("AllUsers");
         }
-
-        public ActionResult ShowHistory(long UserID)
-        {
-            ShowHistoryUserViewModel item = _userService.ShowHistory(UserID);
-            return View(item);
-        }
     }
 }

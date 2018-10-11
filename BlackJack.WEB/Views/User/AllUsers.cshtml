@@ -2,44 +2,53 @@
 
 @{
     ViewBag.Title = "AllUsers";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 
     List<BlackJack.ViewModels.Response.UserAllUsersUserViewItem> users = new List<BlackJack.ViewModels.Response.UserAllUsersUserViewItem>();
 
-    foreach(var user in Model.Users)
+    foreach (var user in Model.Users)
     {
         users.Add(user);
     }
 }
 
-<h2>Users</h2>
-<body>
-    <table>
-        <tr>
-            @for (int i=6; i< users.Count(); i++)
-            {
-                <td>
-                    <table style="margin-left: 10px;">
-                        <tr><td>@Html.DisplayFor(modelItem => users[i].ID)</td></tr>
-                        <tr><td>@Html.DisplayFor(modelItem => users[i].Name)</td></tr>
-                        <tr><td>@Html.DisplayFor(modelItem => users[i].SelectedBots)</td></tr>
-                        <tr><td>@Html.ActionLink("Delete", "DeleteUser", new { UserId = users[i].ID })</td></tr>
-                        <tr><td>@Html.ActionLink("Select", "SelectUser", new { UserId = users[i].ID })</td></tr>
-                        <tr><td>@Html.ActionLink("History", "ShowHistory", new { UserId = users[i].ID })</td></tr>
-                    </table>
-                </td>
-            }
-        </tr>
-    </table>
+<div class="UserInteface">
+    <div class="User-buttons">
+        <a class="btn btn-success" href="@Url.Action("SubmitNewUser", "User")">
+            <h3>New User</h3>
+        </a>
+    </div>
+</div>
 
-    <div class="Game-content">
-        <div class="UserInteface">
-            <div class="User-buttons">
-                <button class="Enougth-button" , onclick="@("window.location.href='" + @Url.Action("SubmitNewUser", "User") + "'");">
-                    <h3>New User</h3>
-                </button>
-            </div>
+@for (int i = 6; i < users.Count(); i++)
+{
+    <div class="Employee">
+        <div class="Employee-info">
+            <h4>@users[i].Name</h4>
+        </div>
+        <div class="Employee-content">
+            <table>
+                <tr>
+                    <td>
+                        <a href="@Url.Action("SelectUser", "User", new { UserId = users[i].ID})">
+                            <h4>Select User</h4>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="@Url.Action("ShowHistory", "History", new { UserId = users[i].ID })">
+                            <h4>Show History</h4>
+                        </a>
+                    </td>
+                </tr>
+                @*<tr>
+                    <td>
+                        <a href="@Url.Action("DeleteUser", "User", new { UserId = users[i].ID })">
+                            <h4>Delete User</h4>
+                        </a>
+                    </td>
+                </tr>*@
+            </table>
         </div>
     </div>
-
- </body>
+}

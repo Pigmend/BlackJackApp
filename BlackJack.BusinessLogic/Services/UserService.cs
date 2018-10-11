@@ -53,13 +53,5 @@ namespace BlackJack.BusinessLogic.Services
             _userRepository.Delete(id);
             _userRepository.SaveChanges();
         }
-
-        public ShowHistoryUserViewModel ShowHistory(long PlayerID)
-        {
-            ShowHistoryUserViewModel viewModel = new ShowHistoryUserViewModel();
-            viewModel.Games = EntityMapper.MapGameToGameShowHistoryUserViewItem(_gameRepository.SelectGamesByUserId(PlayerID));
-
-            return viewModel;
-        }
     }
 }

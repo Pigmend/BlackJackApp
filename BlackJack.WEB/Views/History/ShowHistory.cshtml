@@ -1,0 +1,33 @@
+﻿@model BlackJack.ViewModels.Request.ShowHistoryUserViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Games";
+}
+
+<h2>Show History</h2>
+
+<div class="UserInteface">
+    <div class="User-buttons">
+        <a href="@Url.Action("AllUsers", "User")" class="btn btn-success">
+            <h3>Return To Users</h3>
+        </a>
+    </div>
+</div>
+
+<div class="Employees">
+    @foreach (var item in Model.Games)
+    {
+        <div class="Employee">
+            <div class="Employee-info">
+                <table>
+                    <tr><td>Game ID: @item.GameID</td></tr>
+                    <tr><td>@Html.ActionLink("Select Game", "ShowGameHistory", new { GameId = item.GameID })</td></tr>
+                </table>
+            </div>
+            <div class="Employee-content">
+                <h3>Steps Played: @item.StepsPlayed</h3>
+            </div>
+        </div>
+    }
+</div>

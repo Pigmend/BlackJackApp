@@ -9,6 +9,6 @@ namespace BlackJack.DataAccess.Interfaces
 {
     public interface IStepRepository: IRepository<Step>
     {
-        IEnumerable<Step> GetStepByGameID(int ID);
+        IEnumerable<Step> GetStepByGameID(long ID);
     }
 }

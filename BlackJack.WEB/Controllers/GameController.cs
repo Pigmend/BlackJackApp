@@ -44,10 +44,6 @@ namespace BlackJack.WEB.Controllers
             return Json(new { Message = messageDefault, JsonRequestBehavior.AllowGet });
         }
 
-        public ActionResult ContinueGame(int gameID)
-        {
-            // ... TO DO!!!
-            return View();
-        }
+
     }
 }

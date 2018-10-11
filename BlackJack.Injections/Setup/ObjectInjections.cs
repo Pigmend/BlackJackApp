@@ -31,6 +31,7 @@ namespace BlackJack.Ijections.Setup
 
             //Bind Repositories 
             Bind<IDeckRepository>().To<DeckRepository>();
+            Bind<ICardRepository>().To<CardRepository>();
             Bind<IGameRepository>().To<GameRepository>();
             Bind<IPlayerHandRepository>().To<PlayerHandRepository>();
             Bind<IStepRepository>().To<StepRepository>();
@@ -40,6 +41,7 @@ namespace BlackJack.Ijections.Setup
             Bind<IDeckService>().To<DeckService>();
             Bind<IGameService>().To<GameService>();
             Bind<IUserService>().To<UserService>();
+            Bind<IHistoryService>().To<HistoryService>();
         }
     }
 }

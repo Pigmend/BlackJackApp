@@ -5,14 +5,11 @@
     ViewBag.Title = "Welcome";
 }
 
-<div class="jumbotron">
-    <h4 style="color: #fff;">Welcome to the game!</h4>
+<div class="UserInteface">
+    <a href="@Url.Action("SubmitNewUser", "User")" class="btn btn-success">
+        <h3>CREATE NEW USER</h3>
+    </a>
+    <a href="@Url.Action("AllUsers", "User")" class="btn btn-success">
+        <h3>SELECT FROM LIST</h3>
+    </a>
 </div>
-
-<body>
-    <div class="UserInteface">
-        <a class="BeginGameButton" href="@Url.Action("Index", "User")">
-            <h3>Game</h3>
-        </a>
-    </div>
-</body>

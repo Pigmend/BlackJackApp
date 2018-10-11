@@ -17,7 +17,7 @@ namespace BlackJack.DataAccess.Repositories
 
         }
 
-        public IEnumerable<Step> GetStepByGameID(int id)
+        public IEnumerable<Step> GetStepByGameID(long id)
         {
             List<Step> steps = _dbSet.Where(e => e.GameID == id).ToList();
 

@@ -53,11 +53,13 @@
     <Compile Include="Infrastructure\ValidationException.cs" />
     <Compile Include="Interfaces\ICardService.cs" />
     <Compile Include="Interfaces\IGameService.cs" />
+    <Compile Include="Interfaces\IHistoryService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Maper\EntityMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DeckService.cs" />
     <Compile Include="Services\GameService.cs" />
+    <Compile Include="Services\HistoryService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
