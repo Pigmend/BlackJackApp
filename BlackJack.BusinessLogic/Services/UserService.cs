@@ -37,7 +37,7 @@ namespace BlackJack.BusinessLogic.Services
             return newUser.ID;
         }
 
-        public UserAllUsersViewModel GetUsers()
+        public UserAllUsersViewModel AllUsers()
         {
             IEnumerable<User> users = _userRepository.GetAll();
             IEnumerable<UserAllUsersUserViewItem> userList = EntityMapper.MapUserListToUserAllUsersUserViewItemList(users);

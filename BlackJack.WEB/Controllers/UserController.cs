@@ -7,7 +7,9 @@ using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Infrastructure;
 using BlackJack.ViewModels.Response;
 using BlackJack.ViewModels.Request;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+
 
 namespace BlackJack.WEB.Controllers
 {
@@ -15,7 +17,7 @@ namespace BlackJack.WEB.Controllers
     {
         private IUserService _userService;
 
-        public UserController(IUserService userService, IDeckService cardService)
+        public UserController(IUserService userService)
         {
             this._userService = userService;
         }
@@ -27,8 +29,7 @@ namespace BlackJack.WEB.Controllers
 
         public ActionResult SubmitNewUser()
         {
-            UserCreateUserViewModel item = new UserCreateUserViewModel();
-            return View(item);
+            return View();
         }
 
         [HttpPost]
@@ -48,7 +49,7 @@ namespace BlackJack.WEB.Controllers
 
         public ActionResult AllUsers()
         {
-            UserAllUsersViewModel item = _userService.GetUsers();
+            UserAllUsersViewModel item = _userService.AllUsers();
             return View(item);
         }
 
