@@ -26,7 +26,8 @@ namespace BlackJack.WEB
             NinjectModule injectionModule = new ObjectInjections("BlackJackConnection");
             var karnel = new StandardKernel(injectionModule);
 
-            //karnel.Unbind<ModelValidatorProvider>();
+            //Unbind Validator: validation-exception at UI 
+            karnel.Unbind<ModelValidatorProvider>();
 
             DependencyResolver.SetResolver(new NinjectDependencyResolver(karnel));
             

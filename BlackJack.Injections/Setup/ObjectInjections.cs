@@ -12,6 +12,7 @@ using BlackJack.DataAccess.Repositories;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Services;
 using Ninject.Web.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace BlackJack.Ijections.Setup
 {
