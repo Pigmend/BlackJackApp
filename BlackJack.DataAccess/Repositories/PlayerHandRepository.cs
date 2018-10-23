@@ -1,30 +1,49 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using BlackJack.DataAccess.EF;
+using System.Data;
+using System.Linq;
+using System.Reflection;
+using System.Data.SqlClient;
+using System.Threading.Tasks;
 using BlackJack.Entities;
 using BlackJack.DataAccess.Interfaces;
-using System.Data.Entity;
 using BlackJack.DataAccess.Repositories.BaseRepository;
+using Dapper;
 
 namespace BlackJack.DataAccess.Repositories
 {
     public class PlayerHandRepository : BaseRepository<PlayerHand>, IPlayerHandRepository
     {
-        public PlayerHandRepository(DatabaseContext context)
-            :base (context)
+        public PlayerHandRepository(string connection)
+            : base(connection)
         {
 
         }
 
         public void AddRange(IEnumerable<PlayerHand> items)
         {
-            _dbSet.AddRange(items);
+            var columns = GetColumns();
+            var stringOfColumns = string.Join(", ", columns);
+            var stringOfParameters = string.Join(", ", columns.Select(e => "@" + e));
+
+            var query = $"INSERT INTO {typeof(PlayerHandRepository).Name}s ({stringOfColumns}) VALUES ({stringOfParameters})";
+            using(IDbConnection db = _sqlConnectionString.CreateConnection())
+            {
+                db.Open();
+                db.Query(query, items);
+            }
         }
 
         public IEnumerable<PlayerHand> GetHandsByStepID(long StepID)
         {
-            List<PlayerHand> playerHands = _dbSet.Where(e => e.StepID == StepID).ToList();
+            IEnumerable<PlayerHand> playerHands;
+
+            var query = $"SELECT * FROM {typeof(PlayerHand).Name}s WHERE StepID = {StepID}";
+            using(IDbConnection db = _sqlConnectionString.CreateConnection())
+            {
+                db.Open();
+                playerHands = db.Query<PlayerHand>(query);
+            }
 
             return playerHands;
         }

@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using BlackJack.DataAccess.EF;
+using System.Data;
+using System.Linq;
+using System.Reflection;
+using System.Data.SqlClient;
+using System.Threading.Tasks;
 using BlackJack.Entities;
 using BlackJack.DataAccess.Interfaces;
-using System.Data.Entity;
 using BlackJack.DataAccess.Repositories.BaseRepository;
+using Dapper;
 
 namespace BlackJack.DataAccess.Repositories
 {
     public class DeckRepository : BaseRepository<DeckCard>, IDeckRepository
     {
-        public DeckRepository(DatabaseContext context)
-            : base(context)
+        public DeckRepository(string connection)
+            : base(connection)
         {
 
         }

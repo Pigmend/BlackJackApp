@@ -8,11 +8,10 @@ namespace BlackJack.DataAccess.Interfaces
         where T : class
     {
 
-        void Create(T item);
+        long CreateAndReturnId(T item);
         T Get(long id);
         void Update(T item);
         void Delete(long id);
         IEnumerable<T> GetAll();
-        void SaveChanges();
     }
 }

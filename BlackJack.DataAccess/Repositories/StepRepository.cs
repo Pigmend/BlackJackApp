@@ -1,25 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
-using BlackJack.DataAccess.EF;
+using System.Reflection;
+using System.Data.SqlClient;
+using System.Threading.Tasks;
 using BlackJack.Entities;
 using BlackJack.DataAccess.Interfaces;
-using System.Data.Entity;
 using BlackJack.DataAccess.Repositories.BaseRepository;
+using Dapper;
 
 namespace BlackJack.DataAccess.Repositories
 {
     public class StepRepository : BaseRepository<Step>, IStepRepository
     {
-        public StepRepository(DatabaseContext context)
-            :base(context)
+        public StepRepository(string connection)
+            : base(connection)
         {
 
         }
 
         public IEnumerable<Step> GetStepByGameID(long id)
         {
-            List<Step> steps = _dbSet.Where(e => e.GameID == id).ToList();
+            IEnumerable<Step> steps;
+
+            var query = $"SELECT * FROM {typeof(Step).Name}s WHERE GameID = {id}";
+            using(IDbConnection db = _sqlConnectionString.CreateConnection())
+            {
+                db.Open();
+                steps = db.Query<Step>(query);
+            }
 
             return steps;
         }

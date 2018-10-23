@@ -1,62 +1,96 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
-using System.Text;
+using System.Reflection;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
-using BlackJack.DataAccess.EF;
 using BlackJack.Entities;
 using BlackJack.DataAccess.Interfaces;
-using System.Data.Entity;
+using Dapper;
 
 namespace BlackJack.DataAccess.Repositories.BaseRepository
 {
     public class BaseRepository<T> : IRepository<T>
         where T : class
     {
-        private DatabaseContext _db;
-        protected DbSet<T> _dbSet;
+        protected DatabaseConnection _sqlConnectionString;
 
-        public BaseRepository(DatabaseContext context)
+        public BaseRepository(string connection)
         {
-            _db = context;
-            _dbSet = context.Set<T>();
+            DatabaseConnection DbConnection = new DatabaseConnection(connection);
+            _sqlConnectionString = DbConnection;
         }
 
-        public void Create(T item)
+        public long CreateAndReturnId(T item)
         {
-            _dbSet.Add(item);
+            long id;
+            var columns = GetColumns();
+            var stringOfColumns = string.Join(", ", columns);
+            var stringOfParameters = string.Join(", ", columns.Select(e => "@" + e));
+            var query = $"ISERT INTO {typeof(T).Name}s ({stringOfColumns}) VALUES ({stringOfParameters})";
+
+            using (IDbConnection db = _sqlConnectionString.CreateConnection())
+            {
+                db.Open();
+                id = db.QueryFirstOrDefault<long>(query, item);
+            }
+            return id;
         }
 
         public T Get(long id)
         {
-            return _dbSet.Find(id);
+            var query = $"SELECT * FROM {typeof(T).Name}s WHERE ID = {id}";
+            using(IDbConnection db = _sqlConnectionString.CreateConnection())
+            {
+                db.Open();
+                return db.QueryFirstOrDefault<T>(query);
+            }
         }
 
         public void Update(T item)
         {
-            _db.Entry(item).State = EntityState.Modified;
-            _db.SaveChanges();
+            var columns = GetColumns();
+            var stringOfColumns = string.Join(", ", columns.Select(e => $"{e} = @{e}"));
+            var query = $"UPDATE {typeof(T).Name}s SET {stringOfColumns} WHERE ID = @ID";
+
+            using(IDbConnection db = _sqlConnectionString.CreateConnection())
+            {
+                db.Open();
+                db.Query(query, item);
+            }
         }
 
         public void Delete(long id)
         {
-            T item = _dbSet.Find(id);
-            if (item != null)
+            var query = $"DELETE FROM {typeof(T).Name}s where ID = @id";
+
+            using(IDbConnection db = _sqlConnectionString.CreateConnection())
             {
-                _dbSet.Remove(item);
+                db.Open();
+                db.Query(query, id);
             }
         }
 
         public IEnumerable<T> GetAll()
         {
-            IEnumerable<T> items = _dbSet.ToList();
-            return items;
+            var query = $"SELECT * FROM {typeof(T).Name}s";
+            IEnumerable<T> allEntities;
+
+            using(IDbConnection db = _sqlConnectionString.CreateConnection())
+            {
+                db.Open();
+                allEntities = db.Query<T>(query);
+            }
+            return allEntities;
         }
 
-        public void SaveChanges()
+        protected IEnumerable<string> GetColumns()
         {
-            _db.SaveChanges();
+            return typeof(T)
+                .GetProperties()
+                .Where(e => e.Name != "Id" && !e.PropertyType.GetTypeInfo().IsGenericType)
+                .Select(e => e.Name);
         }
-
     }
 }

@@ -1,26 +1,36 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using BlackJack.DataAccess.EF;
+using System.Data;
+using System.Linq;
+using System.Reflection;
+using System.Data.SqlClient;
+using System.Threading.Tasks;
 using BlackJack.Entities;
 using BlackJack.DataAccess.Interfaces;
-using System.Data.Entity;
 using BlackJack.DataAccess.Repositories.BaseRepository;
+using Dapper;
 
 
 namespace BlackJack.DataAccess.Repositories
 {
     public class GameRepository : BaseRepository<Game>, IGameRepository
     {
-        public GameRepository(DatabaseContext context)
-            : base(context)
+        public GameRepository(string connection)
+            : base(connection)
         {
 
         }
 
         public IEnumerable<Game> SelectGamesByUserId(long userId)
         {
-            List<Game> games = _dbSet.Where(e => e.UserID == userId).ToList();
+            IEnumerable<Game> games;
+            var query = $"SELECT * {typeof(Game).Name}s WHERE UserID = {userId}";
+
+            using(IDbConnection db = _sqlConnectionString.CreateConnection())
+            {
+                db.Open();
+                games = db.Query<Game>(query);
+            }
 
             return games;
         }
