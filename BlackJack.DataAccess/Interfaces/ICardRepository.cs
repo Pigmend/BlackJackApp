@@ -9,6 +9,6 @@ namespace BlackJack.DataAccess.Interfaces
 {
     public interface ICardRepository: IRepository<Card>
     {
-
+        IEnumerable<Card> GetCardsByHandID(long ID);
     }
 }

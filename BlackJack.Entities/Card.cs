@@ -9,6 +9,7 @@ namespace BlackJack.Entities
 {
     public class Card
     {
+
         public long ID { get; set; }
 
         public long CardID { get; set; }
@@ -16,8 +17,5 @@ namespace BlackJack.Entities
         public CardNumber CardNumber { get; set; }
         public int CardScore { get; set; }
         public string CardName { get; set; }
-
-        //Many-to-Many with PlayerHand
-        public virtual ICollection<PlayerHand> PlayerHands { get; set; }
     }
 }

@@ -39,7 +39,7 @@ namespace BlackJack.DataAccess.Repositories
             IEnumerable<PlayerHand> playerHands;
 
             var query = $"SELECT * FROM {typeof(PlayerHand).Name}s WHERE StepID = {StepID}";
-            using(IDbConnection db = _sqlConnectionString.CreateConnection())
+            using (IDbConnection db = _sqlConnectionString.CreateConnection())
             {
                 db.Open();
                 playerHands = db.Query<PlayerHand>(query);
@@ -47,6 +47,12 @@ namespace BlackJack.DataAccess.Repositories
 
             return playerHands;
         }
+
+        //Join Card with PlayerHand
+        public void JoinCardWithHand()
+
+
+
     }
 }
 

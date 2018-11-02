@@ -77,79 +77,61 @@ namespace BlackJack.BusinessLogic.Maper
             return cardList;
         }
 
-        public static IEnumerable<GameShowHistoryUserViewItem> MapGameToGameShowHistoryUserViewItem(IEnumerable<Game> games)
+        public static IEnumerable<GameShowHistoryUserViewItem> MapGameToGameShowHistoryUserViewItem (IEnumerable<Game> games)
         {
-            List<GameShowHistoryUserViewItem> gamesList = new List<GameShowHistoryUserViewItem>();
+            List<GameShowHistoryUserViewItem> gameList = new List<GameShowHistoryUserViewItem>();
 
             foreach(Game item in games)
             {
-                GameShowHistoryUserViewItem gameViewItem = new GameShowHistoryUserViewItem();
-                gameViewItem.GameID = item.ID;
-                gameViewItem.StepsPlayed = item.Steps.Count;
-
-                gamesList.Add(gameViewItem);
+                GameShowHistoryUserViewItem game = new GameShowHistoryUserViewItem();
+                game.GameID = item.ID;
+                gameList.Add(game);
             }
 
-            return gamesList;
+            return gameList;
         }
 
         public static IEnumerable<StepShowGameHistoryUserViewItem> MapStepToStepShowGameHistoryUserViewItem(IEnumerable<Step> steps)
         {
-            List<StepShowGameHistoryUserViewItem> stepsList = new List<StepShowGameHistoryUserViewItem>();
+            List<StepShowGameHistoryUserViewItem> stepList = new List<StepShowGameHistoryUserViewItem>();
 
             foreach(Step item in steps)
             {
-                StepShowGameHistoryUserViewItem stepViewItem = new StepShowGameHistoryUserViewItem();
-                stepViewItem.StepID = item.ID;
-                stepViewItem.Hands = EntityMapper.MapPlayerHandToPlayerHandShowGameHistoryUserViewItem(item.PlayerHands);
-
-                stepsList.Add(stepViewItem);
+                StepShowGameHistoryUserViewItem step = new StepShowGameHistoryUserViewItem();
+                step.StepID = item.ID;
+                stepList.Add(step);
             }
 
-            return stepsList;
+            return stepList;
         }
 
-        public static IEnumerable<PlayerHandShowGameHistoryUserViewItem> MapPlayerHandToPlayerHandShowGameHistoryUserViewItem(IEnumerable<PlayerHand> playerHands)
+        public static PlayerHandShowStepHistoryViewItem MapPlayerHandToPlayerHandShowStepHistoryViewItem(PlayerHand hand, IEnumerable<Card> cards)
         {
-            List<PlayerHandShowGameHistoryUserViewItem> playerHandViewItems = new List<PlayerHandShowGameHistoryUserViewItem>();
+            PlayerHandShowStepHistoryViewItem playerHand = new PlayerHandShowStepHistoryViewItem();
+            playerHand.PlayerHandID = hand.ID;
+            playerHand.PlayerID = hand.PlayerID;
+            playerHand.Score = hand.Score;
+            playerHand.Cash = hand.Cash;
+            playerHand.CardPoints = hand.CardPoints;
+            playerHand.Cards = MapCardToCardPlayerHandShowStepHistoryViewItem(cards);
 
-            foreach(PlayerHand item in playerHands)
-            {
-                PlayerHandShowGameHistoryUserViewItem handViewItem = new PlayerHandShowGameHistoryUserViewItem();
-                handViewItem.PlayerHandID = item.ID;
-                handViewItem.PlayerID = item.PlayerID;
-                handViewItem.Cash = item.Cash;
-                handViewItem.CardPoints = item.CardPoints;
-                handViewItem.Score = item.Score;
-
-                UserShowGameHistoryUserViewItem user = new UserShowGameHistoryUserViewItem();
-                user.UserID = item.User.ID;
-                user.Name = item.User.Name;
-                user.Role = item.User.Role;
-
-                handViewItem.User = user;
-                handViewItem.HandCards = EntityMapper.MapCardToCardShowGameHistoryUserViewItem(item.Cards);
-
-                playerHandViewItems.Add(handViewItem);
-            }
-
-            return playerHandViewItems;
+            return playerHand;
         }
 
-        private static IEnumerable<CardShowGameHistoryUserViewItem> MapCardToCardShowGameHistoryUserViewItem (IEnumerable<Card> cards)
+        public static IEnumerable<CardPlayerHandShowStepHistoryViewItem> MapCardToCardPlayerHandShowStepHistoryViewItem(IEnumerable<Card> cards)
         {
-            List<CardShowGameHistoryUserViewItem> playerHandCards = new List<CardShowGameHistoryUserViewItem>();
+            List<CardPlayerHandShowStepHistoryViewItem> playerCards = new List<CardPlayerHandShowStepHistoryViewItem>();
 
             foreach(Card item in cards)
             {
-                CardShowGameHistoryUserViewItem cardViewItem = new CardShowGameHistoryUserViewItem();
-                cardViewItem.CardID = item.CardID;
-                cardViewItem.CardName = item.CardName;
+                CardPlayerHandShowStepHistoryViewItem card = new CardPlayerHandShowStepHistoryViewItem();
+                card.CardID = item.CardID;
+                card.CardName = item.CardName;
 
-                playerHandCards.Add(cardViewItem);
+                playerCards.Add(card);
             }
 
-            return playerHandCards;
+            return playerCards;
         }
     }
 }

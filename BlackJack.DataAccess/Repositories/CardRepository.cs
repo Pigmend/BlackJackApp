@@ -18,7 +18,20 @@ namespace BlackJack.DataAccess.Repositories
         public CardRepository(string connection)
             :base(connection)
         {
-            
+
+        }
+
+        public IEnumerable<Card> GetCardsByHandID(long ID)
+        {
+            IEnumerable<Card> cards;
+
+            var query = $"SELECT * FROM Cards WHERE ID IN (SELECT PlayerHandCards.Card_ID FROM PlayerHandCards WHERE PlayerHand_ID = {ID}); ";
+            using (IDbConnection db = _sqlConnectionString.CreateConnection())
+            {
+                db.Open();
+                cards = db.Query<Card>(query);
+            }
+            return cards;
         }
     }
 }

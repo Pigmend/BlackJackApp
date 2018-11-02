@@ -14,7 +14,5 @@ namespace BlackJack.Entities
         public string Name { get; set; }
         public int SelectedBots { get; set; }
         public UserRole Role { get; set; }
-        public virtual ICollection<Game> Games { get; set; }
-        public virtual ICollection<PlayerHand> Hands { get; set; }
     }
 }

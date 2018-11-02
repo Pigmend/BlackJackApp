@@ -49,6 +49,7 @@
     <Compile Include="Enums\UserRole.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="PlayerHand.cs" />
+    <Compile Include="PlayerHandCard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Step.cs" />
     <Compile Include="User.cs" />

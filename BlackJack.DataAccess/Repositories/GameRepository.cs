@@ -24,7 +24,7 @@ namespace BlackJack.DataAccess.Repositories
         public IEnumerable<Game> SelectGamesByUserId(long userId)
         {
             IEnumerable<Game> games;
-            var query = $"SELECT * {typeof(Game).Name}s WHERE UserID = {userId}";
+            var query = $"SELECT * FROM {typeof(Game).Name}s WHERE UserID = {userId}";
 
             using(IDbConnection db = _sqlConnectionString.CreateConnection())
             {
@@ -34,5 +34,7 @@ namespace BlackJack.DataAccess.Repositories
 
             return games;
         }
+
+
     }
 }

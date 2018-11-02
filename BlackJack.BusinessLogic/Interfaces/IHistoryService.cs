@@ -11,6 +11,6 @@ namespace BlackJack.BusinessLogic.Interfaces
     {
         ShowHistoryUserViewModel ShowHistory(long PlayerID);
         ShowGameHistoryUserViewModel ShowGameHistory(long gameID);
-        StepShowGameHistoryUserViewItem ShowStep(long stepID);
+        ShowStepHistoryViewModel ShowStep(long stepID);
     }
 }

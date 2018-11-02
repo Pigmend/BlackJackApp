@@ -5,11 +5,10 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using Ninject;
-using Ninject.Modules;
-using Ninject.Web.Mvc;
 using BlackJack.BusinessLogic.Infrastructure;
 using BlackJack.Ijections.Setup;
+using Autofac;
+using Autofac.Integration.Mvc;
 
 namespace BlackJack.WEB
 {
@@ -18,20 +17,26 @@ namespace BlackJack.WEB
         protected void Application_Start()
         {
 
+            var builder = new ContainerBuilder();
+            builder.RegisterControllers(typeof(MvcApplication).Assembly);
+
+            //Register injections
+            AutofacConfig.Register(builder,"BlackJackConnection");
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+        }
 
-            NinjectModule injectionModule = new ObjectInjections("BlackJackConnection");
-            var karnel = new StandardKernel(injectionModule);
-
-            //Unbind Validator: validation-exception at UI 
-            karnel.Unbind<ModelValidatorProvider>();
-
-            DependencyResolver.SetResolver(new NinjectDependencyResolver(karnel));
-            
-
+        protected void Application_Error()
+        {
+            var exception = Server.GetLastError();
+            if (exception is HttpException)
+            {
+                var httpException = (HttpException)exception;
+                Response.StatusCode = httpException.GetHttpCode();
+            }
         }
     }
 }

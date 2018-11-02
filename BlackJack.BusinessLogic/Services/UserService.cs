@@ -31,10 +31,9 @@ namespace BlackJack.BusinessLogic.Services
             newUser.SelectedBots = user.SelectedBots;
             newUser.Role = Entities.Enums.UserRole.Player;
 
-            _userRepository.Create(newUser);
-            _userRepository.SaveChanges();
+            long userID = _userRepository.CreateAndReturnId(newUser);
 
-            return newUser.ID;
+            return userID;
         }
 
         public UserAllUsersViewModel AllUsers()
@@ -51,7 +50,6 @@ namespace BlackJack.BusinessLogic.Services
         public void DeleteUser(long id)
         {
             _userRepository.Delete(id);
-            _userRepository.SaveChanges();
         }
     }
 }

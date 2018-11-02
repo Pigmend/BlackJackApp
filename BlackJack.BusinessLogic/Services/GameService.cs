@@ -21,14 +21,16 @@ namespace BlackJack.BusinessLogic.Services
         private IGameRepository _gameRepository { get; set; }
         private IStepRepository _stepRepository { get; set; }
         private IPlayerHandRepository _playerHandRepository { get; set; }
+        private ICardRepository _cardRepository { get; set; }
 
-        public GameService(IUserRepository userRepository, IDeckRepository deckRepository, IGameRepository gameRepository, IStepRepository stepRepository, IPlayerHandRepository playerHandRepository)
+        public GameService(IUserRepository userRepository, IDeckRepository deckRepository, IGameRepository gameRepository, IStepRepository stepRepository, IPlayerHandRepository playerHandRepository, ICardRepository cardRepository)
         {
             _gameRepository = gameRepository;
             _userRepository = userRepository;
             _deckRepository = deckRepository;
             _stepRepository = stepRepository;
             _playerHandRepository = playerHandRepository;
+            _cardRepository = cardRepository;
         }
 
         public GameProcessViewModel GetGameData(long userID)
@@ -36,8 +38,7 @@ namespace BlackJack.BusinessLogic.Services
             Game game = new Game();
             game.UserID = userID;
 
-            _gameRepository.Create(game);
-            _gameRepository.SaveChanges();
+            _gameRepository.CreateAndReturnId(game);
 
             User user = _userRepository.Get(userID);
             IEnumerable<DeckCard> cards = _deckRepository.GetAll();
@@ -56,8 +57,7 @@ namespace BlackJack.BusinessLogic.Services
             step.WinnerID = model.WinnerID;
             step.GameID = model.GameID;
 
-            _stepRepository.Create(step);
-            _stepRepository.SaveChanges();
+            _stepRepository.CreateAndReturnId(step);
 
             List<PlayerHand> playerHands = new List<PlayerHand>();
 
@@ -67,17 +67,24 @@ namespace BlackJack.BusinessLogic.Services
                 playerHand.PlayerID = item.PlayerID;
                 playerHand.Score = item.Score;
                 playerHand.Cash = item.Cash;
-                playerHand.User = _userRepository.Get(item.PlayerID);
                 playerHand.CardPoints = item.CardPoints;
                 playerHand.StepID = step.ID;
 
-                playerHand.Cards = EntityMapper.MapCardSaveChangesGameViewItemToCard(item.Cards);
+                // SAVE CARDS
+                long playerHandID = _playerHandRepository.CreateAndReturnId(playerHand);
+                foreach(CardSaveChangesGameViewItem card in item.Cards)
+                {
+                    Card cr = new Card();
+                    cr.CardID = card.CardID;
+                    cr.CardName = card.CardName;
+                    cr.CardNumber = card.CardNumber;
+                    cr.CardSuit = card.CardSuit;
+                    cr.CardScore = card.CardScore;
 
-                playerHands.Add(playerHand);
+                    long cardID = _cardRepository.CreateAndReturnId(cr);
+
+                }
             }
-
-            _playerHandRepository.AddRange(playerHands);
-            _playerHandRepository.SaveChanges();
 
             return true;
         }

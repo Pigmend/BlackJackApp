@@ -52,14 +52,20 @@ namespace BlackJack.BusinessLogic.Services
             return viewModel;
         }
 
-        public StepShowGameHistoryUserViewItem ShowStep(long stepID)
+        public ShowStepHistoryViewModel ShowStep(long stepID)
         {
-            StepShowGameHistoryUserViewItem viewModel = new StepShowGameHistoryUserViewItem();
+            ShowStepHistoryViewModel viewModel = new ShowStepHistoryViewModel();
 
             Step step = _stepRepository.Get(stepID);
-
             viewModel.StepID = stepID;
-            viewModel.Hands = EntityMapper.MapPlayerHandToPlayerHandShowGameHistoryUserViewItem(step.PlayerHands);
+
+            IEnumerable<PlayerHand> playerHands = _playerHandRepository.GetHandsByStepID(stepID);
+            List<PlayerHandShowStepHistoryViewItem> playerHandList = new List<PlayerHandShowStepHistoryViewItem>();
+            foreach(PlayerHand item in playerHands)
+            {
+                playerHandList.Add(EntityMapper.MapPlayerHandToPlayerHandShowStepHistoryViewItem(item, _cardRepository.GetCardsByHandID(item.ID)));
+            }
+            viewModel.PlayerHands = playerHandList;
 
             return viewModel;
         }
