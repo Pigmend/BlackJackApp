@@ -32,7 +32,7 @@ namespace BlackJack.WEB.Controllers
 
         public ActionResult ShowStep(long StepId)
         {
-            StepShowGameHistoryUserViewItem item = _historyService.ShowStep(StepId);
+            ShowStepHistoryViewModel item = _historyService.ShowStep(StepId);
             return View(item);
         }
     }

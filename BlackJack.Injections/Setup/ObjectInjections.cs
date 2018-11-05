@@ -40,7 +40,8 @@ namespace BlackJack.Ijections.Setup
                                                                                     typeof(IDeckRepository),
                                                                                     typeof(IGameRepository),
                                                                                     typeof(IStepRepository),
-                                                                                    typeof(IPlayerHandRepository));
+                                                                                    typeof(IPlayerHandRepository),
+                                                                                    typeof(ICardRepository));
 
             builder.RegisterType<UserService>().As<IUserService>().UsingConstructor(typeof(IUserRepository),
                                                                                     typeof(IGameRepository));

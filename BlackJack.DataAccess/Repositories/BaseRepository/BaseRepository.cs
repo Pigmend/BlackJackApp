@@ -28,7 +28,7 @@ namespace BlackJack.DataAccess.Repositories.BaseRepository
             var columns = GetColumns();
             var stringOfColumns = string.Join(", ", columns);
             var stringOfParameters = string.Join(", ", columns.Select(e => "@" + e));
-            var query = $"ISERT INTO {typeof(T).Name}s ({stringOfColumns}) VALUES ({stringOfParameters})";
+            var query = $"INSERT INTO {typeof(T).Name}s ({stringOfColumns}) VALUES ({stringOfParameters})";
 
             using (IDbConnection db = _sqlConnectionString.CreateConnection())
             {
@@ -89,7 +89,7 @@ namespace BlackJack.DataAccess.Repositories.BaseRepository
         {
             return typeof(T)
                 .GetProperties()
-                .Where(e => e.Name != "Id" && !e.PropertyType.GetTypeInfo().IsGenericType)
+                .Where(e => e.Name != "ID" && !e.PropertyType.GetTypeInfo().IsGenericType)
                 .Select(e => e.Name);
         }
     }

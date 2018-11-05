@@ -1,4 +1,4 @@
-﻿@model BlackJack.ViewModels.Request.StepShowGameHistoryUserViewItem
+﻿@model BlackJack.ViewModels.Request.ShowStepHistoryViewModel
 @{
     ViewBag.Title = "Step";
 }
@@ -6,20 +6,20 @@
 <h2>Step ID:  @Model.StepID</h2>
 
 
-@foreach (var item in Model.Hands)
+@foreach (var item in Model.PlayerHands)
 {
     <div class="Employee">
         <div class="Employee-info">
             <table>
                 <tr><td>Player ID: @item.PlayerID</td></tr>
-                <tr><td>Username:  @item.User.Name</td></tr>
+                <tr><td>Username:  @item.PlayerName</td></tr>
                 <tr><td>Score: @item.Score</td></tr>
                 <tr><td>Card Points: @item.CardPoints</td></tr>
             </table>
         </div>
         <div class="Employee-content">
             <table>
-                @foreach (var card in item.HandCards)
+                @foreach (var card in item.Cards)
                 {
                     <tr><td>@card.CardName</td></tr>
                 }

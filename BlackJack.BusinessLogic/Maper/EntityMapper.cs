@@ -105,7 +105,7 @@ namespace BlackJack.BusinessLogic.Maper
             return stepList;
         }
 
-        public static PlayerHandShowStepHistoryViewItem MapPlayerHandToPlayerHandShowStepHistoryViewItem(PlayerHand hand, IEnumerable<Card> cards)
+        public static PlayerHandShowStepHistoryViewItem MapPlayerHandToPlayerHandShowStepHistoryViewItem(PlayerHand hand, IEnumerable<Card> cards, string playerName)
         {
             PlayerHandShowStepHistoryViewItem playerHand = new PlayerHandShowStepHistoryViewItem();
             playerHand.PlayerHandID = hand.ID;
@@ -113,6 +113,7 @@ namespace BlackJack.BusinessLogic.Maper
             playerHand.Score = hand.Score;
             playerHand.Cash = hand.Cash;
             playerHand.CardPoints = hand.CardPoints;
+            playerHand.PlayerName = playerName;
             playerHand.Cards = MapCardToCardPlayerHandShowStepHistoryViewItem(cards);
 
             return playerHand;

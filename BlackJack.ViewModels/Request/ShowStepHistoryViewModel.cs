@@ -16,10 +16,11 @@ namespace BlackJack.ViewModels.Request
     public class PlayerHandShowStepHistoryViewItem
     {
         public long PlayerHandID { get; set; }
+        public long PlayerID { get; set; }
         public int Score { get; set; }
         public int Cash { get; set; }
         public int CardPoints { get; set; }
-        public long PlayerID { get; set; }
+        public string PlayerName { get; set; }
 
         public IEnumerable<CardPlayerHandShowStepHistoryViewItem> Cards { get;set; }
     }

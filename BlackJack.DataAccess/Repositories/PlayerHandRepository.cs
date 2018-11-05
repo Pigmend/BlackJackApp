@@ -49,10 +49,15 @@ namespace BlackJack.DataAccess.Repositories
         }
 
         //Join Card with PlayerHand
-        public void JoinCardWithHand()
-
-
-
+        public void JoinCardWithHand(long PlayerHandID, long CardID)
+        {
+            var query = $"INSERT INTO PlayerHandCards(PlayerHand_ID, Card_ID) VALUES({PlayerHandID},{CardID})";
+            using(IDbConnection db = _sqlConnectionString.CreateConnection())
+            {
+                db.Open();
+                db.Query(query);
+            }
+        }
     }
 }
 
