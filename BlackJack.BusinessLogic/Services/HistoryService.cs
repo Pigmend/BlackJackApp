@@ -63,8 +63,8 @@ namespace BlackJack.BusinessLogic.Services
             List<PlayerHandShowStepHistoryViewItem> playerHandList = new List<PlayerHandShowStepHistoryViewItem>();
             foreach(PlayerHand item in playerHands)
             {
-                string playerName = _userRepository.Get(item.PlayerID).Name;
-                IEnumerable<Card> cards = _cardRepository.GetCardsByHandID(item.ID);
+                string playerName = _userRepository.Get(item.PlayerId).Name;
+                IEnumerable<Card> cards = _cardRepository.GetCardsByHandID(item.Id);
                 playerHandList.Add(EntityMapper.MapPlayerHandToPlayerHandShowStepHistoryViewItem(item, cards, playerName));
             }
             viewModel.PlayerHands = playerHandList;

@@ -6,15 +6,12 @@ using System.Threading.Tasks;
 
 namespace BlackJack.Entities
 {
-    public class PlayerHand
+    public class PlayerHand:BaseEntity
     {
-        public long ID { get; set; }
-
         public int Score { get; set; }
         public int Cash { get; set; }
         public int CardPoints { get; set; }
-
-        public long PlayerID { get; set; }
-        public long StepID { get; set; }
+        public long PlayerId { get; set; }
+        public long StepId { get; set; }
     }
 }

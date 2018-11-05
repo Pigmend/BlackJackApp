@@ -7,10 +7,8 @@ using BlackJack.Entities.Enums;
 
 namespace BlackJack.Entities
 {
-    public class DeckCard
+    public class DeckCard:BaseEntity
     {
-        public long ID { get; set; }
-
         public CardSuit CardSuit { get; set; }
         public CardNumber CardNumber { get; set; }
         public int CardScore { get; set; }

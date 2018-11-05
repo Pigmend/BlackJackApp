@@ -29,6 +29,7 @@ function Entity(name, id, role) {
 function MoreFunction() {
     if (StartNewMatchButtonIsPressed) {
         Step();
+        SaveData();
     }
     if (!StartNewMatchButtonIsPressed) {
         alert("Начните матч");
@@ -78,7 +79,11 @@ function SaveData() {
             WinnerID: userObj.PlayerID,
             GameID: gameID
         });
-    }
+}
+
+function GetNewCard() {
+    return $.ajax(pathToGetCard);
+}
 
 function EndGameValidation() {
 
@@ -340,16 +345,6 @@ function DillerStep() {
         Update();
     }
 }
-
-//function StartNewGame() {
-
-//    document.location.reload();
-//    Update();
-
-//    StartNewMatchButtonIsPressed = false;
-//    EnougthButtonIsPressed = false;
-
-//}
 
 function StartNewMatch() {
     if (!EnougthButtonIsPressed) {

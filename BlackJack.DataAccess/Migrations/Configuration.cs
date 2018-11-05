@@ -1,42 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Entity;
-using BlackJack.Entities;
-using BlackJack.Entities.Enums;
-using System.Data.Entity.ModelConfiguration.Conventions;
-
-namespace BlackJack.DataAccess.EF
+namespace BlackJack.DataAccess.Migrations
 {
-    public class DatabaseContext : DbContext
+    using BlackJack.DataAccess.EF;
+    using BlackJack.Entities;
+    using BlackJack.Entities.Enums;
+    using System;
+    using System.Data.Entity;
+    using System.Data.Entity.Migrations;
+    using System.Linq;
+
+    internal sealed class Configuration : DbMigrationsConfiguration<BlackJack.DataAccess.EF.DatabaseContext>
     {
-        public DbSet<DeckCard> DeckCard { get; set; }
-        public DbSet<User> User { get; set; }
-        public DbSet<Card> Card { get; set; }
-        public DbSet<Game> Game { get; set; }
-        public DbSet<Step> Step { get; set; }
-        public DbSet<PlayerHand> PlayerHand { get; set; }
-        public DbSet<PlayerHandCard> PlayerHandCard { get; set; }
-
-        public DatabaseContext () 
-            : base("BlackJackConnection")
+        public Configuration()
         {
-
-            Database.SetInitializer<DatabaseContext >(new DatabaseInitializer());
+            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationDataLossAllowed = false;
         }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-            base.OnModelCreating(modelBuilder);
-        }
-    }
-
-    public class DatabaseInitializer: CreateDatabaseIfNotExists<DatabaseContext >
-    {
-        protected override void Seed(DatabaseContext  context)
+        protected override void Seed(BlackJack.DataAccess.EF.DatabaseContext context)
         {
             int cardName = (int)CardNumber.Two;
             int cardSuit = (int)CardSuit.Clubs;
@@ -53,7 +33,7 @@ namespace BlackJack.DataAccess.EF
                     context.DeckCard.Add(deckCard);
                 }
 
-                if(cardName > (int)CardNumber.Ten && cardName < (int)CardNumber.Ace)
+                if (cardName > (int)CardNumber.Ten && cardName < (int)CardNumber.Ace)
                 {
                     DeckCard deckCard = new DeckCard();
                     deckCard.CardSuit = (CardSuit)cardSuit;
@@ -63,7 +43,7 @@ namespace BlackJack.DataAccess.EF
                     context.DeckCard.Add(deckCard);
                 }
 
-                if(cardName == (int)CardNumber.Ace)
+                if (cardName == (int)CardNumber.Ace)
                 {
                     DeckCard deckCard = new DeckCard();
                     deckCard.CardSuit = (CardSuit)cardSuit;
@@ -87,7 +67,7 @@ namespace BlackJack.DataAccess.EF
             }
             context.User.Add(new User() { Name = "Dealer", Role = UserRole.Diller });
             context.User.Add(new User() { Name = "James Hetfield", Role = UserRole.Player });
-            base.Seed(context);
+            context.SaveChanges();
         }
     }
 }

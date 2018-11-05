@@ -233,7 +233,9 @@
     <Content Include="Views\History\ShowGameHistory.cshtml" />
     <Content Include="Views\History\ShowStep.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

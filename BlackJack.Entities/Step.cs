@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace BlackJack.Entities
 {
-    public class Step
-    {
-        public long ID { get; set; }
-        public long WinnerID { get; set; }
-        public long GameID { get; set; }
+    public class Step:BaseEntity
+    { 
+        public long WinnerId { get; set; }
+        public long GameId { get; set; }
     }
 }

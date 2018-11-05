@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using BlackJack.Entities;
 using BlackJack.DataAccess.Interfaces;
+using BlackJack.DataAccess.EF;
 using Dapper;
 
 namespace BlackJack.DataAccess.Repositories.BaseRepository
@@ -89,7 +90,7 @@ namespace BlackJack.DataAccess.Repositories.BaseRepository
         {
             return typeof(T)
                 .GetProperties()
-                .Where(e => e.Name != "ID" && !e.PropertyType.GetTypeInfo().IsGenericType)
+                .Where(e => e.Name != "Id" && !e.PropertyType.GetTypeInfo().IsGenericType)
                 .Select(e => e.Name);
         }
     }

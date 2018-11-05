@@ -36,7 +36,7 @@ namespace BlackJack.BusinessLogic.Services
         public GameProcessViewModel GetGameData(long userID)
         {
             Game game = new Game();
-            game.UserID = userID;
+            game.UserId = userID;
 
             _gameRepository.CreateAndReturnId(game);
 
@@ -44,7 +44,7 @@ namespace BlackJack.BusinessLogic.Services
             IEnumerable<DeckCard> cards = _deckRepository.GetAll();
 
             GameProcessViewModel view = new GameProcessViewModel();
-            view.GameID = game.ID;
+            view.GameID = game.Id;
             view.User = EntityMapper.MapUserToGameProcessUserViewItem(user);
             view.Cards = EntityMapper.MapCardListToGameProcessCardViewItem(cards);
 
@@ -54,8 +54,8 @@ namespace BlackJack.BusinessLogic.Services
         public bool SaveChanges(SaveChangesGameViewModel model)
         {
             Step step = new Step();
-            step.WinnerID = model.WinnerID;
-            step.GameID = model.GameID;
+            step.WinnerId = model.WinnerID;
+            step.GameId = model.GameID;
 
             _stepRepository.CreateAndReturnId(step);
 
@@ -64,18 +64,18 @@ namespace BlackJack.BusinessLogic.Services
             foreach(PlayerSaveChangesGameViewItem item in model.Users)
             {
                 PlayerHand playerHand = new PlayerHand();
-                playerHand.PlayerID = item.PlayerID;
+                playerHand.PlayerId = item.PlayerID;
                 playerHand.Score = item.Score;
                 playerHand.Cash = item.Cash;
                 playerHand.CardPoints = item.CardPoints;
-                playerHand.StepID = step.ID;
+                playerHand.StepId = step.Id;
 
                 // SAVE CARDS
                 long playerHandID = _playerHandRepository.CreateAndReturnId(playerHand);
                 foreach(CardSaveChangesGameViewItem card in item.Cards)
                 {
                     Card cr = new Card();
-                    cr.CardID = card.CardID;
+                    cr.CardId = card.CardID;
                     cr.CardName = card.CardName;
                     cr.CardNumber = card.CardNumber;
                     cr.CardSuit = card.CardSuit;
@@ -88,5 +88,6 @@ namespace BlackJack.BusinessLogic.Services
 
             return true;
         }
+
     }
 }
