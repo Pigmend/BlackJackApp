@@ -29,7 +29,7 @@ namespace BlackJack.DataAccess.Repositories.BaseRepository
             var columns = GetColumns();
             var stringOfColumns = string.Join(", ", columns);
             var stringOfParameters = string.Join(", ", columns.Select(e => "@" + e));
-            var query = $"INSERT INTO {typeof(T).Name}s ({stringOfColumns}) VALUES ({stringOfParameters})";
+            var query = $"INSERT INTO [{typeof(T).Name}] ({stringOfColumns}) VALUES ({stringOfParameters})";
 
             using (IDbConnection db = _sqlConnectionString.CreateConnection())
             {
@@ -41,7 +41,7 @@ namespace BlackJack.DataAccess.Repositories.BaseRepository
 
         public T Get(long id)
         {
-            var query = $"SELECT * FROM {typeof(T).Name}s WHERE ID = {id}";
+            var query = $"SELECT * FROM [{typeof(T).Name}] WHERE ID = {id}";
             using(IDbConnection db = _sqlConnectionString.CreateConnection())
             {
                 db.Open();
@@ -53,7 +53,7 @@ namespace BlackJack.DataAccess.Repositories.BaseRepository
         {
             var columns = GetColumns();
             var stringOfColumns = string.Join(", ", columns.Select(e => $"{e} = @{e}"));
-            var query = $"UPDATE {typeof(T).Name}s SET {stringOfColumns} WHERE ID = @ID";
+            var query = $"UPDATE [{typeof(T).Name}] SET {stringOfColumns} WHERE ID = @ID";
 
             using(IDbConnection db = _sqlConnectionString.CreateConnection())
             {
@@ -64,7 +64,7 @@ namespace BlackJack.DataAccess.Repositories.BaseRepository
 
         public void Delete(long id)
         {
-            var query = $"DELETE FROM {typeof(T).Name}s where ID = @id";
+            var query = $"DELETE FROM [{typeof(T).Name}] where ID = @id";
 
             using(IDbConnection db = _sqlConnectionString.CreateConnection())
             {
@@ -75,7 +75,7 @@ namespace BlackJack.DataAccess.Repositories.BaseRepository
 
         public IEnumerable<T> GetAll()
         {
-            var query = $"SELECT * FROM {typeof(T).Name}s";
+            var query = $"SELECT * FROM [{typeof(T).Name}]";
             IEnumerable<T> allEntities;
 
             using(IDbConnection db = _sqlConnectionString.CreateConnection())

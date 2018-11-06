@@ -42,11 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request\GetCardGameViewModel.cs" />
     <Compile Include="Request\SaveChangesGameViewModel.cs" />
     <Compile Include="Request\ShowGameHistoryUserViewModel.cs" />
     <Compile Include="Request\ShowHistoryUserViewModel.cs" />
     <Compile Include="Request\ShowStepHistoryViewModel.cs" />
-    <Compile Include="Response\GameGetCardViewModel.cs" />
     <Compile Include="Response\GameProcessViewModel.cs" />
     <Compile Include="Response\UserAllUsersViewModel.cs" />
     <Compile Include="Response\UserCreateUserViewModel.cs" />

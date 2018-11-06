@@ -7,6 +7,7 @@ var dillerObj = new Entity('dealer', 6, 1);
 var EnougthButtonIsPressed = true;
 var StartNewMatchButtonIsPressed = false;
 
+var cardToPush = {};
 function getRandomInt() {
     return Math.floor(Math.random() * 52);
 }
@@ -27,7 +28,7 @@ function Entity(name, id, role) {
 }
 
 function MoreFunction() {
-    if (StartNewMatchButtonIsPressed) {
+    if (StartNewMatchButtonIsPressed && userObj.isPlay === true) {
         Step();
         SaveData();
     }
@@ -65,6 +66,20 @@ function EnougthFunction() {
     }
 }
 
+function GetCard() {
+    $.ajax({
+        type: 'GET',
+        url: pathToGetCard,
+        success: function (data) {
+            cardToPush =  data.card;
+        },
+        error: function (data) {
+            alert(data.responseJSON);
+        },
+        async: false
+    });
+}
+
 function SaveData() {
     var requestData = new Array();
     requestData.push(userObj);
@@ -73,16 +88,19 @@ function SaveData() {
         requestData.push(botList[i]);
     }
 
-    $.post(pathToSave,
-        {
+    $.ajax({
+        type: 'POST',
+        url: pathToSave,
+        data: {
             Users: requestData,
             WinnerID: userObj.PlayerID,
             GameID: gameID
-        });
-}
-
-function GetNewCard() {
-    return $.ajax(pathToGetCard);
+         
+        },
+        error: function (data) {
+            alert(data.responseJSON);
+        }
+    });
 }
 
 function EndGameValidation() {
@@ -217,6 +235,7 @@ function Step() {
     if (!EnougthButtonIsPressed) {
         PlayerStep();
         BotStep();
+        SaveData();
     }
     if (EnougthButtonIsPressed) {
         alert("Матч закончен, нажмите START");
@@ -226,8 +245,8 @@ function Step() {
 function PlayerStep() {
     if (userObj.CardPoints < 21 && userObj.isPlay) {
 
-        var tmp = getRandomInt();
-        var tmpCard = cardArray[tmp];
+        GetCard();
+        var tmpCard = cardToPush;
         userObj.Cards.push(tmpCard);
 
         if (tmpCard['CardNumber'] < 10) {
@@ -275,8 +294,8 @@ function BotStep() {
             botList[i].isPlay = false;
         }
         if (botList[i].isPlay) {
-            var tmp = getRandomInt();
-            var tmpCard = cardArray[tmp];
+            GetCard();
+            var tmpCard = cardToPush;
             botList[i].Cards.push(tmpCard);
 
             if (tmpCard['CardNumber'] < 10) {
@@ -310,9 +329,8 @@ function BotStep() {
 function DillerStep() {
     if (dillerObj.isPlay) {
         if (dillerObj.CardPoints < 17) {
-
-            var tmp = getRandomInt();
-            var tmpCard = cardArray[tmp];
+            GetCard();
+            var tmpCard = cardToPush;
             dillerObj.Cards.push(tmpCard);
 
             if (tmpCard['CardNumber'] < 10) {
@@ -383,6 +401,8 @@ function StartNewMatch() {
             BotStep();
 
             DillerStep();
+
+            SaveData();
 
             StartNewMatchButtonIsPressed = true;
             EnougthButtonIsPressed = false;

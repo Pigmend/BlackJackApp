@@ -25,7 +25,7 @@ namespace BlackJack.DataAccess.Repositories
         {
             IEnumerable<Card> cards;
 
-            var query = $"SELECT * FROM Cards WHERE ID IN (SELECT PlayerHandCards.Card_ID FROM PlayerHandCards WHERE PlayerHand_ID = {ID}); ";
+            var query = $"SELECT * FROM [Card] WHERE Id IN (SELECT PlayerHandCard.CardId FROM PlayerHandCards WHERE PlayerHandId = {ID}); ";
             using (IDbConnection db = _sqlConnectionString.CreateConnection())
             {
                 db.Open();

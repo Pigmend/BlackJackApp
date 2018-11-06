@@ -64,7 +64,7 @@
                 </div>
             </div>
         }
-        <input type="hidden" value="@Url.Action("SaveChanges", "Game")" />
+        <input type="hidden" value="@Url.Action("SaveChanges", "Game")" name="SaveUrl" />
     </div>
 </div>
 
@@ -73,10 +73,13 @@
     <script>
         var userSelectedBots = @user.SelectedBots;
         var gameID = @Model.GameID;
+
         var pathToSave = '@Url.Action("SaveChanges", "Game")';
         var pathToGetCard = '@Url.Action("GetCard", "Game")';
-        var userObj = new Entity('@user.Name', @user.ID, 3);
 
+        var path = document.getElementsByName('SaveUrl').values;
+
+        var userObj = new Entity('@user.Name', @user.ID, 3);
         var botList = new Array();
         for (var i = 0; i < @user.SelectedBots; i++) {
             var numberOfBot = i + 1;

@@ -44,6 +44,11 @@ namespace BlackJack.WEB.Controllers
             return Json(new { Message = messageDefault, JsonRequestBehavior.AllowGet });
         }
 
-
+        [HttpGet]
+        public ActionResult GetCard()
+        {
+            GetCardGameViewModel item = _gameService.GetCard();
+            return Json(new { card = item }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

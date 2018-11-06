@@ -89,5 +89,15 @@ namespace BlackJack.BusinessLogic.Services
             return true;
         }
 
+        public GetCardGameViewModel GetCard()
+          {
+            Random rnd = new Random();
+            long randomLong = rnd.Next(1, 53);
+
+            DeckCard card = _deckRepository.Get(randomLong);
+
+            return EntityMapper.MapCardToGetCardGameViewModel(card);
+        }
+
     }
 }

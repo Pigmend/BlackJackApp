@@ -26,7 +26,7 @@ namespace BlackJack.DataAccess.Repositories
             var stringOfColumns = string.Join(", ", columns);
             var stringOfParameters = string.Join(", ", columns.Select(e => "@" + e));
 
-            var query = $"INSERT INTO {typeof(PlayerHandRepository).Name}s ({stringOfColumns}) VALUES ({stringOfParameters})";
+            var query = $"INSERT INTO [{typeof(PlayerHandRepository).Name}] ({stringOfColumns}) VALUES ({stringOfParameters})";
             using(IDbConnection db = _sqlConnectionString.CreateConnection())
             {
                 db.Open();
@@ -38,7 +38,7 @@ namespace BlackJack.DataAccess.Repositories
         {
             IEnumerable<PlayerHand> playerHands;
 
-            var query = $"SELECT * FROM {typeof(PlayerHand).Name}s WHERE StepID = {StepID}";
+            var query = $"SELECT * FROM [{typeof(PlayerHand).Name}] WHERE StepId = {StepID}";
             using (IDbConnection db = _sqlConnectionString.CreateConnection())
             {
                 db.Open();
@@ -51,7 +51,7 @@ namespace BlackJack.DataAccess.Repositories
         //Join Card with PlayerHand
         public void JoinCardWithHand(long PlayerHandID, long CardID)
         {
-            var query = $"INSERT INTO PlayerHandCards(PlayerHand_ID, Card_ID) VALUES({PlayerHandID},{CardID})";
+            var query = $"INSERT INTO [PlayerHandCard](PlayerHandId, CardId) VALUES({PlayerHandID},{CardID})";
             using(IDbConnection db = _sqlConnectionString.CreateConnection())
             {
                 db.Open();

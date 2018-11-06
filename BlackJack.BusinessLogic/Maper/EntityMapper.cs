@@ -134,5 +134,19 @@ namespace BlackJack.BusinessLogic.Maper
 
             return playerCards;
         }
+
+        public static GetCardGameViewModel MapCardToGetCardGameViewModel(DeckCard card)
+        {
+            GetCardGameViewModel view = new GetCardGameViewModel();
+
+            view.CardId = card.Id;
+            view.CardName = card.CardName;
+            view.CardNumber = card.CardNumber;
+            view.CardSuit = card.CardSuit;
+
+            view.CardScore = card.CardScore;
+
+            return view;
+        }
     }
 }

@@ -24,7 +24,7 @@ namespace BlackJack.DataAccess.Repositories
         {
             IEnumerable<Step> steps;
 
-            var query = $"SELECT * FROM {typeof(Step).Name}s WHERE GameID = {id}";
+            var query = $"SELECT * FROM [{typeof(Step).Name}] WHERE GameId = {id}";
             using(IDbConnection db = _sqlConnectionString.CreateConnection())
             {
                 db.Open();

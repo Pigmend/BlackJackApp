@@ -12,5 +12,6 @@ namespace BlackJack.BusinessLogic.Interfaces
     {
         GameProcessViewModel GetGameData(long UserID);
         bool SaveChanges(SaveChangesGameViewModel model);
+        GetCardGameViewModel GetCard();
     }
 }
