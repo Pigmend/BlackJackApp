@@ -29,19 +29,19 @@ namespace BlackJack.DataAccess.Repositories.BaseRepository
             var columns = GetColumns();
             var stringOfColumns = string.Join(", ", columns);
             var stringOfParameters = string.Join(", ", columns.Select(e => "@" + e));
-            var query = $"INSERT INTO [{typeof(T).Name}] ({stringOfColumns}) VALUES ({stringOfParameters})";
+            var query = $"INSERT INTO [{typeof(T).Name}] ({stringOfColumns}) VALUES ({stringOfParameters}) SELECT CAST(SCOPE_IDENTITY() as int)";
 
             using (IDbConnection db = _sqlConnectionString.CreateConnection())
             {
                 db.Open();
-                id = db.QueryFirstOrDefault<long>(query, item);
+                id = db.Query<int>(query, item).Single();
             }
             return id;
         }
 
         public T Get(long id)
         {
-            var query = $"SELECT * FROM [{typeof(T).Name}] WHERE ID = {id}";
+            var query = $"SELECT * FROM [{typeof(T).Name}] WHERE Id = {id}";
             using(IDbConnection db = _sqlConnectionString.CreateConnection())
             {
                 db.Open();
@@ -53,7 +53,7 @@ namespace BlackJack.DataAccess.Repositories.BaseRepository
         {
             var columns = GetColumns();
             var stringOfColumns = string.Join(", ", columns.Select(e => $"{e} = @{e}"));
-            var query = $"UPDATE [{typeof(T).Name}] SET {stringOfColumns} WHERE ID = @ID";
+            var query = $"UPDATE [{typeof(T).Name}] SET {stringOfColumns} WHERE Id = @Id";
 
             using(IDbConnection db = _sqlConnectionString.CreateConnection())
             {
@@ -64,7 +64,7 @@ namespace BlackJack.DataAccess.Repositories.BaseRepository
 
         public void Delete(long id)
         {
-            var query = $"DELETE FROM [{typeof(T).Name}] where ID = @id";
+            var query = $"DELETE FROM [{typeof(T).Name}] where Id = @Id";
 
             using(IDbConnection db = _sqlConnectionString.CreateConnection())
             {

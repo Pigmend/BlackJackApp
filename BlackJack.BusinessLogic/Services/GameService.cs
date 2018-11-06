@@ -38,13 +38,13 @@ namespace BlackJack.BusinessLogic.Services
             Game game = new Game();
             game.UserId = userID;
 
-            _gameRepository.CreateAndReturnId(game);
+            long gameId =_gameRepository.CreateAndReturnId(game);
 
             User user = _userRepository.Get(userID);
             IEnumerable<DeckCard> cards = _deckRepository.GetAll();
 
             GameProcessViewModel view = new GameProcessViewModel();
-            view.GameID = game.Id;
+            view.GameID = gameId;
             view.User = EntityMapper.MapUserToGameProcessUserViewItem(user);
             view.Cards = EntityMapper.MapCardListToGameProcessCardViewItem(cards);
 
@@ -53,15 +53,18 @@ namespace BlackJack.BusinessLogic.Services
 
         public bool SaveChanges(SaveChangesGameViewModel model)
         {
+            //**********************Insert Step**********************
             Step step = new Step();
             step.WinnerId = model.WinnerID;
             step.GameId = model.GameID;
 
-            _stepRepository.CreateAndReturnId(step);
+            step.Id = _stepRepository.CreateAndReturnId(step);
+            //********************************************************
 
+
+            //**********************InsertPlayerHand**********************
             List<PlayerHand> playerHands = new List<PlayerHand>();
-
-            foreach(PlayerSaveChangesGameViewItem item in model.Users)
+            foreach (PlayerSaveChangesGameViewItem item in model.Users)
             {
                 PlayerHand playerHand = new PlayerHand();
                 playerHand.PlayerId = item.PlayerID;
@@ -83,9 +86,10 @@ namespace BlackJack.BusinessLogic.Services
 
                     long cardID = _cardRepository.CreateAndReturnId(cr);
 
+                    _playerHandRepository.JoinCardWithHand(playerHandID, cardID);
                 }
             }
-
+            //********************************************************
             return true;
         }
 
