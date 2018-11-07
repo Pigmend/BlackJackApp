@@ -28,7 +28,10 @@ function Entity(name, id, role) {
 }
 
 function MoreFunction() {
-    if (StartNewMatchButtonIsPressed && userObj.isPlay === true) {
+    if (!userObj.isPlay) {
+        alert("Вы не можете брать карту, нажмите кнопку Enouth");
+    }
+    if (StartNewMatchButtonIsPressed && userObj.isPlay) {
         Step();
         SaveData();
     }
@@ -99,7 +102,8 @@ function SaveData() {
         },
         error: function (data) {
             alert(data.responseJSON);
-        }
+        },
+        async: false
     });
 }
 
@@ -107,14 +111,13 @@ function EndGameValidation() {
 
     if (userObj.CardPoints > 21) {
         userObj.Cash = 0;
-
     }
     for (var i = 0; i < botList.length; i++) {
         if (botList[i].CardPoints > 21) {
             botList[i].Cash = 0;
         }
     }
-    if (dillerObj.points > 21) {
+    if (dillerObj.CardPoints > 21) {
         userObj.Score += userObj.Cash * 2;
         userObj.Cash = 0;
         userWins++;
@@ -122,7 +125,6 @@ function EndGameValidation() {
             botList[i].Score += botList[i].Cash * 2;
             botList[i].Cash = 0;
         }
-
         alert("У Диллера перебор, вы выиграли!");
     }
     if (userObj.CardPoints > dillerObj.CardPoints && userObj.CardPoints < 22 && dillerObj.CardPoints < 22) {
@@ -235,7 +237,6 @@ function Step() {
     if (!EnougthButtonIsPressed) {
         PlayerStep();
         BotStep();
-        SaveData();
     }
     if (EnougthButtonIsPressed) {
         alert("Матч закончен, нажмите START");
@@ -277,9 +278,11 @@ function PlayerStep() {
 
     }
     if (userObj.points > 21) {
+        userObj.isPlay = false;
         alert("У вас перебор! Нажмите Enouth");
     }
     if (userObj.points === 21) {
+        userObj.isPlay = false;
         alert("У Вас 21, нажмите кнопку ENOUTH");
     }
     Update();
