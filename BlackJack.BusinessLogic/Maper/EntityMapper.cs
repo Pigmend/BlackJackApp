@@ -164,5 +164,61 @@ namespace BlackJack.BusinessLogic.Maper
 
             return items;
         }
+
+        public static PlayerHand MapPlayerSaveChangesGameViewItemToPlayerHand(PlayerSaveChangesGameViewItem playerHand)
+        {
+            PlayerHand item = new PlayerHand();
+            item.PlayerId = playerHand.PlayerID;
+            item.Score = playerHand.Score;
+            item.Cash = playerHand.Cash;
+            item.CardPoints = playerHand.CardPoints;
+
+            return item;
+        }
+
+        public static Card MapCardSaveChangesGameViewItemToCard(CardSaveChangesGameViewItem card)
+        {
+            Card item = new Card();
+            item.CardId = card.CardID;
+            item.CardName = card.CardName;
+            item.CardNumber = card.CardNumber;
+            item.CardSuit = card.CardSuit;
+            item.CardScore = card.CardScore;
+
+            return item;
+        }
+
+        public static IEnumerable<StepShowHistoryUserViewItem> MapStepListToStepShowHistoryUserViewItemList(IEnumerable<Step> steps)
+        {
+            List<StepShowHistoryUserViewItem> stepList = new List<StepShowHistoryUserViewItem>();
+            foreach(var item in steps)
+            {
+                StepShowHistoryUserViewItem step = new StepShowHistoryUserViewItem();
+                step.StepId = item.GameId;
+                step.GameProcess = Convert.ToBoolean(item.GameProcess);
+                step.WinnerId = item.WinnerId;
+
+                stepList.Add(step);
+            }
+
+            return stepList;
+        }
+
+        public static IEnumerable<StepShowGameHistoryUserViewItem> MapStepListToStepShowGameHistoryUserViewItemList(IEnumerable<Step> steps)
+        {
+            List<StepShowGameHistoryUserViewItem> stepList = new List<StepShowGameHistoryUserViewItem>();
+
+            foreach(var item in steps)
+            {
+                StepShowGameHistoryUserViewItem step = new StepShowGameHistoryUserViewItem();
+                step.StepID = item.Id;
+                step.WinnerId = item.WinnerId;
+                step.GameProcess = Convert.ToBoolean(item.GameProcess);
+
+                stepList.Add(step);
+            }
+
+            return stepList;
+        }
     }
 }

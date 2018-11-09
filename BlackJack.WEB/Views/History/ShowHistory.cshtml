@@ -21,7 +21,8 @@
         <div class="Employee">
             <div class="Employee-info">
                 <table>
-                    <tr><td>Game ID: @item.GameID</td></tr>
+                    <tr><td><strong>Game ID: </strong> @item.GameID</td></tr>
+                    <tr><td><strong>Steps Played: </strong> @item.Steps.Count()</td></tr>
                     <tr><td>@Html.ActionLink("Select Game", "ShowGameHistory", new { GameId = item.GameID })</td></tr>
                 </table>
             </div>

@@ -14,5 +14,13 @@ namespace BlackJack.ViewModels.Request
     public class GameShowHistoryUserViewItem
     {
         public long GameID { get; set; }
+        public IEnumerable<StepShowHistoryUserViewItem> Steps { get; set; }
+    }
+
+    public class StepShowHistoryUserViewItem
+    {
+        public long StepId { get; set; }
+        public long WinnerId { get; set; }
+        public bool GameProcess { get; set; }
     }
 }

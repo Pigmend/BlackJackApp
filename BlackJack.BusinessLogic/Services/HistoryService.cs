@@ -39,6 +39,11 @@ namespace BlackJack.BusinessLogic.Services
             ShowHistoryUserViewModel viewModel = new ShowHistoryUserViewModel();
             viewModel.Games = EntityMapper.MapGameToGameShowHistoryUserViewItem(_gameRepository.SelectGamesByUserId(PlayerID));
 
+            foreach(var item in viewModel.Games)
+            {
+                item.Steps = EntityMapper.MapStepListToStepShowHistoryUserViewItemList(_stepRepository.GetStepByGameID(item.GameID));
+            }
+
             return viewModel;
         }
 
@@ -47,8 +52,7 @@ namespace BlackJack.BusinessLogic.Services
             ShowGameHistoryUserViewModel viewModel = new ShowGameHistoryUserViewModel();
 
             viewModel.GameID = gameID;
-            viewModel.Steps = EntityMapper.MapStepToStepShowGameHistoryUserViewItem(_stepRepository.GetStepByGameID(gameID));
-
+            viewModel.Steps = EntityMapper.MapStepListToStepShowGameHistoryUserViewItemList(_stepRepository.GetStepByGameID(gameID));
             return viewModel;
         }
 

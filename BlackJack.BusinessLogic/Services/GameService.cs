@@ -53,44 +53,26 @@ namespace BlackJack.BusinessLogic.Services
 
         public bool SaveChanges(SaveChangesGameViewModel model)
         {
-            //**********************Insert Step**********************
             Step step = new Step();
             step.WinnerId = model.WinnerID;
             step.GameId = model.GameID;
             step.GameProcess = model.GameProcess;
-
             step.Id = _stepRepository.CreateAndReturnId(step);
-            //********************************************************
 
-
-            //**********************InsertPlayerHand**********************
             List<PlayerHand> playerHands = new List<PlayerHand>();
             foreach (PlayerSaveChangesGameViewItem item in model.Users)
             {
-                PlayerHand playerHand = new PlayerHand();
-                playerHand.PlayerId = item.PlayerID;
-                playerHand.Score = item.Score;
-                playerHand.Cash = item.Cash;
-                playerHand.CardPoints = item.CardPoints;
+                PlayerHand playerHand = EntityMapper.MapPlayerSaveChangesGameViewItemToPlayerHand(item);
                 playerHand.StepId = step.Id;
-
-                // SAVE CARDS
                 long playerHandID = _playerHandRepository.CreateAndReturnId(playerHand);
+
                 foreach(CardSaveChangesGameViewItem card in item.Cards)
                 {
-                    Card cr = new Card();
-                    cr.CardId = card.CardID;
-                    cr.CardName = card.CardName;
-                    cr.CardNumber = card.CardNumber;
-                    cr.CardSuit = card.CardSuit;
-                    cr.CardScore = card.CardScore;
-
+                    Card cr = EntityMapper.MapCardSaveChangesGameViewItemToCard(card);
                     long cardID = _cardRepository.CreateAndReturnId(cr);
-
                     _playerHandRepository.JoinCardWithHand(playerHandID, cardID);
                 }
             }
-            //********************************************************
             return true;
         }
 

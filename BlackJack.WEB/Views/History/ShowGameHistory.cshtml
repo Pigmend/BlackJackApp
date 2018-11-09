@@ -1,18 +1,22 @@
-﻿@using Newtonsoft.Json
-@model BlackJack.ViewModels.Request.ShowGameHistoryUserViewModel
+﻿@model BlackJack.ViewModels.Request.ShowGameHistoryUserViewModel
 @{
     ViewBag.Title = "ShowGameHistory";
 
 
 }
-
 <h2>ShowGameHistory</h2>
-
-@foreach (BlackJack.ViewModels.Request.StepShowGameHistoryUserViewItem item in Model.Steps)
-{
-    <div class="">
-        <a href="@Url.Action("ShowStep","History", new { stepId = item.StepID})">
-            <h4>Show History @item.StepID</h4>
-        </a>
-    </div>
-}
+<div class="">
+    @foreach (BlackJack.ViewModels.Request.StepShowGameHistoryUserViewItem item in Model.Steps)
+    {
+        <div class="Step-History">
+            <div class="Step-Info">
+                <table>
+                    <tr><td><strong>Step ID: </strong> @item.StepID</td></tr>
+                    <tr><td><strong>Winner ID: </strong> @item.WinnerId</td></tr>
+                    <tr><td><strong>Game End: </strong> @item.GameProcess</td></tr>
+                    <tr><td>@Html.ActionLink("Select Step", "ShowStep", new { StepId = item.StepID })</td></tr>
+                </table>
+            </div>
+        </div>
+    }
+</div>
