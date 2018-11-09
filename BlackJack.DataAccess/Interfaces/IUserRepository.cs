@@ -9,6 +9,7 @@ namespace BlackJack.DataAccess.Interfaces
 {
     public interface IUserRepository: IRepository<User>
     {
-
+        bool Exists(User user);
+        User Get(string Name);
     }
 }

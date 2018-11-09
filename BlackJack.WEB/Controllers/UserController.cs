@@ -33,13 +33,13 @@ namespace BlackJack.WEB.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateUser(UserCreateUserViewModel user)
+        public ActionResult CreateUser(SubmitUserHomeViewModel user)
         {
             try
             {
-                long currentUserID = _userService.CreateUser(user);
-                // Change ...
-                return RedirectToAction("Process", "Game", new { ID = currentUserID });
+                long currentuserid = _userService.CreateUser(user);
+
+                return RedirectToAction("Process", "Game", new { id = currentuserid });
             }
             catch(Exception ex)
             {

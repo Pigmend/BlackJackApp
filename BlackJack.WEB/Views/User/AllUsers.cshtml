@@ -13,8 +13,8 @@
 
 <div class="UserInteface">
     <div class="User-buttons">
-        <a class="btn btn-success" href="@Url.Action("SubmitNewUser", "User")">
-            <h3>New User</h3>
+        <a class="btn btn-success" href="@Url.Action("Index", "Home")">
+            <h3>Change/Create User</h3>
         </a>
     </div>
 </div>
@@ -27,13 +27,6 @@
         </div>
         <div class="Employee-content">
             <table>
-                <tr>
-                    <td>
-                        <a href="@Url.Action("SelectUser", "User", new { UserId = users[i].ID})">
-                            <h4>Select User</h4>
-                        </a>
-                    </td>
-                </tr>
                 <tr>
                     <td>
                         <a href="@Url.Action("ShowHistory", "History", new { UserId = users[i].ID })">

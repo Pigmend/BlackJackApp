@@ -148,5 +148,21 @@ namespace BlackJack.BusinessLogic.Maper
 
             return view;
         }
+
+        public static IEnumerable<UsersSubmitUserHomeViewItem> MapUserListToUserSubmitUserHomeViewItemList(IEnumerable<User> users)
+        {
+            List<UsersSubmitUserHomeViewItem> items = new List<UsersSubmitUserHomeViewItem>();
+            foreach (User user in users)
+            {
+                UsersSubmitUserHomeViewItem item = new UsersSubmitUserHomeViewItem();
+                item.Id = user.Id;
+                item.Name = user.Name;
+                item.SelectedBots = user.SelectedBots;
+
+                items.Add(item);
+            }
+
+            return items;
+        }
     }
 }

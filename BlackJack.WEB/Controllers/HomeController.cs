@@ -6,21 +6,23 @@ using System.Web.Mvc;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Infrastructure;
 using BlackJack.ViewModels;
+using BlackJack.ViewModels.Response;
 
 namespace BlackJack.WEB.Controllers
 {
     public class HomeController : Controller
     {
-        IUserService userService;
+        IUserService _userService;
 
         public HomeController(IUserService userService)
         {
-            this.userService = userService;
+            this._userService = userService;
         }
 
         public ActionResult Index()
         {
-            return View();
+            SubmitUserHomeViewModel item = _userService.Index();
+            return View(item);
         }
 
         public ActionResult About()

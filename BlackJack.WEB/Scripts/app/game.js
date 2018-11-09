@@ -6,6 +6,8 @@ var dillerObj = new Entity('dealer', 6, 1);
 
 var EnougthButtonIsPressed = true;
 var StartNewMatchButtonIsPressed = false;
+var winerId = 0;
+var gameProcess = 0;
 
 var cardToPush = {};
 function getRandomInt() {
@@ -18,7 +20,7 @@ function Entity(name, id, role) {
     this.Name = name;
     this.Role = role;
 
-    this.Score = 500;
+    this.Score = 1000;
     this.Cash = 0;
     this.CardPoints = 0;
 
@@ -60,6 +62,8 @@ function EnougthFunction() {
         EndGameValidation();
         StartNewMatchButtonIsPressed = false;
 
+        gameProcess = 1;
+
         SaveData();
         EnougthButtonIsPressed = true;
         Update();
@@ -96,9 +100,9 @@ function SaveData() {
         url: pathToSave,
         data: {
             Users: requestData,
-            WinnerID: userObj.PlayerID,
-            GameID: gameID
-         
+            WinnerID: winerId,
+            GameID: gameID,
+            GameProcess: gameProcess 
         },
         error: function (data) {
             alert(data.responseJSON);
@@ -108,41 +112,42 @@ function SaveData() {
 }
 
 function EndGameValidation() {
-
-    if (userObj.CardPoints > 21) {
-        userObj.Cash = 0;
-    }
-    for (var i = 0; i < botList.length; i++) {
-        if (botList[i].CardPoints > 21) {
-            botList[i].Cash = 0;
-        }
-    }
-    if (dillerObj.CardPoints > 21) {
+    if (dillerObj.CardPoints > 21 && userObj.CardPoints < 22) {
         userObj.Score += userObj.Cash * 2;
         userObj.Cash = 0;
         userWins++;
-        for (i = 0; i < botList.length; i++) {
-            botList[i].Score += botList[i].Cash * 2;
-            botList[i].Cash = 0;
-        }
+        winerId = userObj.PlayerID;
         alert("У Диллера перебор, вы выиграли!");
     }
     if (userObj.CardPoints > dillerObj.CardPoints && userObj.CardPoints < 22 && dillerObj.CardPoints < 22) {
         userObj.Score += userObj.Cash * 2;
         userObj.Cash = 0;
         userWins++;
+        winerId = userObj.PlayerID;
         alert("Вы выиграли!");
     }
     if (userObj.CardPoints < dillerObj.CardPoints && userObj.CardPoints < 22 && dillerObj.CardPoints < 22) {
         userObj.Cash = 0;
+        winerId = dillerObj.PlayerID;
         alert("Вы проиграли! :(");
     }
     if (userObj.CardPoints === dillerObj.CardPoints && dillerObj.CardPoints < 22 && userObj.CardPoints < 22) {
         userObj.Score += userObj.Cash;
         userObj.Cash = 0;
+        winerId = 0;
         alert("Пат! Никто не выиграл");
     }
-    for (i = 0; i < botList.length; i++) {
+    if (userObj.CardPoints > 21 && dillerObj.CardPoints > 21) {
+        userObj.Cash = 0;
+        winerId = 0;
+        alert("У всех перебор, никто не выигрывает!");
+    }
+    //Bots Validation
+    for (i = 0; i < botList.length; i++) {   
+        if (dillerObj.CardPoints > 21 && botList[i].CardPoints < 22) {
+            botList[i].Score += botList[i].Cash * 2;
+            botList[i].Cash = 0;
+        }
         if (botList[i].CardPoints > dillerObj.CardPoints && botList[i].CardPoints < 22 && dillerObj.CardPoints < 22) {
             botList[i].Score += botList[i].Cash * 2;
             botList[i].Cash = 0;
@@ -152,6 +157,9 @@ function EndGameValidation() {
         }
         if (botList[i].CardPoints === dillerObj.CardPoints && botList[i].CardPoints < 22 && dillerObj.CardPoints < 22) {
             botList[i].Score += botList[i].Cash;
+            botList[i].Cash = 0;
+        }
+        if (botList[i].CardPoints > 21 && dillerObj.CardPoints > 21) {
             botList[i].Cash = 0;
         }
     }
@@ -409,6 +417,8 @@ function StartNewMatch() {
 
             StartNewMatchButtonIsPressed = true;
             EnougthButtonIsPressed = false;
+            winerId = 0;
+            gameProcess = 0;
 
             Update();
         }

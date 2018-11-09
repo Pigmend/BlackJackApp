@@ -57,11 +57,11 @@ namespace BlackJack.DataAccess.Migrations
             CreateTable(
                 "dbo.PlayerHandCard",
                 c => new
-                {
-                    PlayerHandId = c.Long(nullable: false),
-                    CardId = c.Long(nullable: false),
-                });
-            
+                    {
+                        PlayerHandId = c.Long(nullable: false),
+                        CardId = c.Long(nullable: false),
+                    });
+
             CreateTable(
                 "dbo.Step",
                 c => new
@@ -69,6 +69,7 @@ namespace BlackJack.DataAccess.Migrations
                         Id = c.Long(nullable: false, identity: true),
                         WinnerId = c.Long(nullable: false),
                         GameId = c.Long(nullable: false),
+                        GameProcess = c.Long(nullable: false)
                     })
                 .PrimaryKey(t => t.Id);
             

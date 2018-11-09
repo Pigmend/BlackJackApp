@@ -57,6 +57,7 @@ namespace BlackJack.BusinessLogic.Services
             Step step = new Step();
             step.WinnerId = model.WinnerID;
             step.GameId = model.GameID;
+            step.GameProcess = model.GameProcess;
 
             step.Id = _stepRepository.CreateAndReturnId(step);
             //********************************************************

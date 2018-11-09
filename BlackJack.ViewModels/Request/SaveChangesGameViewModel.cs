@@ -11,6 +11,7 @@ namespace BlackJack.ViewModels.Request
     {
         public long GameID { get; set; }
         public long WinnerID { get; set; }
+        public long GameProcess { get; set; }
         public IEnumerable<PlayerSaveChangesGameViewItem> Users { get; set; }
 
     }

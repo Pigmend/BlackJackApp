@@ -10,6 +10,7 @@ using BlackJack.DataAccess.Interfaces;
 using BlackJack.BusinessLogic.Maper;
 using BlackJack.ViewModels.Response;
 using BlackJack.ViewModels.Request;
+using BlackJack.Entities.Enums;
 
 namespace BlackJack.BusinessLogic.Services
 {
@@ -24,15 +25,27 @@ namespace BlackJack.BusinessLogic.Services
             _gameRepository = gameRepository;
         }
 
-        public long CreateUser(UserCreateUserViewModel user)
+        public long CreateUser(SubmitUserHomeViewModel user)
         {
             User newUser = new User();
             newUser.Name = user.Name;
             newUser.SelectedBots = user.SelectedBots;
             newUser.Role = Entities.Enums.UserRole.Player;
 
-            long userID = _userRepository.CreateAndReturnId(newUser);
-
+            long userID = 0;
+            //Exists
+            if (_userRepository.Exists(newUser))
+            {
+                User existedUser = _userRepository.Get(newUser.Name);
+                existedUser.SelectedBots = user.SelectedBots;
+                _userRepository.Update(existedUser);
+                userID = existedUser.Id;
+            }
+            //Not exists
+            if (!_userRepository.Exists(newUser))
+            {
+                userID = _userRepository.CreateAndReturnId(newUser);
+            }
             return userID;
         }
 
@@ -50,6 +63,23 @@ namespace BlackJack.BusinessLogic.Services
         public void DeleteUser(long id)
         {
             _userRepository.Delete(id);
+        }
+
+        public SubmitUserHomeViewModel Index()
+        {
+            SubmitUserHomeViewModel viewModel = new SubmitUserHomeViewModel();
+            IEnumerable<User> employees = _userRepository.GetAll();
+
+            List<User> employeesList = new List<User>();
+            foreach(User item in employees)
+            {
+                if(item.Role == UserRole.Player)
+                {
+                    employeesList.Add(item);
+                }
+            }
+            viewModel.Users = EntityMapper.MapUserListToUserSubmitUserHomeViewItemList(employeesList);
+            return viewModel;
         }
     }
 }
