@@ -7,7 +7,7 @@ using BlackJack.Entities.Enums;
 
 namespace BlackJack.ViewModels.Request
 {
-    public class GetCardGameViewModel
+    public class RequestGetCardGameViewModel
     {
         public long CardId { get; set; }
         public CardNumber CardNumber { get; set; }

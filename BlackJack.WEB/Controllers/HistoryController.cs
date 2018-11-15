@@ -20,19 +20,19 @@ namespace BlackJack.WEB.Controllers
 
         public ActionResult ShowHistory(long UserId)
         {
-            ShowHistoryUserViewModel item = _historyService.ShowHistory(UserId);
+            RequestShowHistoryUserViewModel item = _historyService.ShowHistory(UserId);
             return View(item);
         }
 
         public ActionResult ShowGameHistory(long GameId)
         {
-            ShowGameHistoryUserViewModel item = _historyService.ShowGameHistory(GameId);
+            RequestShowGameHistoryUserViewModel item = _historyService.ShowGameHistory(GameId);
             return View(item);
         }
 
         public ActionResult ShowStep(long StepId)
         {
-            ShowStepHistoryViewModel item = _historyService.ShowStep(StepId);
+            RequestShowStepHistoryViewModel item = _historyService.ShowStep(StepId);
             return View(item);
         }
     }

@@ -9,8 +9,8 @@ namespace BlackJack.BusinessLogic.Interfaces
 {
     public interface IHistoryService
     {
-        ShowHistoryUserViewModel ShowHistory(long PlayerID);
-        ShowGameHistoryUserViewModel ShowGameHistory(long gameID);
-        ShowStepHistoryViewModel ShowStep(long stepID);
+        RequestShowHistoryUserViewModel ShowHistory(long PlayerID);
+        RequestShowGameHistoryUserViewModel ShowGameHistory(long gameID);
+        RequestShowStepHistoryViewModel ShowStep(long stepID);
     }
 }

@@ -7,7 +7,7 @@ using BlackJack.Entities.Enums;
 
 namespace BlackJack.ViewModels.Request
 {
-    public class ShowGameHistoryUserViewModel
+    public class RequestShowGameHistoryUserViewModel
     {
         public long GameID { get; set; }
         public IEnumerable<StepShowGameHistoryUserViewItem> Steps { get; set; }

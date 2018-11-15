@@ -22,7 +22,8 @@ namespace BlackJack.DataAccess.Repositories
 
         public bool Exists(User user)
         {
-            var query = $"SELECT 1 FROM [{typeof(User).Name}] WHERE Name = @Name";
+            var query = $"SELECT 1 FROM [{typeof(User).Name}] " +
+                $"WHERE Name = @Name";
             using (IDbConnection db = _sqlConnectionString.CreateConnection())
             {
                 db.Open();
@@ -32,7 +33,8 @@ namespace BlackJack.DataAccess.Repositories
 
         public User Get(string Username)
         {
-            var query = $"SELECT * FROM [{typeof(User).Name}] WHERE Name = '{Username}'";
+            var query = $"SELECT * FROM [{typeof(User).Name}] " +
+                $"WHERE Name = '{Username}'";
             using (IDbConnection db = _sqlConnectionString.CreateConnection())
             {
                 db.Open();

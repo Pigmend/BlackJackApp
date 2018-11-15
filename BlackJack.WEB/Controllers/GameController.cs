@@ -21,33 +21,21 @@ namespace BlackJack.WEB.Controllers
 
         public ActionResult Process(long id)
         {
-            GameProcessViewModel newGameView = _gameService.GetGameData(id);
+            ResponseGameProcessViewModel newGameView = _gameService.GetGameData(id);
             return View(newGameView);
         }
 
         [HttpPost]
-        public ActionResult SaveChanges(SaveChangesGameViewModel requestData)
+        public ActionResult SaveChanges(RequestSaveChangesGameViewModel requestData)
         {
             bool isSaved = _gameService.SaveChanges(requestData);
-            if (isSaved)
-            {
-                string messageSuccess = "SUCCESS";
-                return Json(new { Message = messageSuccess, JsonRequestBehavior.AllowGet });
-            }
-            if (!isSaved)
-            {
-                string messageError = "ERROR";
-                return Json(new { Message = messageError, JsonRequestBehavior.AllowGet });
-            }
-
-            string messageDefault = "IGNORED";
-            return Json(new { Message = messageDefault, JsonRequestBehavior.AllowGet });
+            return Json(new { isSaved, JsonRequestBehavior.AllowGet });
         }
 
         [HttpGet]
         public ActionResult GetCard()
         {
-            GetCardGameViewModel item = _gameService.GetCard();
+            RequestGetCardGameViewModel item = _gameService.GetCard();
             return Json(new { card = item }, JsonRequestBehavior.AllowGet);
         }
     }

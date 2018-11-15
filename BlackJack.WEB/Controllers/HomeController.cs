@@ -21,7 +21,7 @@ namespace BlackJack.WEB.Controllers
 
         public ActionResult Index()
         {
-            SubmitUserHomeViewModel item = _userService.Index();
+            ResponseSubmitUserHomeViewModel item = _userService.Index();
             return View(item);
         }
 

@@ -58,23 +58,16 @@ namespace BlackJack.BusinessLogic.Maper
             return cardList;
         }
 
-        public static ICollection<Card> MapCardSaveChangesGameViewItemToCard(IEnumerable<CardSaveChangesGameViewItem> cards)
+        public static Card MapCardSaveChangesGameViewItemToCard(CardSaveChangesGameViewItem card)
         {
-            List<Card> cardList = new List<Card>();
+            Card item = new Card();
+            item.CardId = card.CardID;
+            item.CardName = card.CardName;
+            item.CardNumber = card.CardNumber;
+            item.CardSuit = card.CardSuit;
+            item.CardScore = card.CardScore;
 
-            foreach(CardSaveChangesGameViewItem item in cards)
-            {
-                Card card = new Card();
-                card.CardId = item.CardID;
-                card.CardName = item.CardName;
-                card.CardNumber = item.CardNumber;
-                card.CardSuit = item.CardSuit;
-                card.CardScore = item.CardScore;
-
-                cardList.Add(card);
-            }
-
-            return cardList;
+            return item;
         }
 
         public static IEnumerable<GameShowHistoryUserViewItem> MapGameToGameShowHistoryUserViewItem (IEnumerable<Game> games)
@@ -135,9 +128,9 @@ namespace BlackJack.BusinessLogic.Maper
             return playerCards;
         }
 
-        public static GetCardGameViewModel MapCardToGetCardGameViewModel(DeckCard card)
+        public static RequestGetCardGameViewModel MapCardToGetCardGameViewModel(DeckCard card)
         {
-            GetCardGameViewModel view = new GetCardGameViewModel();
+            RequestGetCardGameViewModel view = new RequestGetCardGameViewModel();
 
             view.CardId = card.Id;
             view.CardName = card.CardName;
@@ -149,12 +142,12 @@ namespace BlackJack.BusinessLogic.Maper
             return view;
         }
 
-        public static IEnumerable<UsersSubmitUserHomeViewItem> MapUserListToUserSubmitUserHomeViewItemList(IEnumerable<User> users)
+        public static IEnumerable<UserSubmitUserHomeViewItem> MapUserListToUserSubmitUserHomeViewItemList(IEnumerable<User> users)
         {
-            List<UsersSubmitUserHomeViewItem> items = new List<UsersSubmitUserHomeViewItem>();
+            List<UserSubmitUserHomeViewItem> items = new List<UserSubmitUserHomeViewItem>();
             foreach (User user in users)
             {
-                UsersSubmitUserHomeViewItem item = new UsersSubmitUserHomeViewItem();
+                UserSubmitUserHomeViewItem item = new UserSubmitUserHomeViewItem();
                 item.Id = user.Id;
                 item.Name = user.Name;
                 item.SelectedBots = user.SelectedBots;
@@ -172,18 +165,6 @@ namespace BlackJack.BusinessLogic.Maper
             item.Score = playerHand.Score;
             item.Cash = playerHand.Cash;
             item.CardPoints = playerHand.CardPoints;
-
-            return item;
-        }
-
-        public static Card MapCardSaveChangesGameViewItemToCard(CardSaveChangesGameViewItem card)
-        {
-            Card item = new Card();
-            item.CardId = card.CardID;
-            item.CardName = card.CardName;
-            item.CardNumber = card.CardNumber;
-            item.CardSuit = card.CardSuit;
-            item.CardScore = card.CardScore;
 
             return item;
         }

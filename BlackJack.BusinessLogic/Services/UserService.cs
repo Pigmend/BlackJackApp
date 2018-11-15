@@ -25,7 +25,7 @@ namespace BlackJack.BusinessLogic.Services
             _gameRepository = gameRepository;
         }
 
-        public long CreateUser(SubmitUserHomeViewModel user)
+        public long CreateUser(ResponseSubmitUserHomeViewModel user)
         {
             User newUser = new User();
             newUser.Name = user.Name;
@@ -49,12 +49,12 @@ namespace BlackJack.BusinessLogic.Services
             return userID;
         }
 
-        public UserAllUsersViewModel AllUsers()
+        public ResponseUserAllUsersViewModel AllUsers()
         {
             IEnumerable<User> users = _userRepository.GetAll();
             IEnumerable<UserAllUsersUserViewItem> userList = EntityMapper.MapUserListToUserAllUsersUserViewItemList(users);
 
-            UserAllUsersViewModel viewModel = new UserAllUsersViewModel();
+            ResponseUserAllUsersViewModel viewModel = new ResponseUserAllUsersViewModel();
             viewModel.Users = userList;
 
             return viewModel;
@@ -65,9 +65,9 @@ namespace BlackJack.BusinessLogic.Services
             _userRepository.Delete(id);
         }
 
-        public SubmitUserHomeViewModel Index()
+        public ResponseSubmitUserHomeViewModel Index()
         {
-            SubmitUserHomeViewModel viewModel = new SubmitUserHomeViewModel();
+            ResponseSubmitUserHomeViewModel viewModel = new ResponseSubmitUserHomeViewModel();
             IEnumerable<User> employees = _userRepository.GetAll();
 
             List<User> employeesList = new List<User>();

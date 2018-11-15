@@ -42,15 +42,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Request\GetCardGameViewModel.cs" />
-    <Compile Include="Request\SaveChangesGameViewModel.cs" />
-    <Compile Include="Request\ShowGameHistoryUserViewModel.cs" />
-    <Compile Include="Request\ShowHistoryUserViewModel.cs" />
-    <Compile Include="Request\ShowStepHistoryViewModel.cs" />
-    <Compile Include="Response\SubmitUserViewModel.cs" />
-    <Compile Include="Response\GameProcessViewModel.cs" />
-    <Compile Include="Response\SubmitUserHomeViewModel.cs" />
-    <Compile Include="Response\UserAllUsersViewModel.cs" />
+    <Compile Include="Request\RequestGetCardGameViewModel.cs" />
+    <Compile Include="Request\RequestSaveChangesGameViewModel.cs" />
+    <Compile Include="Request\RequestShowGameHistoryUserViewModel.cs" />
+    <Compile Include="Request\RequestShowHistoryUserViewModel.cs" />
+    <Compile Include="Request\RequestShowStepHistoryViewModel.cs" />
+    <Compile Include="Response\ResponseGameProcessViewModel.cs" />
+    <Compile Include="Response\ResponseSubmitUserHomeViewModel.cs" />
+    <Compile Include="Response\ResponseUserAllUsersViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BlackJack.Entities\BlackJack.Entities.csproj">

@@ -2,7 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;    
 
-namespace BlackJack.DataAccess.Repositories.BaseRepository
+namespace BlackJack.DataAccess.Repositories.Connections
 {
     public class DatabaseConnection
     {

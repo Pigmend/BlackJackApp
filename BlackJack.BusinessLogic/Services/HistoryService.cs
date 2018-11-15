@@ -34,9 +34,9 @@ namespace BlackJack.BusinessLogic.Services
             _playerHandRepository = playerHandRepository;
         }
 
-        public ShowHistoryUserViewModel ShowHistory(long PlayerID)
+        public RequestShowHistoryUserViewModel ShowHistory(long PlayerID)
         {
-            ShowHistoryUserViewModel viewModel = new ShowHistoryUserViewModel();
+            RequestShowHistoryUserViewModel viewModel = new RequestShowHistoryUserViewModel();
             viewModel.Games = EntityMapper.MapGameToGameShowHistoryUserViewItem(_gameRepository.SelectGamesByUserId(PlayerID));
 
             foreach(var item in viewModel.Games)
@@ -47,18 +47,18 @@ namespace BlackJack.BusinessLogic.Services
             return viewModel;
         }
 
-        public ShowGameHistoryUserViewModel ShowGameHistory(long gameID)
+        public RequestShowGameHistoryUserViewModel ShowGameHistory(long gameID)
         {
-            ShowGameHistoryUserViewModel viewModel = new ShowGameHistoryUserViewModel();
+            RequestShowGameHistoryUserViewModel viewModel = new RequestShowGameHistoryUserViewModel();
 
             viewModel.GameID = gameID;
             viewModel.Steps = EntityMapper.MapStepListToStepShowGameHistoryUserViewItemList(_stepRepository.GetStepByGameID(gameID));
             return viewModel;
         }
 
-        public ShowStepHistoryViewModel ShowStep(long stepID)
+        public RequestShowStepHistoryViewModel ShowStep(long stepID)
         {
-            ShowStepHistoryViewModel viewModel = new ShowStepHistoryViewModel();
+            RequestShowStepHistoryViewModel viewModel = new RequestShowStepHistoryViewModel();
 
             Step step = _stepRepository.Get(stepID);
             viewModel.StepID = stepID;

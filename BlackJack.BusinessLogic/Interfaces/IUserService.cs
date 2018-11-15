@@ -12,9 +12,9 @@ namespace BlackJack.BusinessLogic.Interfaces
 {
     public interface IUserService
     {
-        long CreateUser(SubmitUserHomeViewModel user);
-        UserAllUsersViewModel AllUsers();
+        long CreateUser(ResponseSubmitUserHomeViewModel user);
+        ResponseUserAllUsersViewModel AllUsers();
         void DeleteUser(long id);
-        SubmitUserHomeViewModel Index();
+        ResponseSubmitUserHomeViewModel Index();
     }
 }

@@ -33,7 +33,7 @@ namespace BlackJack.BusinessLogic.Services
             _cardRepository = cardRepository;
         }
 
-        public GameProcessViewModel GetGameData(long userID)
+        public ResponseGameProcessViewModel GetGameData(long userID)
         {
             Game game = new Game();
             game.UserId = userID;
@@ -43,15 +43,15 @@ namespace BlackJack.BusinessLogic.Services
             User user = _userRepository.Get(userID);
             IEnumerable<DeckCard> cards = _deckRepository.GetAll();
 
-            GameProcessViewModel view = new GameProcessViewModel();
-            view.GameID = gameId;
-            view.User = EntityMapper.MapUserToGameProcessUserViewItem(user);
-            view.Cards = EntityMapper.MapCardListToGameProcessCardViewItem(cards);
+            ResponseGameProcessViewModel viewModel = new ResponseGameProcessViewModel();
+            viewModel.GameID = gameId;
+            viewModel.User = EntityMapper.MapUserToGameProcessUserViewItem(user);
+            viewModel.Cards = EntityMapper.MapCardListToGameProcessCardViewItem(cards);
 
-            return view;
+            return viewModel;
         }
 
-        public bool SaveChanges(SaveChangesGameViewModel model)
+        public bool SaveChanges(RequestSaveChangesGameViewModel model)
         {
             Step step = new Step();
             step.WinnerId = model.WinnerID;
@@ -64,20 +64,22 @@ namespace BlackJack.BusinessLogic.Services
             {
                 PlayerHand playerHand = EntityMapper.MapPlayerSaveChangesGameViewItemToPlayerHand(item);
                 playerHand.StepId = step.Id;
+
                 long playerHandID = _playerHandRepository.CreateAndReturnId(playerHand);
 
-                foreach(CardSaveChangesGameViewItem card in item.Cards)
+                //TO DO!!! ( without foreach )
+                foreach(CardSaveChangesGameViewItem handCard in item.Cards)
                 {
-                    Card cr = EntityMapper.MapCardSaveChangesGameViewItemToCard(card);
-                    long cardID = _cardRepository.CreateAndReturnId(cr);
+                    Card newCard = EntityMapper.MapCardSaveChangesGameViewItemToCard(handCard);
+                    long cardID = _cardRepository.CreateAndReturnId(newCard);
                     _playerHandRepository.JoinCardWithHand(playerHandID, cardID);
                 }
             }
             return true;
         }
 
-        public GetCardGameViewModel GetCard()
-          {
+        public RequestGetCardGameViewModel GetCard()
+        {
             Random rnd = new Random();
             long randomLong = rnd.Next(1, 53);
 
@@ -85,6 +87,5 @@ namespace BlackJack.BusinessLogic.Services
 
             return EntityMapper.MapCardToGetCardGameViewModel(card);
         }
-
     }
 }

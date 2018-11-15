@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlackJack.ViewModels.Request
 {
-    public class ShowHistoryUserViewModel
+    public class RequestShowHistoryUserViewModel
     {
         public IEnumerable<GameShowHistoryUserViewItem> Games { get; set; }
     }

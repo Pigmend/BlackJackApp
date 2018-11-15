@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlackJack.ViewModels.Request
 {
-    public class ShowStepHistoryViewModel
+    public class RequestShowStepHistoryViewModel
     {
         public long StepID { get; set; }
 

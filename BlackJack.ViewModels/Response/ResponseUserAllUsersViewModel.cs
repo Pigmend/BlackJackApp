@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlackJack.ViewModels.Response
 {
-    public class UserAllUsersViewModel
+    public class ResponseUserAllUsersViewModel
     {
         public IEnumerable<UserAllUsersUserViewItem> Users { get; set; }
     }

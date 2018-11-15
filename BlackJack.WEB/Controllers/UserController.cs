@@ -33,7 +33,7 @@ namespace BlackJack.WEB.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateUser(SubmitUserHomeViewModel user)
+        public ActionResult CreateUser(ResponseSubmitUserHomeViewModel user)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace BlackJack.WEB.Controllers
 
         public ActionResult AllUsers()
         {
-            UserAllUsersViewModel item = _userService.AllUsers();
+            ResponseUserAllUsersViewModel item = _userService.AllUsers();
             return View(item);
         }
 
