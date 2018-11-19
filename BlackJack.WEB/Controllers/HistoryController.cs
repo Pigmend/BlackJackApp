@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Infrastructure;
-using BlackJack.ViewModels.Request;
+using BlackJack.ViewModels;
 
 namespace BlackJack.WEB.Controllers
 {
@@ -20,19 +20,19 @@ namespace BlackJack.WEB.Controllers
 
         public ActionResult ShowHistory(long UserId)
         {
-            RequestShowHistoryUserViewModel item = _historyService.ShowHistory(UserId);
+            ShowHistoryUserView item = _historyService.ShowHistory(UserId);
             return View(item);
         }
 
         public ActionResult ShowGameHistory(long GameId)
         {
-            RequestShowGameHistoryUserViewModel item = _historyService.ShowGameHistory(GameId);
+            ShowGameHistoryUserView item = _historyService.ShowGameHistory(GameId);
             return View(item);
         }
 
         public ActionResult ShowStep(long StepId)
         {
-            RequestShowStepHistoryViewModel item = _historyService.ShowStep(StepId);
+            ShowStepHistoryView item = _historyService.ShowStep(StepId);
             return View(item);
         }
     }

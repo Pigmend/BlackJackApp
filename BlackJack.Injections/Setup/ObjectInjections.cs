@@ -17,6 +17,8 @@ using Autofac.Util;
 using Autofac.Builder;
 using Autofac.Integration.Mvc;
 using System.Reflection;
+using System.Web.Http;
+using Autofac.Integration.WebApi;
 
 namespace BlackJack.Ijections.Setup
 {
@@ -24,14 +26,14 @@ namespace BlackJack.Ijections.Setup
     {
         public static void Register(ContainerBuilder builder, string conectionString)
         {
-
+            //var config = new HttpConfiguration();
             //Bind Repositories
             builder.RegisterType<DeckRepository>().As<IDeckRepository>().WithParameter("connection", conectionString);
-            builder.RegisterType<CardRepository>().As<ICardRepository>().WithParameter("connection", conectionString);
             builder.RegisterType<GameRepository>().As<IGameRepository>().WithParameter("connection", conectionString);
             builder.RegisterType<PlayerHandRepository>().As<IPlayerHandRepository>().WithParameter("connection", conectionString);
             builder.RegisterType<StepRepository>().As<IStepRepository>().WithParameter("connection", conectionString);
             builder.RegisterType<UserRepository>().As<IUserRepository>().WithParameter("connection", conectionString);
+            builder.RegisterType<PlayerHandCardRepository>().As<IPlayerHandCardRepository>().WithParameter("connection", conectionString);
 
             //Bind Services
             builder.RegisterType<DeckService>().As<IDeckService>().UsingConstructor(typeof(IDeckRepository));
@@ -41,19 +43,20 @@ namespace BlackJack.Ijections.Setup
                                                                                     typeof(IGameRepository),
                                                                                     typeof(IStepRepository),
                                                                                     typeof(IPlayerHandRepository),
-                                                                                    typeof(ICardRepository));
+                                                                                    typeof(IPlayerHandCardRepository));
 
             builder.RegisterType<UserService>().As<IUserService>().UsingConstructor(typeof(IUserRepository),
                                                                                     typeof(IGameRepository));
 
             builder.RegisterType<HistoryService>().As<IHistoryService>().UsingConstructor(typeof(IUserRepository),
-                                                                                            typeof(ICardRepository),
                                                                                             typeof(IGameRepository),
                                                                                             typeof(IStepRepository),
+                                                                                            typeof(IDeckRepository),
                                                                                             typeof(IPlayerHandRepository));
 
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            //config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }
     }
 }

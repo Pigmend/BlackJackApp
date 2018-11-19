@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using BlackJack.Entities.Enums;
 
-namespace BlackJack.ViewModels.Response
+namespace BlackJack.ViewModels
 {
-    public class ResponseGameProcessViewModel
+    public class ProcessGameView
     {
         public long GameID { get; set; }
         public UserGameProcessViewlItem User { get; set; }

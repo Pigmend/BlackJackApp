@@ -20,6 +20,21 @@ namespace BlackJack.DataAccess.Repositories
 
         }
 
+        public IEnumerable<DeckCard> GetCardsByHandID(long ID)
+        {
+            IEnumerable<DeckCard> cards;
+
+            var query = $@"SELECT * FROM [{typeof(DeckCard).Name}]
+                           WHERE Id IN (SELECT PlayerHandCard.CardId
+                           FROM {typeof(PlayerHandCard).Name}
+                           WHERE PlayerHandId = {ID});";
+            using (IDbConnection db = _sqlConnectionString.CreateConnection())
+            {
+                db.Open();
+                cards = db.Query<DeckCard>(query);
+            }
+            return cards;
+        }
     }
 }
 

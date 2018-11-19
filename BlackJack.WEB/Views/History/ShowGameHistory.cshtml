@@ -1,4 +1,4 @@
-﻿@model BlackJack.ViewModels.Request.RequestShowGameHistoryUserViewModel
+﻿@model BlackJack.ViewModels.ShowGameHistoryUserView
 @{
     ViewBag.Title = "ShowGameHistory";
 
@@ -6,7 +6,7 @@
 }
 <h2>ShowGameHistory</h2>
 <div class="">
-    @foreach (BlackJack.ViewModels.Request.StepShowGameHistoryUserViewItem item in Model.Steps)
+    @foreach (BlackJack.ViewModels.StepShowGameHistoryUserViewItem item in Model.Steps)
     {
         <div class="Step-History">
             <div class="Step-Info">

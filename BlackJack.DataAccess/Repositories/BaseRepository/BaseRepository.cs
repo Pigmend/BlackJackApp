@@ -30,8 +30,9 @@ namespace BlackJack.DataAccess.Repositories.BaseRepository
             var columns = GetColumns();
             var stringOfColumns = string.Join(", ", columns);
             var stringOfParameters = string.Join(", ", columns.Select(e => "@" + e));
-            var query = $"INSERT INTO [{typeof(T).Name}] ({stringOfColumns}) " +
-                $"VALUES ({stringOfParameters}) SELECT CAST(SCOPE_IDENTITY() as int)";
+            var query = $@"INSERT INTO [{typeof(T).Name}] ({stringOfColumns}) 
+                           VALUES ({stringOfParameters}) 
+                           SELECT CAST(SCOPE_IDENTITY() as int)";
 
             using (IDbConnection db = _sqlConnectionString.CreateConnection())
             {
@@ -43,8 +44,8 @@ namespace BlackJack.DataAccess.Repositories.BaseRepository
 
         public T Get(long id)
         {
-            var query = $"SELECT * FROM [{typeof(T).Name}] " +
-                $"WHERE Id = {id}";
+            var query = $@"SELECT * FROM [{typeof(T).Name}] 
+                           WHERE Id = {id}";
             using(IDbConnection db = _sqlConnectionString.CreateConnection())
             {
                 db.Open();
@@ -56,8 +57,9 @@ namespace BlackJack.DataAccess.Repositories.BaseRepository
         {
             var columns = GetColumns();
             var stringOfColumns = string.Join(", ", columns.Select(e => $"{e} = @{e}"));
-            var query = $"UPDATE [{typeof(T).Name}] " +
-                $"SET {stringOfColumns} WHERE Id = @Id";
+            var query = $@"UPDATE [{typeof(T).Name}]
+                           SET {stringOfColumns} 
+                           WHERE Id = @Id";
 
             using(IDbConnection db = _sqlConnectionString.CreateConnection())
             {
@@ -68,8 +70,8 @@ namespace BlackJack.DataAccess.Repositories.BaseRepository
 
         public void Delete(long id)
         {
-            var query = $"DELETE FROM [{typeof(T).Name}] " +
-                $"WHERE Id = @Id";
+            var query = $@"DELETE FROM [{typeof(T).Name}] 
+                           WHERE Id = @Id";
 
             using(IDbConnection db = _sqlConnectionString.CreateConnection())
             {
@@ -80,7 +82,7 @@ namespace BlackJack.DataAccess.Repositories.BaseRepository
 
         public IEnumerable<T> GetAll()
         {
-            var query = $"SELECT * FROM [{typeof(T).Name}]";
+            var query = $@"SELECT * FROM [{typeof(T).Name}]";
             IEnumerable<T> allEntities;
 
             using(IDbConnection db = _sqlConnectionString.CreateConnection())

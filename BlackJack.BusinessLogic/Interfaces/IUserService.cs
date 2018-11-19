@@ -5,16 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using BlackJack.Entities;
 using BlackJack.Entities.Enums;
-using BlackJack.ViewModels.Response;
-using BlackJack.ViewModels.Request;
+using BlackJack.ViewModels;
 
 namespace BlackJack.BusinessLogic.Interfaces
 {
     public interface IUserService
     {
-        long CreateUser(ResponseSubmitUserHomeViewModel user);
-        ResponseUserAllUsersViewModel AllUsers();
+        long CreateUser(SubmitUserHomeView user);
+        AllUsersUserView AllUsers();
         void DeleteUser(long id);
-        ResponseSubmitUserHomeViewModel Index();
+        SubmitUserHomeView Submit();
     }
 }

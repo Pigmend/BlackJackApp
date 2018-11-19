@@ -14,7 +14,6 @@ namespace BlackJack.DataAccess.EF
     {
         public DbSet<DeckCard> DeckCard { get; set; }
         public DbSet<User> User { get; set; }
-        public DbSet<Card> Card { get; set; }
         public DbSet<Game> Game { get; set; }
         public DbSet<Step> Step { get; set; }
         public DbSet<PlayerHand> PlayerHand { get; set; }
@@ -23,7 +22,6 @@ namespace BlackJack.DataAccess.EF
         public DatabaseContext () 
             : base("BlackJackConnection")
         {
-
             Database.SetInitializer<DatabaseContext >(new DatabaseInitializer());
         }
 

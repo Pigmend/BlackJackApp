@@ -7,12 +7,11 @@ using BlackJack.Entities.Enums;
 
 namespace BlackJack.Entities
 {
-    public class DeckCard:BaseEntity
+    public class DeckCard : BaseEntity
     {
         public CardSuit CardSuit { get; set; }
         public CardNumber CardNumber { get; set; }
         public int CardScore { get; set; }
         public string CardName { get; set; }
-
     }
 }

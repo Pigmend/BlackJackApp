@@ -5,10 +5,13 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Http;
 using BlackJack.BusinessLogic.Infrastructure;
 using BlackJack.Ijections.Setup;
 using Autofac;
 using Autofac.Integration.Mvc;
+using Autofac.Integration.WebApi;
+using System.Reflection;
 
 namespace BlackJack.WEB
 {
@@ -19,10 +22,10 @@ namespace BlackJack.WEB
 
             var builder = new ContainerBuilder();
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
-
             //Register injections
             AutofacConfig.Register(builder,"BlackJackConnection");
 
+            //GlobalConfiguration.Configure(WebApiConfig.Register);
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

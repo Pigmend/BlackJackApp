@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlackJack.Entities
 {
-    public class PlayerHand:BaseEntity
+    public class PlayerHand : BaseEntity
     {
         public int Score { get; set; }
         public int Cash { get; set; }

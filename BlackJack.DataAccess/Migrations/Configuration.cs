@@ -1,19 +1,17 @@
 namespace BlackJack.DataAccess.Migrations
 {
-    using BlackJack.DataAccess.EF;
-    using BlackJack.Entities;
-    using BlackJack.Entities.Enums;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using BlackJack.Entities;
+    using BlackJack.Entities.Enums;
 
     internal sealed class Configuration : DbMigrationsConfiguration<BlackJack.DataAccess.EF.DatabaseContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            AutomaticMigrationDataLossAllowed = false;
         }
 
         protected override void Seed(BlackJack.DataAccess.EF.DatabaseContext context)

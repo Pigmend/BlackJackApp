@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlackJack.ViewModels.Response
+namespace BlackJack.ViewModels
 {
-    public class ResponseUserAllUsersViewModel
+    public class AllUsersUserView
     {
         public IEnumerable<UserAllUsersUserViewItem> Users { get; set; }
     }

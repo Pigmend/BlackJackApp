@@ -44,21 +44,7 @@ function MoreFunction() {
 
 function EnougthFunction() {
     if (StartNewMatchButtonIsPressed) {
-
         userObj.isPlay = false;
-        //(END GAME LOGIC) ...
-        BotStep();
-        BotStep();
-        BotStep();
-        BotStep();
-
-        DillerStep();
-        DillerStep();
-        DillerStep();
-        DillerStep();
-
-        Update();
-
         EndGameValidation();
         StartNewMatchButtonIsPressed = false;
 
@@ -66,6 +52,7 @@ function EnougthFunction() {
 
         SaveData();
         EnougthButtonIsPressed = true;
+        UpdateUI_BeginGame();
         Update();
     }
     if (!StartNewMatchButtonIsPressed) {
@@ -112,6 +99,18 @@ function SaveData() {
 }
 
 function EndGameValidation() {
+    BotStep();
+    BotStep();
+    BotStep();
+    BotStep();
+
+    DillerStep();
+    DillerStep();
+    DillerStep();
+    DillerStep();
+
+    Update();
+
     if (dillerObj.CardPoints > 21 && userObj.CardPoints < 22) {
         userObj.Score += userObj.Cash * 2;
         userObj.Cash = 0;
@@ -253,7 +252,6 @@ function Step() {
 
 function PlayerStep() {
     if (userObj.CardPoints < 21 && userObj.isPlay) {
-
         GetCard();
         var tmpCard = cardToPush;
         userObj.Cards.push(tmpCard);
@@ -283,15 +281,18 @@ function PlayerStep() {
         }
 
         Update();
-
     }
-    if (userObj.points > 21) {
+    if (userObj.CardPoints > 21) {
         userObj.isPlay = false;
-        alert("У вас перебор! Нажмите Enouth");
+        alert("У вас перебор!");
+        EnougthButtonIsPressed = true;
+        EndGameValidation();
+        UpdateUI_BeginGame();
     }
-    if (userObj.points === 21) {
+    if (userObj.CardPoints === 21) {
         userObj.isPlay = false;
         alert("У Вас 21, нажмите кнопку ENOUTH");
+        UpdateUI_EndTurn();
     }
     Update();
 }
@@ -420,6 +421,7 @@ function StartNewMatch() {
             winerId = 0;
             gameProcess = 0;
 
+            UpdateUI_GameProcess();
             Update();
         }
         else if (userObj.score < 100) {
@@ -427,4 +429,23 @@ function StartNewMatch() {
         }
     }
     matchNumber++;
+}
+
+function UpdateUI_BeginGame() {
+    var html = '<button class="NewMatch-button" onclick="StartNewMatch()"><h3>Start Game</h3></button>';
+
+    document.getElementById('UserButtons').innerHTML = html;
+}
+
+function UpdateUI_EndTurn() {
+    var html = '<button class="Enougth-button" onclick="EnougthFunction()"><h3>Enougth</h3></button>';
+
+    document.getElementById('UserButtons').innerHTML = html;
+}
+
+function UpdateUI_GameProcess() {
+    var html = '<button class="More-button" onclick="MoreFunction()"><h3>More</h3></button>';
+    html += '<button class="Enougth-button" onclick="EnougthFunction()"><h3>Enougth</h3></button>';
+
+    document.getElementById('UserButtons').innerHTML = html;
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlackJack.ViewModels.Request
+namespace BlackJack.ViewModels
 {
-    public class RequestShowHistoryUserViewModel
+    public class ShowHistoryUserView
     {
         public IEnumerable<GameShowHistoryUserViewItem> Games { get; set; }
     }

@@ -5,8 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Infrastructure;
-using BlackJack.ViewModels.Response;
-using BlackJack.ViewModels.Request;
+using BlackJack.ViewModels;
 
 namespace BlackJack.WEB.Controllers
 {
@@ -21,12 +20,12 @@ namespace BlackJack.WEB.Controllers
 
         public ActionResult Process(long id)
         {
-            ResponseGameProcessViewModel newGameView = _gameService.GetGameData(id);
+            ProcessGameView newGameView = _gameService.GetGameData(id);
             return View(newGameView);
         }
 
         [HttpPost]
-        public ActionResult SaveChanges(RequestSaveChangesGameViewModel requestData)
+        public ActionResult SaveChanges(SaveChangesGameView requestData)
         {
             bool isSaved = _gameService.SaveChanges(requestData);
             return Json(new { isSaved, JsonRequestBehavior.AllowGet });
@@ -35,7 +34,7 @@ namespace BlackJack.WEB.Controllers
         [HttpGet]
         public ActionResult GetCard()
         {
-            RequestGetCardGameViewModel item = _gameService.GetCard();
+            GetCardGameView item = _gameService.GetCard();
             return Json(new { card = item }, JsonRequestBehavior.AllowGet);
         }
     }

@@ -5,8 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Infrastructure;
-using BlackJack.ViewModels.Response;
-using BlackJack.ViewModels.Request;
+using BlackJack.ViewModels;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -33,7 +32,7 @@ namespace BlackJack.WEB.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateUser(ResponseSubmitUserHomeViewModel user)
+        public ActionResult CreateUser(SubmitUserHomeView user)
         {
             try
             {
@@ -49,7 +48,7 @@ namespace BlackJack.WEB.Controllers
 
         public ActionResult AllUsers()
         {
-            ResponseUserAllUsersViewModel item = _userService.AllUsers();
+            AllUsersUserView item = _userService.AllUsers();
             return View(item);
         }
 

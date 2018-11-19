@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlackJack.Entities
 {
-    public class PlayerHandCard:BaseEntity
+    public class PlayerHandCard : BaseEntity
     {
         public long PlayerHandId { get; set; }
         public long CardId { get; set; }

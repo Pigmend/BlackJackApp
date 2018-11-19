@@ -8,7 +8,7 @@ using BlackJack.Entities.Enums;
 
 namespace BlackJack.Entities
 {
-    public class User:BaseEntity
+    public class User : BaseEntity
     {
         public string Name { get; set; }
         public int SelectedBots { get; set; }

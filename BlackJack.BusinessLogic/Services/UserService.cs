@@ -8,8 +8,7 @@ using BlackJack.BusinessLogic.Infrastructure;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.DataAccess.Interfaces;
 using BlackJack.BusinessLogic.Maper;
-using BlackJack.ViewModels.Response;
-using BlackJack.ViewModels.Request;
+using BlackJack.ViewModels;
 using BlackJack.Entities.Enums;
 
 namespace BlackJack.BusinessLogic.Services
@@ -25,7 +24,7 @@ namespace BlackJack.BusinessLogic.Services
             _gameRepository = gameRepository;
         }
 
-        public long CreateUser(ResponseSubmitUserHomeViewModel user)
+        public long CreateUser(SubmitUserHomeView user)
         {
             User newUser = new User();
             newUser.Name = user.Name;
@@ -49,13 +48,22 @@ namespace BlackJack.BusinessLogic.Services
             return userID;
         }
 
-        public ResponseUserAllUsersViewModel AllUsers()
+        public AllUsersUserView AllUsers()
         {
+            AllUsersUserView viewModel = new AllUsersUserView();
             IEnumerable<User> users = _userRepository.GetAll();
-            IEnumerable<UserAllUsersUserViewItem> userList = EntityMapper.MapUserListToUserAllUsersUserViewItemList(users);
 
-            ResponseUserAllUsersViewModel viewModel = new ResponseUserAllUsersViewModel();
-            viewModel.Users = userList;
+            List<UserAllUsersUserViewItem> players = new List<UserAllUsersUserViewItem>();
+            foreach(User item in users)
+            {
+                if(item.Role == UserRole.Player)
+                {
+                    UserAllUsersUserViewItem player = EntityMapper.MapUserToUserAllUsersUserViewItem(item);
+                    players.Add(player);
+                }
+            }
+
+            viewModel.Users = players;
 
             return viewModel;
         }
@@ -65,9 +73,9 @@ namespace BlackJack.BusinessLogic.Services
             _userRepository.Delete(id);
         }
 
-        public ResponseSubmitUserHomeViewModel Index()
+        public SubmitUserHomeView Submit()
         {
-            ResponseSubmitUserHomeViewModel viewModel = new ResponseSubmitUserHomeViewModel();
+            SubmitUserHomeView viewModel = new SubmitUserHomeView();
             IEnumerable<User> employees = _userRepository.GetAll();
 
             List<User> employeesList = new List<User>();

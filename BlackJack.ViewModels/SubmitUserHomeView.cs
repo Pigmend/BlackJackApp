@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlackJack.ViewModels.Response
+namespace BlackJack.ViewModels
 {
-    public class ResponseSubmitUserHomeViewModel
+    public class SubmitUserHomeView
     {
         public IEnumerable<UserSubmitUserHomeViewItem> Users { get; set; }
 

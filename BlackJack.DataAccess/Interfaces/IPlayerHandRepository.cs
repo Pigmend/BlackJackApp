@@ -11,6 +11,5 @@ namespace BlackJack.DataAccess.Interfaces
     {
         void AddRange(IEnumerable<PlayerHand> items);
         IEnumerable<PlayerHand> GetHandsByStepID(long StepID);
-        void JoinCardWithHand(long PlayerHandID, long CardID);
     }
 }

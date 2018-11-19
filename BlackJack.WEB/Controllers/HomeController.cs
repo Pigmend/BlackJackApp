@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using BlackJack.BusinessLogic.Interfaces;
 using BlackJack.BusinessLogic.Infrastructure;
 using BlackJack.ViewModels;
-using BlackJack.ViewModels.Response;
 
 namespace BlackJack.WEB.Controllers
 {
@@ -16,12 +15,12 @@ namespace BlackJack.WEB.Controllers
 
         public HomeController(IUserService userService)
         {
-            this._userService = userService;
+            _userService = userService;
         }
 
-        public ActionResult Index()
+        public ActionResult Submit()
         {
-            ResponseSubmitUserHomeViewModel item = _userService.Index();
+            SubmitUserHomeView item = _userService.Submit();
             return View(item);
         }
 

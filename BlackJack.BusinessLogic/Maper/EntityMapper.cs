@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BlackJack.Entities;
-using BlackJack.ViewModels.Response;
-using BlackJack.ViewModels.Request;
+using BlackJack.ViewModels;
 
 namespace BlackJack.BusinessLogic.Maper
 {
@@ -22,20 +21,14 @@ namespace BlackJack.BusinessLogic.Maper
             return item;
         }
 
-        public static IEnumerable<UserAllUsersUserViewItem> MapUserListToUserAllUsersUserViewItemList(IEnumerable<User> users)
+        public static UserAllUsersUserViewItem MapUserToUserAllUsersUserViewItem(User user)
         {
-            List<UserAllUsersUserViewItem> userList = new List<UserAllUsersUserViewItem>();
+            UserAllUsersUserViewItem userViewItem = new UserAllUsersUserViewItem();
+            userViewItem.ID = user.Id;
+            userViewItem.Name = user.Name;
+            userViewItem.SelectedBots = user.SelectedBots;
 
-            foreach(User item in users)
-            {
-                UserAllUsersUserViewItem userViewItem = new UserAllUsersUserViewItem();
-                userViewItem.ID = item.Id;
-                userViewItem.Name = item.Name;
-                userViewItem.SelectedBots = item.SelectedBots;
-                userList.Add(userViewItem);
-            }
-
-            return userList;
+            return userViewItem;
         }
 
         public static IEnumerable<CardGameProcessViewItem> MapCardListToGameProcessCardViewItem(IEnumerable<DeckCard> cards)
@@ -56,18 +49,6 @@ namespace BlackJack.BusinessLogic.Maper
             }
 
             return cardList;
-        }
-
-        public static Card MapCardSaveChangesGameViewItemToCard(CardSaveChangesGameViewItem card)
-        {
-            Card item = new Card();
-            item.CardId = card.CardID;
-            item.CardName = card.CardName;
-            item.CardNumber = card.CardNumber;
-            item.CardSuit = card.CardSuit;
-            item.CardScore = card.CardScore;
-
-            return item;
         }
 
         public static IEnumerable<GameShowHistoryUserViewItem> MapGameToGameShowHistoryUserViewItem (IEnumerable<Game> games)
@@ -98,7 +79,7 @@ namespace BlackJack.BusinessLogic.Maper
             return stepList;
         }
 
-        public static PlayerHandShowStepHistoryViewItem MapPlayerHandToPlayerHandShowStepHistoryViewItem(PlayerHand hand, IEnumerable<Card> cards, string playerName)
+        public static PlayerHandShowStepHistoryViewItem MapPlayerHandToPlayerHandShowStepHistoryViewItem(PlayerHand hand, IEnumerable<DeckCard> cards, string playerName)
         {
             PlayerHandShowStepHistoryViewItem playerHand = new PlayerHandShowStepHistoryViewItem();
             playerHand.PlayerHandID = hand.Id;
@@ -112,14 +93,14 @@ namespace BlackJack.BusinessLogic.Maper
             return playerHand;
         }
 
-        public static IEnumerable<CardPlayerHandShowStepHistoryViewItem> MapCardToCardPlayerHandShowStepHistoryViewItem(IEnumerable<Card> cards)
+        public static IEnumerable<CardPlayerHandShowStepHistoryViewItem> MapCardToCardPlayerHandShowStepHistoryViewItem(IEnumerable<DeckCard> cards)
         {
             List<CardPlayerHandShowStepHistoryViewItem> playerCards = new List<CardPlayerHandShowStepHistoryViewItem>();
 
-            foreach(Card item in cards)
+            foreach(DeckCard item in cards)
             {
                 CardPlayerHandShowStepHistoryViewItem card = new CardPlayerHandShowStepHistoryViewItem();
-                card.CardID = item.CardId;
+                card.CardID = item.Id;
                 card.CardName = item.CardName;
 
                 playerCards.Add(card);
@@ -128,9 +109,9 @@ namespace BlackJack.BusinessLogic.Maper
             return playerCards;
         }
 
-        public static RequestGetCardGameViewModel MapCardToGetCardGameViewModel(DeckCard card)
+        public static GetCardGameView MapCardToGetCardGameViewModel(DeckCard card)
         {
-            RequestGetCardGameViewModel view = new RequestGetCardGameViewModel();
+            GetCardGameView view = new GetCardGameView();
 
             view.CardId = card.Id;
             view.CardName = card.CardName;

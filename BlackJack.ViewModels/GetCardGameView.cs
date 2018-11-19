@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using BlackJack.Entities.Enums;
 
-namespace BlackJack.Entities
+namespace BlackJack.ViewModels
 {
-    public class Card:BaseEntity
+    public class GetCardGameView
     {
         public long CardId { get; set; }
-        public CardSuit CardSuit { get; set; }
         public CardNumber CardNumber { get; set; }
-        public int CardScore { get; set; }
+        public CardSuit CardSuit { get; set; }
         public string CardName { get; set; }
+        public int CardScore { get; set; }
     }
 }

@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using BlackJack.Entities.Enums;
 
-namespace BlackJack.ViewModels.Request
+namespace BlackJack.ViewModels
 {
-    public class RequestSaveChangesGameViewModel
+    public class SaveChangesGameView
     {
         public long GameID { get; set; }
         public long WinnerID { get; set; }

@@ -7,13 +7,13 @@ namespace BlackJack.DataAccess.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class Initialtransaction : IMigrationMetadata
+    public sealed partial class InitialDatabase : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Initialtransaction));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialDatabase));
         
         string IMigrationMetadata.Id
         {
-            get { return "201811051427400_Initial transaction"; }
+            get { return "201811191044410_Initial Database"; }
         }
         
         string IMigrationMetadata.Source

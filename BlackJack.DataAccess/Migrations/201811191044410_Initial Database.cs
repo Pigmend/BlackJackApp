@@ -3,23 +3,10 @@ namespace BlackJack.DataAccess.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initialtransaction : DbMigration
+    public partial class InitialDatabase : DbMigration
     {
         public override void Up()
         {
-            CreateTable(
-                "dbo.Card",
-                c => new
-                    {
-                        Id = c.Long(nullable: false, identity: true),
-                        CardId = c.Long(nullable: false),
-                        CardSuit = c.Int(nullable: false),
-                        CardNumber = c.Int(nullable: false),
-                        CardScore = c.Int(nullable: false),
-                        CardName = c.String(),
-                    })
-                .PrimaryKey(t => t.Id);
-            
             CreateTable(
                 "dbo.DeckCard",
                 c => new
@@ -53,15 +40,17 @@ namespace BlackJack.DataAccess.Migrations
                         StepId = c.Long(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
-
+            
             CreateTable(
                 "dbo.PlayerHandCard",
                 c => new
                     {
+                        Id = c.Long(nullable: false, identity: true),
                         PlayerHandId = c.Long(nullable: false),
                         CardId = c.Long(nullable: false),
-                    });
-
+                    })
+                .PrimaryKey(t => t.Id);
+            
             CreateTable(
                 "dbo.Step",
                 c => new
@@ -69,7 +58,7 @@ namespace BlackJack.DataAccess.Migrations
                         Id = c.Long(nullable: false, identity: true),
                         WinnerId = c.Long(nullable: false),
                         GameId = c.Long(nullable: false),
-                        GameProcess = c.Long(nullable: false)
+                        GameProcess = c.Long(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -89,12 +78,12 @@ namespace BlackJack.DataAccess.Migrations
             AddForeignKey("PlayerHand", "StepId", "Step", principalColumn: "Id");
             AddForeignKey("PlayerHand", "PlayerId", "User", principalColumn: "Id");
             AddForeignKey("PlayerHandCard", "PlayerHandId", "PlayerHand", principalColumn: "Id");
-            AddForeignKey("PlayerHandCard", "CardId", "Card", principalColumn: "Id");
+            AddForeignKey("PlayerHandCard", "CardId", "DeckCard", principalColumn: "Id");
         }
 
         public override void Down()
         {
-            DropForeignKey("Card", "Id", "PlayerHandCard");
+            DropForeignKey("DeckCard", "Id", "PlayerHandCard");
             DropForeignKey("PlayerHand", "Id", "PlayerHandCard");
             DropForeignKey("User", "Id", "PlayerHand");
             DropForeignKey("PlayerHand", "StepId", "Step");
@@ -107,7 +96,6 @@ namespace BlackJack.DataAccess.Migrations
             DropTable("dbo.PlayerHand");
             DropTable("dbo.Game");
             DropTable("dbo.DeckCard");
-            DropTable("dbo.Card");
         }
     }
 }

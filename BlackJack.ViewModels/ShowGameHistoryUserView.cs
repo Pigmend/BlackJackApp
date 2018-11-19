@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using BlackJack.Entities.Enums;
 
-namespace BlackJack.ViewModels.Request
+namespace BlackJack.ViewModels
 {
-    public class RequestShowGameHistoryUserViewModel
+    public class ShowGameHistoryUserView
     {
         public long GameID { get; set; }
         public IEnumerable<StepShowGameHistoryUserViewItem> Steps { get; set; }

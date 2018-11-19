@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BlackJack.Entities;
 
 namespace BlackJack.DataAccess.Interfaces
 {
-    public interface ICardRepository: IRepository<Card>
+    public interface IPlayerHandCardRepository
     {
-        IEnumerable<Card> GetCardsByHandID(long ID);
+        void BindPlayerHandWithPlayerHandCard(long PlayerHandID, long CardID);
     }
 }

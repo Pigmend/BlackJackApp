@@ -1,10 +1,10 @@
 ﻿@using Newtonsoft.Json
-@model BlackJack.ViewModels.Response.ResponseGameProcessViewModel
+@model BlackJack.ViewModels.ProcessGameView
 @{
     ViewBag.Title = "StartNewGame";
 
-    BlackJack.ViewModels.Response.UserGameProcessViewlItem user = Model.User;
-    IEnumerable<BlackJack.ViewModels.Response.CardGameProcessViewItem> cards = Model.Cards;
+    BlackJack.ViewModels.UserGameProcessViewlItem user = Model.User;
+    IEnumerable<BlackJack.ViewModels.CardGameProcessViewItem> cards = Model.Cards;
 }
 
 <h2>StartNewGame</h2>
@@ -22,15 +22,7 @@
             </table>
         </div>
         <div class="User-buttons">
-            <button class="NewMatch-button" , onclick="StartNewMatch()">
-                <h3>Start</h3>
-            </button>
-            <button class="More-button" , onclick="MoreFunction()">
-                <h3>More</h3>
-            </button>
-            <button class="Enougth-button" onclick="EnougthFunction()">
-                <h3>Enougth</h3>
-            </button>
+            <p id="UserButtons"></p>
         </div>
     </div>
 
@@ -65,27 +57,37 @@
             </div>
         }
         <input type="hidden" value="@Url.Action("SaveChanges", "Game")" name="SaveUrl" />
+        <input type="hidden" value="@Url.Action("GetCard", "Game")" name="GetCardUrl" />
+
+        <input type="hidden" value="@user.SelectedBots" name="SelectedBots" />
+        <input type="hidden" value="@Model.GameID" name="GameId" />
+
+        <input type="hidden" value="@user.Name" name="UserName" />
+        <input type="hidden" value="@user.ID" name="UserId" />
+
     </div>
 </div>
 
 @section Scripts {
     <script src="~/Scripts/app/game.js"></script>
     <script>
-        var userSelectedBots = @user.SelectedBots;
-        var gameID = @Model.GameID;
+        var userSelectedBots = $('input[name=SelectedBots]').val();
+        var gameID = $('input[name=GameId]').val();
 
-        var pathToSave = '@Url.Action("SaveChanges", "Game")';
-        var pathToGetCard = '@Url.Action("GetCard", "Game")';
+        var pathToSave = $('input[name=SaveUrl]').val();
+        var pathToGetCard = $('input[name=GetCardUrl]').val();
 
-        var path = document.getElementsByName('SaveUrl').values;
+        var username = $('input[name=UserName]').val();
+        var userId = $('input[name=UserId]').val();
 
-        var userObj = new Entity('@user.Name', @user.ID, 3);
+        var userObj = new Entity(username, userId, 3);
         var botList = new Array();
-        for (var i = 0; i < @user.SelectedBots; i++) {
+        for (var i = 0; i < userSelectedBots; i++) {
             var numberOfBot = i + 1;
             botList.push(new Entity('BOT ' + numberOfBot, i + 1, 2));
         }
 
+        UpdateUI_BeginGame();
         Update();
     </script>
 }
