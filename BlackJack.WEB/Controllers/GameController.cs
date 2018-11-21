@@ -24,18 +24,17 @@ namespace BlackJack.WEB.Controllers
             return View(newGameView);
         }
 
-        [HttpPost]
-        public ActionResult SaveChanges(SaveChangesGameView requestData)
+        // TO DO
+        public ActionResult StartRound(ProcessGameView model)
         {
-            bool isSaved = _gameService.SaveChanges(requestData);
-            return Json(new { isSaved, JsonRequestBehavior.AllowGet });
+            ProcessGameView step = _gameService.StartGame(model);
+            return Json(new { model = step }, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpGet]
-        public ActionResult GetCard()
+        public ActionResult Step(ProcessGameView model)
         {
-            GetCardGameView item = _gameService.GetCard();
-            return Json(new { card = item }, JsonRequestBehavior.AllowGet);
+            ProcessGameView step = _gameService.Step(model);
+            return Json(new { model = step }, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -2,9 +2,6 @@
 @model BlackJack.ViewModels.ProcessGameView
 @{
     ViewBag.Title = "StartNewGame";
-
-    BlackJack.ViewModels.UserGameProcessViewlItem user = Model.User;
-    IEnumerable<BlackJack.ViewModels.CardGameProcessViewItem> cards = Model.Cards;
 }
 
 <h2>StartNewGame</h2>
@@ -27,43 +24,23 @@
     </div>
 
     <div class="myClassPlayersInfos">
-        <div class="Employee">
-            <div class="Employee-info">
-                <p id="playerInfo">@user.Name</p>
-            </div>
-            <div class="Employee-content">
-                <p id="playerContent">Here Player Info</p>
-            </div>
-        </div>
 
-        <div class="Employee">
-            <div class="Employee-info">
-                <p id="dillerInfo">Dealer Info</p>
-            </div>
-            <div class="Employee-content">
-                <p id="dillerContent">Here Dealer Content</p>
-            </div>
-        </div>
-
-        @for (int i = 1; i <= user.SelectedBots; i++)
+        @for (int i = 0; i < Model.Players.Count; i++)
         {
             <div class="Employee">
                 <div class="Employee-info">
-                    <p id="botInfo_@i">BOT #@i</p>
+                    <p id="playerInfo_@i">@Model.Players[i].Name</p>
                 </div>
                 <div class="Employee-content">
-                    <p id="botContent_@i">CONTENT</p>
+                    <p id="playerContent_@i">CONTENT</p>
                 </div>
             </div>
         }
-        <input type="hidden" value="@Url.Action("SaveChanges", "Game")" name="SaveUrl" />
-        <input type="hidden" value="@Url.Action("GetCard", "Game")" name="GetCardUrl" />
+        <input type="hidden" value="@Url.Action("Step", "Game")" name="StepUrl" />
+        <input type="hidden" value="@Url.Action("StartRound", "Game")" name="StartRoundUrl" />
 
-        <input type="hidden" value="@user.SelectedBots" name="SelectedBots" />
         <input type="hidden" value="@Model.GameID" name="GameId" />
-
-        <input type="hidden" value="@user.Name" name="UserName" />
-        <input type="hidden" value="@user.ID" name="UserId" />
+        <input type="hidden" value="@Model" name="Model" />
 
     </div>
 </div>
@@ -71,24 +48,14 @@
 @section Scripts {
     <script src="~/Scripts/app/game.js"></script>
     <script>
-        var userSelectedBots = $('input[name=SelectedBots]').val();
+        var model = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model))');
         var gameID = $('input[name=GameId]').val();
 
-        var pathToSave = $('input[name=SaveUrl]').val();
-        var pathToGetCard = $('input[name=GetCardUrl]').val();
-
-        var username = $('input[name=UserName]').val();
-        var userId = $('input[name=UserId]').val();
-
-        var userObj = new Entity(username, userId, 3);
-        var botList = new Array();
-        for (var i = 0; i < userSelectedBots; i++) {
-            var numberOfBot = i + 1;
-            botList.push(new Entity('BOT ' + numberOfBot, i + 1, 2));
-        }
+        var pathToStep = $('input[name=StepUrl]').val();
+        var pathToStartRound = $('input[name=StartRoundUrl]').val();
 
         UpdateUI_BeginGame();
-        Update();
+        Update(model);
     </script>
 }
 

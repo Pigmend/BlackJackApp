@@ -15,8 +15,10 @@ namespace BlackJack.BusinessLogic.Maper
             UserGameProcessViewlItem item = new UserGameProcessViewlItem();
             item.ID = user.Id;
             item.Name = user.Name;
-            item.SelectedBots = user.SelectedBots;
             item.Role = user.Role;
+            item.CardPoints = 0;
+            item.Score = 1000;
+            item.IsPlayed = true;
 
             return item;
         }
@@ -109,11 +111,11 @@ namespace BlackJack.BusinessLogic.Maper
             return playerCards;
         }
 
-        public static GetCardGameView MapCardToGetCardGameViewModel(DeckCard card)
+        public static CardGameProcessViewItem MapCardToCardGameProcessViewItem(DeckCard card)
         {
-            GetCardGameView view = new GetCardGameView();
+            CardGameProcessViewItem view = new CardGameProcessViewItem();
 
-            view.CardId = card.Id;
+            view.CardID = card.Id;
             view.CardName = card.CardName;
             view.CardNumber = card.CardNumber;
             view.CardSuit = card.CardSuit;
@@ -181,6 +183,16 @@ namespace BlackJack.BusinessLogic.Maper
             }
 
             return stepList;
+        }
+
+        public static PlayerHand MapUserGameProcessViewItemToPlayerHand(UserGameProcessViewlItem player)
+        {
+            PlayerHand item = new PlayerHand();
+            item.PlayerId = player.ID;
+            item.Score = player.Score;
+            item.CardPoints = player.CardPoints;
+            item.Cash = player.Cash;
+            return item;
         }
     }
 }
