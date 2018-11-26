@@ -10,9 +10,9 @@ namespace BlackJack.BusinessLogic.Maper
 {
     public static class EntityMapper
     {
-        public static UserGameProcessViewlItem MapUserToGameProcessUserViewItem(User user)
+        public static UserResponseGameProcessViewlItem MapUserToUserResponseGameProcessUserViewItem(User user)
         {
-            UserGameProcessViewlItem item = new UserGameProcessViewlItem();
+            UserResponseGameProcessViewlItem item = new UserResponseGameProcessViewlItem();
             item.ID = user.Id;
             item.Name = user.Name;
             item.Role = user.Role;
@@ -31,26 +31,6 @@ namespace BlackJack.BusinessLogic.Maper
             userViewItem.SelectedBots = user.SelectedBots;
 
             return userViewItem;
-        }
-
-        public static IEnumerable<CardGameProcessViewItem> MapCardListToGameProcessCardViewItem(IEnumerable<DeckCard> cards)
-        {
-            List<CardGameProcessViewItem> cardList = new List<CardGameProcessViewItem>();
-
-            foreach(DeckCard item in cards)
-            {
-                CardGameProcessViewItem cardViewItem = new CardGameProcessViewItem();
-                cardViewItem.CardID = item.Id;
-                cardViewItem.CardName = item.CardName;
-                cardViewItem.CardNumber = item.CardNumber;
-                cardViewItem.CardSuit = item.CardSuit;
-
-                cardViewItem.CardScore = item.CardScore;
-
-                cardList.Add(cardViewItem);
-            }
-
-            return cardList;
         }
 
         public static IEnumerable<GameShowHistoryUserViewItem> MapGameToGameShowHistoryUserViewItem (IEnumerable<Game> games)
@@ -111,9 +91,9 @@ namespace BlackJack.BusinessLogic.Maper
             return playerCards;
         }
 
-        public static CardGameProcessViewItem MapCardToCardGameProcessViewItem(DeckCard card)
+        public static CardResponseGameProcessViewItem MapCardToCardGameProcessViewItem(DeckCard card)
         {
-            CardGameProcessViewItem view = new CardGameProcessViewItem();
+            CardResponseGameProcessViewItem view = new CardResponseGameProcessViewItem();
 
             view.CardID = card.Id;
             view.CardName = card.CardName;
@@ -139,17 +119,6 @@ namespace BlackJack.BusinessLogic.Maper
             }
 
             return items;
-        }
-
-        public static PlayerHand MapPlayerSaveChangesGameViewItemToPlayerHand(PlayerSaveChangesGameViewItem playerHand)
-        {
-            PlayerHand item = new PlayerHand();
-            item.PlayerId = playerHand.PlayerID;
-            item.Score = playerHand.Score;
-            item.Cash = playerHand.Cash;
-            item.CardPoints = playerHand.CardPoints;
-
-            return item;
         }
 
         public static IEnumerable<StepShowHistoryUserViewItem> MapStepListToStepShowHistoryUserViewItemList(IEnumerable<Step> steps)
@@ -185,7 +154,7 @@ namespace BlackJack.BusinessLogic.Maper
             return stepList;
         }
 
-        public static PlayerHand MapUserGameProcessViewItemToPlayerHand(UserGameProcessViewlItem player)
+        public static PlayerHand MapUserResponseGameProcessViewItemToPlayerHand(UserResponseGameProcessViewlItem player)
         {
             PlayerHand item = new PlayerHand();
             item.PlayerId = player.ID;
@@ -194,5 +163,59 @@ namespace BlackJack.BusinessLogic.Maper
             item.Cash = player.Cash;
             return item;
         }
+
+        #region MapRequestProcessGameToResponseProcessGame
+        public static ResponseProcessGameView MapRequestProcessGameViewToResponseProcessGameView(RequestProcessGameView request)
+        {
+            ResponseProcessGameView response = new ResponseProcessGameView();
+            response.GameID = request.GameID;
+            response.GameProcess = request.GameProcess;
+            response.WinnerID = request.WinnerID;
+            response.Players = MapUserRequestProcessGameViewItemToUserResponseProcessGameViewItem(request.Players);
+
+            return response;
+        }
+
+        private static List<UserResponseGameProcessViewlItem> MapUserRequestProcessGameViewItemToUserResponseProcessGameViewItem
+            (List<UserRequestGameProcessViewlItem> requestUsers)
+        {
+            List<UserResponseGameProcessViewlItem> responseUsers = new List<UserResponseGameProcessViewlItem>();
+            foreach(UserRequestGameProcessViewlItem item in requestUsers)
+            {
+                UserResponseGameProcessViewlItem user = new UserResponseGameProcessViewlItem();
+                user.ID = item.ID;
+                user.Name = item.Name;
+                user.Role = item.Role;
+                user.Score = item.Score;
+                user.CardPoints = item.CardPoints;
+                user.IsPlayed = item.IsPlayed;
+                user.Cash = item.Cash;
+                user.PlayerCards = MapCardRequestProcessGameViewItemToCardResponseProcessGameViewItem(item.PlayerCards);
+
+                responseUsers.Add(user);
+            }
+
+            return responseUsers;
+        }
+
+        private static List<CardResponseGameProcessViewItem> MapCardRequestProcessGameViewItemToCardResponseProcessGameViewItem
+            (List<CardRequestGameProcessViewItem> requeestCards)
+        {
+            List<CardResponseGameProcessViewItem> responseCards = new List<CardResponseGameProcessViewItem>();
+            foreach(CardRequestGameProcessViewItem item in requeestCards)
+            {
+                CardResponseGameProcessViewItem card = new CardResponseGameProcessViewItem();
+                card.CardID = item.CardID;
+                card.CardName = item.CardName;
+                card.CardNumber = item.CardNumber;
+                card.CardSuit = item.CardSuit;
+                card.CardScore = item.CardScore;
+
+                responseCards.Add(card);
+            }
+
+            return responseCards;
+        }
+        #endregion
     }
 }

@@ -8,52 +8,18 @@ var winerId = 0;
 var gameProcess = 0;
 
 function MoreFunction() {
-    //if (model.Players[0].IsPlay === false) {
-    //    alert("Вы не можете брать карту, нажмите кнопку Enouth");
-    //}
-    //if (StartNewMatchButtonIsPressed && model.Players[0].IsPlay) {
-    //    Step();
-    //    SaveData();
-    //}
-    //if (!StartNewMatchButtonIsPressed) {
-    //    alert("Начните матч");
-    //}
-
     Step();
 }
 
 function EnougthFunction() {
-    if (StartNewMatchButtonIsPressed) {
-        userObj.isPlay = false;
-        StartNewMatchButtonIsPressed = false;
+    gameProcess = 1;
 
-        alert("ТУТЬ БУДЕТЬ СОХРАНЕНИЕ");
+    EndRound();
 
-        gameProcess = 1;
-
-        SaveData();
-        EnougthButtonIsPressed = true;
-        UpdateUI_BeginGame();
-        Update();
-    }
-    if (!StartNewMatchButtonIsPressed) {
-        alert("Начните новую игру!");
-    }
+    EndGame(model);
+    UpdateUI_BeginGame();
+    Update(model);
 }
-
-//function Step() {
-//    $.ajax({
-//        type: 'P',
-//        url: pathToStep,
-//        success: function (data) {
-//            model = data.model;
-//        },
-//        error: function (data) {
-//            alert(data.responseJSON);
-//        },
-//        async: false
-//    });
-//}
 
 function NewStep() {
     $.ajax({
@@ -85,69 +51,38 @@ function StartRound() {
     });
 }
 
-function EndGameValidation() {
-    BotStep();
-    BotStep();
-    BotStep();
-    BotStep();
+function EndRound() {
+    $.ajax({
+        type: 'POST',
+        url: pathToEndRound,
+        data: model,
+        success: function (data) {
+            model = data.model;
+        },
+        error: function (data) {
+            alert(data.responseJSON);
+        },
+        async: false
+    });
+}
 
-    DillerStep();
-    DillerStep();
-    DillerStep();
-    DillerStep();
-
-    Update();
-
-    if (dillerObj.CardPoints > 21 && userObj.CardPoints < 22) {
-        userObj.Score += userObj.Cash * 2;
-        userObj.Cash = 0;
-        userWins++;
-        winerId = userObj.PlayerID;
+function EndGame(model) {
+    if (model.Players[1].CardPoints > 21 && model.Players[0].CardPoints < 22) {
         alert("У Диллера перебор, вы выиграли!");
-    }
-    if (userObj.CardPoints > dillerObj.CardPoints && userObj.CardPoints < 22 && dillerObj.CardPoints < 22) {
-        userObj.Score += userObj.Cash * 2;
-        userObj.Cash = 0;
         userWins++;
-        winerId = userObj.PlayerID;
-        alert("Вы выиграли!");
     }
-    if (userObj.CardPoints < dillerObj.CardPoints && userObj.CardPoints < 22 && dillerObj.CardPoints < 22) {
-        userObj.Cash = 0;
-        winerId = dillerObj.PlayerID;
+    if (model.Players[0].CardPoints > model.Players[1].CardPoints && model.Players[0].CardPoints < 22 && model.Players[1].CardPoints < 22) {
+        alert("Вы выиграли!");
+        userWins++;
+    }
+    if (model.Players[0].CardPoints < model.Players[1].CardPoints && model.Players[0].CardPoints < 22 && model.Players[1].CardPoints < 22) {
         alert("Вы проиграли! :(");
     }
-    if (userObj.CardPoints === dillerObj.CardPoints && dillerObj.CardPoints < 22 && userObj.CardPoints < 22) {
-        userObj.Score += userObj.Cash;
-        userObj.Cash = 0;
-        winerId = 0;
+    if (model.Players[0].CardPoints === model.Players[1].CardPoints && model.Players[1].CardPoints < 22 && model.Players[0].CardPoints < 22) {
         alert("Пат! Никто не выиграл");
     }
-    if (userObj.CardPoints > 21 && dillerObj.CardPoints > 21) {
-        userObj.Cash = 0;
-        winerId = 0;
+    if (model.Players[0].CardPoints > 21 && model.Players[1].CardPoints > 21) {
         alert("У всех перебор, никто не выигрывает!");
-    }
-    //Bots Validation
-    for (i = 0; i < botList.length; i++) {   
-        if (dillerObj.CardPoints > 21 && botList[i].CardPoints < 22) {
-            botList[i].Score += botList[i].Cash * 2;
-            botList[i].Cash = 0;
-        }
-        if (botList[i].CardPoints > dillerObj.CardPoints && botList[i].CardPoints < 22 && dillerObj.CardPoints < 22) {
-            botList[i].Score += botList[i].Cash * 2;
-            botList[i].Cash = 0;
-        }
-        if (botList[i].CardPoints < dillerObj.CardPoints && botList[i].CardPoints < 22 && dillerObj.CardPoints < 22) {
-            botList[i].Cash = 0;
-        }
-        if (botList[i].CardPoints === dillerObj.CardPoints && botList[i].CardPoints < 22 && dillerObj.CardPoints < 22) {
-            botList[i].Score += botList[i].Cash;
-            botList[i].Cash = 0;
-        }
-        if (botList[i].CardPoints > 21 && dillerObj.CardPoints > 21) {
-            botList[i].Cash = 0;
-        }
     }
 }
 
@@ -163,7 +98,7 @@ function UpdatePlayers(model) {
 
     //Player update
     for (var entity = 0; entity < model.Players.length; entity++) {
-        if (model.Players[entity] === 1) {
+        if (entity === 1) {
             html = '<table><tr>';
             html += '<td>' + model.Players[entity].Name + '</td>';
             html += '</tr>';
@@ -171,7 +106,7 @@ function UpdatePlayers(model) {
             html += '</tr>';
             document.getElementById('playerInfo_'+entity).innerHTML = html;
         }
-        if (model.Players[entity] !== 1) {
+        if (entity !== 1) {
             var html = '<table><tr>';
             html += '<td>' + 'Username: ' + model.Players[entity].Name + '</td>';
             html += '</tr>';
@@ -187,7 +122,6 @@ function UpdatePlayers(model) {
 }
 
 function UpdateContent(model) {
-
     for (var entity = 0; entity < model.Players.length; entity++) {
         var html = '<table><tr>';
         for (var i = 0; i < model.Players[entity].PlayerCards.length; i++) {
@@ -200,29 +134,20 @@ function UpdateContent(model) {
 }
 
 function Step() {
-    if (!EnougthButtonIsPressed) {
-        NewStep();
-    }
-    if (EnougthButtonIsPressed) {
-        alert("Матч закончен, нажмите START");
-    }
+    NewStep();
+    Update(model);
 }
 
 function StartNewMatch() {
-    if (!EnougthButtonIsPressed) {
-        alert("Дайте доиграть другим! Нажмите кнопку Enouth");
-    }
-    if (EnougthButtonIsPressed) {
-        StartRound();
+    StartRound();
 
-        StartNewMatchButtonIsPressed = true;
-        EnougthButtonIsPressed = false;
-        winerId = 0;
-        gameProcess = 0;
+    StartNewMatchButtonIsPressed = true;
+    EnougthButtonIsPressed = false;
+    winerId = 0;
+    gameProcess = 0;
 
-        UpdateUI_GameProcess();
-        Update(model);
-    }
+    UpdateUI_GameProcess();
+    Update(model);
     if (model.Players[0].Score < 100) {
         alert("Вы проиграли все деньги");
     }

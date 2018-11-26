@@ -43,11 +43,12 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GetCardGameView.cs" />
+    <Compile Include="RequestProcessGameView.cs" />
     <Compile Include="SaveChangesGameView.cs" />
     <Compile Include="ShowGameHistoryUserView.cs" />
     <Compile Include="ShowHistoryUserView.cs" />
     <Compile Include="ShowStepHistoryView.cs" />
-    <Compile Include="ProcessGameView.cs" />
+    <Compile Include="ResponseProcessGameView.cs" />
     <Compile Include="SubmitUserHomeView.cs" />
     <Compile Include="AllUsersUserView.cs" />
   </ItemGroup>

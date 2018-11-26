@@ -1,5 +1,5 @@
 ﻿@using Newtonsoft.Json
-@model BlackJack.ViewModels.ProcessGameView
+@model BlackJack.ViewModels.ResponseProcessGameView
 @{
     ViewBag.Title = "StartNewGame";
 }
@@ -38,6 +38,7 @@
         }
         <input type="hidden" value="@Url.Action("Step", "Game")" name="StepUrl" />
         <input type="hidden" value="@Url.Action("StartRound", "Game")" name="StartRoundUrl" />
+        <input type="hidden" value="@Url.Action("EndRound", "Game")" name="EndRoundUrl" />
 
         <input type="hidden" value="@Model.GameID" name="GameId" />
         <input type="hidden" value="@Model" name="Model" />
@@ -53,8 +54,9 @@
 
         var pathToStep = $('input[name=StepUrl]').val();
         var pathToStartRound = $('input[name=StartRoundUrl]').val();
+        var pathToEndRound = $('input[name=EndRoundUrl]').val();
 
-        UpdateUI_BeginGame();
+        UpdateUI_GameProcess();
         Update(model);
     </script>
 }

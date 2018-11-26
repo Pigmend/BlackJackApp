@@ -20,20 +20,26 @@ namespace BlackJack.WEB.Controllers
 
         public ActionResult Process(long id)
         {
-            ProcessGameView newGameView = _gameService.GetGameData(id);
+            ResponseProcessGameView newGameView = _gameService.GetGameData(id);
             return View(newGameView);
         }
 
         // TO DO
-        public ActionResult StartRound(ProcessGameView model)
+        public ActionResult StartRound(RequestProcessGameView model)
         {
-            ProcessGameView step = _gameService.StartGame(model);
+            ResponseProcessGameView step = _gameService.StartGame(model);
             return Json(new { model = step }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Step(ProcessGameView model)
+        public ActionResult Step(RequestProcessGameView model)
         {
-            ProcessGameView step = _gameService.Step(model);
+            ResponseProcessGameView step = _gameService.Step(model);
+            return Json(new { model = step }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult EndRound(RequestProcessGameView model)
+        {
+            ResponseProcessGameView step = _gameService.EndGame(model);
             return Json(new { model = step }, JsonRequestBehavior.AllowGet);
         }
     }

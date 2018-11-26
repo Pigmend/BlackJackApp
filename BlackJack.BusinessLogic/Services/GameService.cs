@@ -37,7 +37,7 @@ namespace BlackJack.BusinessLogic.Services
             _playerHandCardRepository = playerHandCardRepository;
         }
 
-        public ProcessGameView GetGameData(long userID)
+        public ResponseProcessGameView GetGameData(long userID)
         {
             Game game = new Game();
             game.UserId = userID;
@@ -47,31 +47,74 @@ namespace BlackJack.BusinessLogic.Services
             User user = _userRepository.Get(userID);             //Get User from DB
             User dealer = _userRepository.Get(6);             //Get Dealer from DB
 
-            ProcessGameView viewModel = new ProcessGameView();
+            ResponseProcessGameView viewModel = new ResponseProcessGameView();
             viewModel.GameID = gameId;
 
-            List<UserGameProcessViewlItem> players = new List<UserGameProcessViewlItem>();
-            players.Add(EntityMapper.MapUserToGameProcessUserViewItem(user));             // [0] - User
-            players.Add(EntityMapper.MapUserToGameProcessUserViewItem(dealer));             // [1] - Dealer
+            List<UserResponseGameProcessViewlItem> players = new List<UserResponseGameProcessViewlItem>();
+            players.Add(EntityMapper.MapUserToUserResponseGameProcessUserViewItem(user));             // [0] - User
+            players.Add(EntityMapper.MapUserToUserResponseGameProcessUserViewItem(dealer));             // [1] - Dealer
             for (int i = 0; i<user.SelectedBots; i++)
             {
-                UserGameProcessViewlItem bot = new UserGameProcessViewlItem();
-                bot = EntityMapper.MapUserToGameProcessUserViewItem(_userRepository.Get(i + 1));
+                UserResponseGameProcessViewlItem bot = new UserResponseGameProcessViewlItem();
+                bot = EntityMapper.MapUserToUserResponseGameProcessUserViewItem(_userRepository.Get(i + 1));
                 players.Add(bot);             // [2+] - Bots
             }
             viewModel.Players = players;
             viewModel.WinnerID = 0;
 
-            return viewModel;
-        }
-
-        public ProcessGameView StartGame(ProcessGameView model)
-        {
-            foreach(var player in model.Players)
+            foreach (var player in viewModel.Players)
             {
                 if (player.Role != UserRole.Diller && player.Score >= 100)
                 {
-                    CardGameProcessViewItem card = GetCard();
+                    CardResponseGameProcessViewItem card = GetCard();
+                    player.PlayerCards.Add(card);
+                    player.CardPoints += card.CardScore;
+
+                    card = GetCard();
+                    player.PlayerCards.Add(card);
+                    player.CardPoints += card.CardScore;
+
+                    if (player.CardPoints > 21)
+                    {
+                        player.CardPoints = 21;
+                    }
+
+                    player.IsPlayed = true;
+                    player.Cash = 100;
+                    player.Score -= 100;
+                }
+
+                if (player.Role == UserRole.Diller)
+                {
+                    CardResponseGameProcessViewItem card = GetCard();
+                    player.PlayerCards.Add(card);
+
+                    player.CardPoints += card.CardScore;
+                }
+            }
+
+            return viewModel;
+        }
+
+        public ResponseProcessGameView StartGame(RequestProcessGameView model)
+        {
+            ResponseProcessGameView response = EntityMapper.MapRequestProcessGameViewToResponseProcessGameView(model);
+
+            response.GameProcess = false;
+            response.WinnerID = 0;
+
+            Game game = new Game();
+            game.UserId = model.Players[0].ID;
+            response.GameID = _gameRepository.CreateAndReturnId(game);
+
+            foreach(var player in response.Players)
+            {
+                if (player.Role != UserRole.Diller && player.Score >= 100)
+                {
+                    player.PlayerCards = new List<CardResponseGameProcessViewItem>();
+                    player.CardPoints = 0;
+
+                    CardResponseGameProcessViewItem card = GetCard();
                     player.PlayerCards.Add(card);
                     player.CardPoints += card.CardScore;
 
@@ -91,44 +134,72 @@ namespace BlackJack.BusinessLogic.Services
 
                 if(player.Role == UserRole.Diller)
                 {
-                    CardGameProcessViewItem card= GetCard();
+                    player.PlayerCards = new List<CardResponseGameProcessViewItem>();
+                    player.CardPoints = 0;
+
+                    CardResponseGameProcessViewItem card= GetCard();
                     player.PlayerCards.Add(card);
 
                     player.CardPoints += card.CardScore;
                 }
             }
-            SaveChanges(model);
+            SaveChanges(response);
 
-            return model;
+            return response;
         }
 
-        private UserGameProcessViewlItem PlayerStep(UserGameProcessViewlItem viewItem)
+        private UserResponseGameProcessViewlItem PlayerStep(UserResponseGameProcessViewlItem viewItem)
         {
-            if(viewItem.Role != UserRole.Diller && viewItem.IsPlayed)
+            if(viewItem.Role == UserRole.Player && viewItem.IsPlayed)
             {
-                CardGameProcessViewItem card = GetCard();
+                CardResponseGameProcessViewItem card = GetCard();
                 viewItem.PlayerCards.Add(card);
 
                 if(card.CardNumber != CardNumber.Ace)
                 {
                     viewItem.CardPoints += card.CardScore;
                 }
-                if(card.CardNumber == CardNumber.Ace && viewItem.CardPoints + card.CardScore <=21)
-                {
-                    viewItem.CardPoints += card.CardScore;
-                }
-                if(card.CardNumber == CardNumber.Ace && viewItem.CardPoints + card.CardScore > 21)
+                if (card.CardNumber == CardNumber.Ace && viewItem.CardPoints + card.CardScore > 21)
                 {
                     viewItem.CardPoints += 1;
                 }
+                if (card.CardNumber == CardNumber.Ace && viewItem.CardPoints + card.CardScore <=21)
+                {
+                    viewItem.CardPoints += card.CardScore;
+                }
+                if(viewItem.CardPoints >= 21)
+                {
+                    viewItem.IsPlayed = false;
+                }
             }
+            if(viewItem.Role == UserRole.Bot && viewItem.IsPlayed)
+            {
+                CardResponseGameProcessViewItem card = GetCard();
+                viewItem.PlayerCards.Add(card);
 
+                if (card.CardNumber != CardNumber.Ace)
+                {
+                    viewItem.CardPoints += card.CardScore;
+                }
+                if (card.CardNumber == CardNumber.Ace && viewItem.CardPoints + card.CardScore > 21)
+                {
+                    viewItem.CardPoints += 1;
+                }
+                if (card.CardNumber == CardNumber.Ace && viewItem.CardPoints + card.CardScore <= 21)
+                {
+                    viewItem.CardPoints += card.CardScore;
+                }
+                if(viewItem.CardPoints >= 19)
+                {
+                    viewItem.IsPlayed = false;
+                }
+            }
             return viewItem;
         }
 
         private static readonly Random random = new Random();
         private static readonly object syncLock = new object();
-        private CardGameProcessViewItem GetCard()
+        private CardResponseGameProcessViewItem GetCard()
         {
             lock (syncLock)
             {
@@ -140,20 +211,23 @@ namespace BlackJack.BusinessLogic.Services
             }
         }
 
-        public ProcessGameView Step(ProcessGameView model)
+        public ResponseProcessGameView Step(RequestProcessGameView request)
         {
-            List<UserGameProcessViewlItem> players = new List<UserGameProcessViewlItem>();
-            foreach(var player in model.Players)
-            {
-                players.Add(PlayerStep(player));
-            }
-            model.Players = players;
-            SaveChanges(model);
+            ResponseProcessGameView response = EntityMapper.MapRequestProcessGameViewToResponseProcessGameView(request);
 
-            return model;
+            List<UserResponseGameProcessViewlItem> players = new List<UserResponseGameProcessViewlItem>();
+            foreach(var player in response.Players)
+            {
+                UserResponseGameProcessViewlItem user = PlayerStep(player);
+                players.Add(user);
+            }
+            response.Players = players;
+            SaveChanges(response);
+
+            return response;
         }
 
-        public void SaveChanges(ProcessGameView model)
+        private void SaveChanges(ResponseProcessGameView model)
         {
             Step step = new Step();
             step.WinnerId = model.WinnerID;
@@ -161,17 +235,119 @@ namespace BlackJack.BusinessLogic.Services
             step.GameProcess = Convert.ToInt32(model.GameProcess);
             step.Id = _stepRepository.CreateAndReturnId(step);
             List<PlayerHand> playerHands = new List<PlayerHand>();
-            foreach (UserGameProcessViewlItem item in model.Players)
+            foreach (UserResponseGameProcessViewlItem item in model.Players)
             {
-                PlayerHand playerHand = EntityMapper.MapUserGameProcessViewItemToPlayerHand(item);
+                PlayerHand playerHand = EntityMapper.MapUserResponseGameProcessViewItemToPlayerHand(item);
                 playerHand.StepId = step.Id;
 
                 long playerHandId = _playerHandRepository.CreateAndReturnId(playerHand);
-                foreach (CardGameProcessViewItem handCard in item.PlayerCards)
+                foreach (CardResponseGameProcessViewItem handCard in item.PlayerCards)
                 {
                     _playerHandCardRepository.BindPlayerHandWithPlayerHandCard(playerHandId, handCard.CardID);
                 }
             }
         }
+
+        public ResponseProcessGameView EndGame(RequestProcessGameView model)
+        {
+            ResponseProcessGameView response = EntityMapper.MapRequestProcessGameViewToResponseProcessGameView(model);
+            response.Players[0].IsPlayed = false;
+
+            bool anyoneIsPlayed = true;
+            while (anyoneIsPlayed)
+            {
+                int numberOfCurrentPlayers = 0;
+                List<UserResponseGameProcessViewlItem> players = new List<UserResponseGameProcessViewlItem>();
+                foreach (var item in response.Players)
+                {
+                    if (item.Role == UserRole.Bot)
+                    {
+                        UserResponseGameProcessViewlItem player = PlayerStep(item);
+                        players.Add(player);
+                    }
+                    if(item.Role== UserRole.Diller)
+                    {
+                        UserResponseGameProcessViewlItem player = DealerStep(item);
+                        players.Add(player);
+                    }
+                    if (item.IsPlayed)
+                    {
+                        numberOfCurrentPlayers++;
+                    }
+                }
+                if (numberOfCurrentPlayers == 0)
+                {
+                    anyoneIsPlayed = false;
+                }
+            }
+
+            response.GameProcess = true;
+            response = EndGameValidation(response);
+            SaveChanges(response);
+
+            return response;
+        }
+
+        private UserResponseGameProcessViewlItem DealerStep(UserResponseGameProcessViewlItem dealer)
+        {
+            CardResponseGameProcessViewItem card = GetCard();
+            dealer.PlayerCards.Add(card);
+
+            if (card.CardNumber != CardNumber.Ace)
+            {
+                dealer.CardPoints += card.CardScore;
+            }
+            if (card.CardNumber == CardNumber.Ace && dealer.CardPoints + card.CardScore > 21)
+            {
+                dealer.CardPoints += 1;
+            }
+            if (card.CardNumber == CardNumber.Ace && dealer.CardPoints + card.CardScore <= 21)
+            {
+                dealer.CardPoints += card.CardScore;
+            }
+            if (dealer.CardPoints >= 17)
+            {
+                dealer.IsPlayed = false;
+            }
+
+            return dealer;
+        }
+
+        private ResponseProcessGameView EndGameValidation(ResponseProcessGameView response)
+        {
+            foreach(var item in response.Players)
+            {
+                if(item.Role != UserRole.Diller && item.CardPoints < 22 && response.Players[1].CardPoints > 21)
+                {
+                    item.Score += item.Cash*2;
+                    item.Cash = 0;
+                }
+                if(item.Role != UserRole.Diller && item.CardPoints > response.Players[1].CardPoints && item.CardPoints < 22 && response.Players[1].CardPoints < 22)
+                {
+                    item.Score += item.Cash*2;
+                    item.Cash = 0;
+                }
+                if(item.Role != UserRole.Diller && item.CardPoints < response.Players[1].CardPoints && item.CardPoints < 22 && response.Players[1].CardPoints < 22)
+                {
+                    item.Cash = 0;
+                }
+                if(item.Role != UserRole.Diller && item.CardPoints > 21 && response.Players[1].CardPoints > 21)
+                {
+                    item.Cash = 0;
+                }
+                if (item.Role != UserRole.Diller && item.CardPoints > 21)
+                {
+                    item.Cash = 0;
+                }
+                if(item.Role != UserRole.Diller && item.CardPoints == response.Players[1].CardPoints)
+                {
+                    item.Score += item.Cash;
+                    item.Cash = 0;
+                }
+            }
+
+            return response;
+        }
+
     }
 }

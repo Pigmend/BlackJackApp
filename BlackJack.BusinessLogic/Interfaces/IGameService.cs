@@ -9,9 +9,9 @@ namespace BlackJack.BusinessLogic.Interfaces
 {
     public interface IGameService
     {
-        ProcessGameView GetGameData(long UserID);
-        void SaveChanges(ProcessGameView model);
-        ProcessGameView Step(ProcessGameView model);
-        ProcessGameView StartGame(ProcessGameView model);
+        ResponseProcessGameView GetGameData(long UserID);
+        ResponseProcessGameView StartGame(RequestProcessGameView model);
+        ResponseProcessGameView Step(RequestProcessGameView model);
+        ResponseProcessGameView EndGame(RequestProcessGameView model);
     }
 }

@@ -7,24 +7,24 @@ using BlackJack.Entities.Enums;
 
 namespace BlackJack.ViewModels
 {
-    public class ProcessGameView
+    public class ResponseProcessGameView
     {
-        public ProcessGameView()
+        public ResponseProcessGameView()
         {
-            Players = new List<UserGameProcessViewlItem>();
+            Players = new List<UserResponseGameProcessViewlItem>();
         }
 
         public long GameID { get; set; }
         public long WinnerID { get; set; }
         public bool GameProcess { get; set; }
-        public List<UserGameProcessViewlItem> Players { get; set; }
+        public List<UserResponseGameProcessViewlItem> Players { get; set; }
     }
 
-    public class UserGameProcessViewlItem
+    public class UserResponseGameProcessViewlItem
     {
-        public UserGameProcessViewlItem()
+        public UserResponseGameProcessViewlItem()
         {
-            PlayerCards = new List<CardGameProcessViewItem>();
+            PlayerCards = new List<CardResponseGameProcessViewItem>();
         }
 
         public long ID { get; set; }
@@ -34,10 +34,10 @@ namespace BlackJack.ViewModels
         public int Cash { get; set; }
         public bool IsPlayed { get; set; }
         public UserRole Role { get; set; }
-        public List<CardGameProcessViewItem> PlayerCards { get; set; }
+        public List<CardResponseGameProcessViewItem> PlayerCards { get; set; }
     }
 
-    public class CardGameProcessViewItem
+    public class CardResponseGameProcessViewItem
     {
         public long CardID { get; set; }
         public string CardName { get; set; }
