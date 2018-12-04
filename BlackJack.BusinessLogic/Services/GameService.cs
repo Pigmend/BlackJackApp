@@ -260,6 +260,10 @@ namespace BlackJack.BusinessLogic.Services
                 List<UserResponseGameProcessViewlItem> players = new List<UserResponseGameProcessViewlItem>();
                 foreach (var item in response.Players)
                 {
+                    if(item.Role == UserRole.Player)
+                    {
+                        players.Add(item);
+                    }
                     if (item.Role == UserRole.Bot)
                     {
                         UserResponseGameProcessViewlItem player = PlayerStep(item);
@@ -275,15 +279,17 @@ namespace BlackJack.BusinessLogic.Services
                         numberOfCurrentPlayers++;
                     }
                 }
+                response.Players = players;
+
                 if (numberOfCurrentPlayers == 0)
                 {
                     anyoneIsPlayed = false;
                 }
             }
 
-            response.GameProcess = true;
-            response = EndGameValidation(response);
-            SaveChanges(response);
+            response.GameProcess = true; // set Game process are (END)
+            response = EndGameValidation(response); //endgame validation
+            SaveChanges(response); //Save changes in response view
 
             return response;
         }

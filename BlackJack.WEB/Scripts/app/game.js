@@ -151,6 +151,7 @@ function StartNewMatch() {
     if (model.Players[0].Score < 100) {
         alert("Вы проиграли все деньги");
     }
+
     matchNumber++;
     }
 
