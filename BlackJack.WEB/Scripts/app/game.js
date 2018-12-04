@@ -67,6 +67,9 @@ function EndRound() {
 }
 
 function EndGame(model) {
+    if (model.Players[0].CardPoints > 21) {
+        alert("У вас перебор, вы проиграли!");
+    }
     if (model.Players[1].CardPoints > 21 && model.Players[0].CardPoints < 22) {
         alert("У Диллера перебор, вы выиграли!");
         userWins++;
